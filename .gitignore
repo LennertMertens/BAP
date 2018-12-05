@@ -131,4 +131,4 @@ sympy-plots-for-*.tex/
 *.latexmain
 
 # Mac OSX
-.DS_Store
+*.DS_Store
