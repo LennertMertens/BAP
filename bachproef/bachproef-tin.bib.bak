@@ -55,4 +55,18 @@
   timestamp = {2019-03-10},
 }
 
+@InBook{Sosinsky2011,
+  author    = {Sosinsky, Barrie},
+  title     = {Defining Cloud Computing},
+  booktitle = {Cloud Computing Bible},
+  year      = {2011},
+  date      = {2011-11-30},
+  publisher = {Wiley Publishing, Inc},
+  isbn      = {9781118255674},
+  chapter   = {1},
+  pages     = {1-22},
+  doi       = {10.1002/9781118255674},
+  timestamp = {2019-03-13},
+}
+
 @Comment{jabref-meta: databaseType:biblatex;}

@@ -16,35 +16,63 @@ Soms wil je de auteur niet expliciet vernoemen, dan gebruik je \texttt{$\backsla
 
 \section{Wat is Cloud Computing?}
  
- Vooraleer het onderwerp ''serverless'' kan behandelt worden is het van belang om een aantal basisconcepten en begrippen in verband met Cloud computing uit de doeken te doen. Volgende paragrafen geven inzicht in enkele basisprincipes en trachten een begrijpbaar beeld rond Cloud computing te vormen.
+ Vooraleer het onderwerp ''serverless'' kan behandelt worden is het van belang om een aantal basisconcepten en begrippen in verband met Cloud computing uit de doeken te doen. Volgende paragrafen geven inzicht in enkele basisprincipes en trachten een begrijpbaar beeld rond cloud computing te vormen.
 
 \subsection{Definitie}
 
 Cloud computing kan worden omschreven als on-demand computing services die worden aangeboden of verschaft via het internet. Deze services omvatten onder andere servers, databanken, netwerkfuncties, opslag en nog veel meer. Werken in de cloud volgt het principe: je betaalt voor wat je gebruikt. De cloud biedt flexibiliteit, schaalbaarheid en snelle provisioneer tijd. Het stelt bedrijven in staat benodigde IT infrastructuur uit te besteden en zo dus ook geld te besparen. In de cloud is het mogelijk om up- en down te schalen naargelang de huidige noden, de cloud is met andere woorden elastisch. \autocite{Davis2017}
 
+\subsection{Cloud types op deployment niveau}
+
+\subsection{Cloud types op service niveau}
+
 \subsection{Voor-en nadelen}
-Cloud computing kent voordelen \autocite{Azure2019} die heel wat mogelijkheden bieden ten opzichte van de klassieke benadering omtrent infrastructuur. De voordelen zijn veelbelovend maar ook de nadelen \autocite{Larkin2018} mogen zeker niet over het hoofd worden gezien en dienen in kaart te worden gebracht om op de hoogte te zijn van mogelijke gevaren en bedreigingen.
+Cloud computing kent voordelen die heel wat mogelijkheden bieden ten opzichte van de klassieke benadering omtrent infrastructuur. \autocite{Azure2019} De voordelen zijn veelbelovend maar ook de nadelen mogen zeker niet over het hoofd worden gezien en dienen in kaart te worden gebracht om op de hoogte te zijn van mogelijke gevaren en bedreigingen.\autocite{Sosinsky2011} 
 
 \subsubsection{Voordelen}
 
-Lagere kosten
-\begin{itemize}
-    \item Cloud computing zorgt ervoor dat bedrijven zelf geen fysieke hardware meer hoeven aan te kopen voor hun eigen datacenter om software en applicaties op te draaien. Een bedrijf hoeft bijvoorbeeld zelf geen webserver meer aan te kopen en te installeren om een webapplicatie te kunnen draaien, de benodigde hardware is beschikbaar bij verschillende cloud providers. Daarnaast zijn er ook geen kosten voor elektriciteitsvoorzieningen. De enige kost zijn de prijzen die de cloud provider aanrekent om de apparatuur ter beschikking te stellen.
-\end{itemize}
+\begin{description}[style=unboxed, labelwidth=\linewidth, listparindent =0pt]
+    \item[Lagere kosten]
+    Cloud computing zorgt ervoor dat bedrijven zelf geen fysieke hardware meer hoeven aan te kopen voor hun eigen datacenter om software en applicaties op te draaien. Een bedrijf hoeft bijvoorbeeld zelf geen webserver meer aan te kopen en te installeren om een webapplicatie te kunnen draaien, de benodigde hardware is beschikbaar bij verschillende cloud providers. Daarnaast zijn er ook geen kosten voor elektriciteitsvoorzieningen. De enige kost zijn de prijzen die de cloud provider aanrekent om de apparatuur of diensten ter beschikking te stellen.
+    \newline
 
-Performantie
-\begin{itemize}
-    \item Datacenters van grote cloud providers bevinden zich verspreid doorheen de hele wereld. De verspreiding van datacenters zorgt voor een lage latency en zorgt ervoor dat werken in de cloud voelt alsof de server in het eigen bedrijf staat. Computing componenten worden ook geregeld geüpgrade naar de laatste versies zodat de performantie verzekerd kan worden.
-\end{itemize}
+    \item[Performantie]
+    Datacenters van grote cloud providers bevinden zich verspreid doorheen de hele wereld. De verspreiding van datacenters zorgt voor een lage latency en zorgt ervoor dat werken in de cloud voelt alsof de server in het eigen bedrijf staat. Computing componenten worden ook geregeld geüpgrade naar de laatste versies zodat de performantie verzekerd kan worden.
+    \newline
 
-Veiligheid
-\begin{itemize}
-    \item Doordat servers en opslag niet meer op locatie staan bij bedrijven wordt de kans op datadiefstal al sterk gereduceerd. Er is geen fysieke toegang meer tot infrastructuur en dus zal het onmogelijk zijn om via deze weg data te stelen. Daarnaast zijn datacenters uitgerust met dedicated beveiligingsapparatuur die in vele bedrijven niet aanwezig is. Datacenters zelf zijn erg goed beveiligd, het is haast onmogelijk deze gebouwen te betreden. Op softwareniveau bieden cloud providers ook heel wat diensten aan die helpen bij het beveiligen van applicaties.
-\end{itemize}
+    \item [Veiligheid]
+    Doordat servers en opslag niet meer op locatie staan bij bedrijven wordt de kans op datadiefstal al sterk gereduceerd. Er is geen fysieke toegang meer tot infrastructuur en dus zal het onmogelijk zijn om via deze weg data te stelen. Daarnaast zijn datacenters uitgerust met dedicated beveiligingsapparatuur die in vele bedrijven niet aanwezig is. Datacenters zelf zijn erg goed beveiligd, het is haast onmogelijk deze gebouwen te betreden. Op softwareniveau bieden cloud providers ook heel wat diensten aan die helpen bij het beveiligen van applicaties.
+    \newline
 
-Schaalbaarheid en flexibiliteit
-\begin{itemize}
-    \item Cloud computing stelt in staat om up- en down te schalen volgens de noden. Dit wilt zeggen dat een bedrijf eender wanneer kan opteren om meer of minder middelen te huren naar gelang wat nodig is. Cloud computing is met andere woorden elastisch. Een bedrijf zoals Tomorrowland kan bijvoorbeeld doorheen het jaar, wanneer er geen ticketverkoop aan de gang is, de requests naar hun webservers bolwerken met 10 operationele servers. Indien er een ticketverkoop start kan het bedrijf kiezen om op te schalen naar 100 webservers zodat alle requests kunnen worden behandelt zonder dat dit veel moeite kost. De nood voor 10 keer meer servers is, wanneer deze manueel worden geïnstalleerd en opgezet op locatie, een taak die heel veel tijd en werk in beslag neemt maar die in de cloud zo is verwerkt. Dit voorbeeld toont aan dat de cloud mogelijkheden biedt om op een eenvoudige manier te schalen zonder dat dit handenvol geld kost (infrastructuur, tijd).
-\end{itemize}
+    \item [Schaalbaarheid en flexibiliteit]
+    Cloud computing stelt in staat om up- en down te schalen volgens de noden. Dit wilt zeggen dat een bedrijf eender wanneer kan opteren om meer of minder middelen te huren naar gelang wat nodig is. Cloud computing is met andere woorden elastisch. Een bedrijf zoals Tomorrowland kan bijvoorbeeld doorheen het jaar, wanneer er geen ticketverkoop aan de gang is, de requests naar hun webservers bolwerken met 10 operationele servers. Indien er een ticketverkoop start kan het bedrijf kiezen om op te schalen naar 300 webservers zodat alle requests kunnen worden behandelt zonder dat dit veel moeite kost. De nood voor 30 keer meer servers is, wanneer deze manueel worden geïnstalleerd en opgezet op locatie, een taak die heel veel tijd en werk in beslag neemt maar die in de cloud zo is verwerkt. Dit voorbeeld toont aan dat de cloud mogelijkheden biedt om op een eenvoudige manier te schalen zonder dat dit handenvol geld kost (infrastructuur, tijd).
+    \newline
+  
+\end{description}
 
 \subsubsection{Nadelen}
+
+
+\begin{description}[style=unboxed, labelwidth=\linewidth, listparindent =0pt]
+        \item[Latency]
+        Wanneer datacenters ver liggen vanwaar de servers worden geraadpleegd. Bijvoorbeeld je gebruikt thuis, in België, een applicatie die draait in een datacenter in de Verenigde staten, dan kan er latency optreden. Latency is vertraging in datacommunicatie tussen twee systemen, ook wel bekend als ''lag''. Dit probleem begint stilaan te verdwijnen aangezien alle grote cloud providers datacenters verdeeld hebben over de hele wereld.
+        \newline
+        
+        \item[Privacy en security]
+        Data legt meestal een langere weg af tussen een klant en cloud provider wanneer er gebruik wordt gemaakt van cloud services dan wanneer die klant zelf gebruik maakt van een infrastructuur op locatie. De langere route die de data neemt brengt ook meer gevaar met zich mee, hoe verder data moet reizen, hoe meer kans op onderschepping. Daarnaast is er vaak geen garantie of de overheid niet meekijkt naar de data die zich in datacenters bevindt bij publieke cloud providers. Datacenters zijn voor hackers ook grote doelwitten omdat ze met mogelijke inbraken hier veel mensen mee kunnen treffen en gegevens kunnen stelen.
+        \newline
+        
+        \item [Vendor lock-in]
+        Wanneer er gekozen wordt om gebruik te maken van diensten die een bepaalde cloud provider aanbiedt dan zit je vast aan die cloud provider en is overstappen met je hele infrastructuur vaak een zware klus. Kiezen om over te stappen naar een andere provider brengt mogelijks heel wat complexiteit en problemen met zich mee.
+        \newline
+        
+        
+        \item [Afhankelijk van netwerkconnectiviteit]
+        Bij gebruik van de publieke cloud is er steeds afhankelijkheid van netwerkconnectiviteit. Wanneer een internetverbinding niet mogelijk is door eventuele problemen bij de Internet Service Provider (ISP) dan kan de cloud niet bereikt worden en zorgt dit voor grote problemen wanneer een bedrijf afhankelijk is van alles wat in de cloud draait. Daarnaast is het ook van belang dat er een snelle netwerkverbinding met voldoende bandbreedte beschikbaar is om effectief en efficiënt gebruik te maken van de cloud.
+        \newline
+        
+        \item [Downtime]
+        Downtime is een nadeel dat nog voor problemen kan zorgen. Wanneer een infrastructuur gedraaid wordt binnen een bepaald datacenter en dit gaat neer door interne problemen (technische problemen, onderhoud, gefaalde update/upgrade, brand, natuurramp, ...) dan zijn de infrastructuur en diensten (tijdelijk) niet meer bereikbaar. In het allerslechtste geval kunnen zo ook alle gegevens verloren raken wanneer er geen failover voorzien werd naar een ander datacenter (bijvoorbeeld in geval van een natuurramp).
+        
+        
+\end{description}
