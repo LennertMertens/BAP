@@ -16,24 +16,55 @@ Soms wil je de auteur niet expliciet vernoemen, dan gebruik je \texttt{$\backsla
 
 \section{Wat is Cloud Computing?}
  
- Vooraleer het onderwerp ''serverless'' kan behandelt worden is het van belang om een aantal basisconcepten en begrippen in verband met Cloud computing uit de doeken te doen. Volgende paragrafen geven inzicht in enkele basisprincipes en trachten een begrijpbaar beeld rond cloud computing te vormen.
+ Cloud computing is alomtegenwoordig en een basiskennis van het begrip is interessant voor iedereen die werkt binnen de IT wereld. In dit hoofdstuk worden allerhande begrippen omtrent cloud computing geïntroduceerd. Na het lezen van dit hoofdstuk zal u in staat zijn om mee te praten over de basiscomponenten en workflows binnen cloud computing. De begrippen in dit hoofdstuk zijn van belang voor het vervolg van dit onderzoek naar serverless of FaaS. 
 
 \subsection{Definitie}
 
-Cloud computing kan worden omschreven als on-demand computing services die worden aangeboden of verschaft via het internet. Deze services omvatten onder andere servers, databanken, netwerkfuncties, opslag en nog veel meer. Werken in de cloud volgt het principe: je betaalt voor wat je gebruikt. De cloud biedt flexibiliteit, schaalbaarheid en snelle provisioneer tijd. Het stelt bedrijven in staat benodigde IT infrastructuur uit te besteden en zo dus ook geld te besparen. In de cloud is het mogelijk om up- en down te schalen naargelang de huidige noden, de cloud is met andere woorden elastisch. \autocite{Davis2017}
+Cloud computing is:
+\newline
+On-demand computing services die worden aangeboden via het internet. Deze services omvatten onder andere servers, databanken, netwerkfuncties, opslag en nog veel meer. Werken in de cloud volgt het principe: je betaalt voor wat je gebruikt. De cloud biedt flexibiliteit, schaalbaarheid en snelle provisioneer tijd. Het stelt bedrijven in staat benodigde IT infrastructuur uit te besteden en zo dus ook geld te besparen. In de cloud is het mogelijk om up- en down te schalen naargelang de huidige noden, de cloud is met andere woorden elastisch. \autocite{Davis2017}
+\newline
+\newline
+Deze definitie vormt een algemene omschrijving van wat cloud computing allemaal kan inhouden. Het is enigszins zinvol om deze definitie te gebruiken als uitgangspunt om cloud computing verder in detail te omschrijven.
+
+\subsection{Inleiding}
+Afgelopen jaren is het internet en de wereld binnen IT enormsnel veranderd en geëvolueerd. Klassieke IT infrastructuur die werken volgens het client-server principe maken de transitie naar een cloudgebaseerde benadering. In een klassieke infrastructuur benadering koopt een bedrijf zelf servers aan, installeert en onderhoudt deze. Een bedrijf moet in dit opzicht alles voorzien: plaats, netwerk, elektriciteit, beveiliging, ... . Een eigen infrastructuur onderhouden in een opgezet datacenter brengt een grote kost met zich mee. In de beginjaren dat bedrijven hun datacenters opstelden werden er vaak voor alle applicaties aparte servers voorzien, met andere woorden er draaide toen één applicatie op één fysieke machine. De traditionele architectuur bracht grote kosten met zich mee en resulteerde vaak ook dat er op sommige momenten te veel resources waren in vergelijking met hoeveel men er maar nodig had. De klassieke benadering had dus heel wat beperkingen. 
+\newline
+\newline
+Later introduceerde VMware als eerste een nieuw product: VMware Virtual Platform, virtualisatie was geboren. Virtualisatie zorgt ervoor dat bovenop de hardware van de server een ''Hypervisor'' kan worden geïnstalleerd. Een hypervisor is een programma dat toelaat om een server onder te verdelen in meerdere servers met elk hun eigen operating system (OS). In de traditionele benadering werd er voor elke legacy-applicatie één server met één OS voorzien. Met gebruik van virtualisatie is het dus mogelijk om meerdere aparte servers te migreren naar één fysieke machine waarop een hypervisor draait. Het migreren van meerdere servers naar één fysieke machine zorgt ervoor dat de resources beter benut worden. Dankzij de hypersvisor draaien meerdere servers nog steeds onafhankelijk van elkaar op hun eigen operating system op dezelfde fysieke hardware. Virtualisatie zorgt ervoor dat er minder fysieke servers  moeten worden aangekocht wat de kost dus aanzienlijk vermindert. Binnen virtualisatie kunnen ook complexe netwerken worden gebouwd zodat gevirtualiseerde servers met elkaar en de buitenwereld kunnen communiceren. \autocite{RedHat2019}. In 
+figuur ~\ref{fig:klassiek-vs-virtualisatie} wordt het verschil tussen een klassieke server met één OS en één applicatie vergeleken met een server waarop gevirtualiseerde servers draaien.
+\newline
+\newline
+\begin{figure}
+    \caption{Klassieke benadering vs virtualisatie} 
+    \includegraphics[width=1\textwidth]{img/klassiek_virtualisatie}
+    \label{fig:klassiek-vs-virtualisatie}  
+\end{figure}
+\newline
+Virtualisatie ligt aan de fundamenten van cloud computing, deze technologie maakt het vandaag de dag mogelijk om infrastructuur te draaien in de cloud. Wanneer er naar de cloud gerefereerd wordt dan bedoelt men meestal de services die grote providers als een Google, Amazon en Microsoft aanbieden. Laten we de conventie maken dat wanneer er in de inleiding gerefereerd wordt naar de cloud, dat dit wijst op de cloud services die door cloud providers worden aangeboden. Later maken we de distinctie tussen welke verschillende soorten cloud er zijn met elk hun eigenschappen. De afgelopen jaren hebben meer en meer bedrijven gekozen om hun applicaties en infrastructuur naar de cloud te migreren. Migratie naar de cloud is interessant in verschillende opzichten, er zijn heel wat voordelen aan verbonden die in sectie ~\ref{voor-en-nadelen} worden uitgelegd. De grootste motivatie waarom bedrijven naar de cloud migreren is enerzijds het feit dat er enkel betaald wordt voor wat men verbruikt en anderzijds neemt het heel wat overhead zoals het onderhouden van infrastructuur weg. Cloud computing zorgt ervoor dat gebruikers een gedeelde poel van resources en opslag kunnen gebruiken bij een cloud provider, deze poel kan worden gezien als duizenden servers waarop virtuele machines of applicaties die worden aangeboden kunnen worden gedraaid. Deze services worden verschaft via het internet. Gebruikers betalen enkel voor de resources die ze verbruiken, zo worden de kosten meestal berekend op de tijd die een server draait en welke gespecificeerde resources deze verbruikt. De cloud is veelzijdig en biedt mogelijkheden op verschillende niveaus, deze worden in volgende onderdelen besproken.\autocite{Seghal2018} 
+
 
 \subsection{Cloud types op deployment niveau}
+
+De Cloud kan worden onderverdeeld in verschillende types op niveau van deployment. De onderverdeling op deployment level slaat op de locatie waar de cloud infrastructuur draait, bijvoorbeeld in een datacenter van een grote cloud provider of bij een bedrijf op locatie in een eigen datacenter. Volgens \textcite{Goyal2014} kan de cloud worden opgedeeld in vier verschillende soorten met elk hun specifieke eigenschappen.
+
+\subsubsection{Publieke cloud}
+\subsubsection{Private cloud}
+\subsubsection{Hybride cloud}
+\subsubsection{Communtiy cloud}
+\subsubsection{On-premises}
 
 \subsection{Cloud types op service niveau}
 
 \subsection{Voor-en nadelen}
+\label{voor-en-nadelen}
 Cloud computing kent voordelen die heel wat mogelijkheden bieden ten opzichte van de klassieke benadering omtrent infrastructuur. \autocite{Azure2019} De voordelen zijn veelbelovend maar ook de nadelen mogen zeker niet over het hoofd worden gezien en dienen in kaart te worden gebracht om op de hoogte te zijn van mogelijke gevaren en bedreigingen.\autocite{Sosinsky2011} 
 
 \subsubsection{Voordelen}
 
 \begin{description}[style=unboxed, labelwidth=\linewidth, listparindent =0pt]
     \item[Lagere kosten]
-    Cloud computing zorgt ervoor dat bedrijven zelf geen fysieke hardware meer hoeven aan te kopen voor hun eigen datacenter om software en applicaties op te draaien. Een bedrijf hoeft bijvoorbeeld zelf geen webserver meer aan te kopen en te installeren om een webapplicatie te kunnen draaien, de benodigde hardware is beschikbaar bij verschillende cloud providers. Daarnaast zijn er ook geen kosten voor elektriciteitsvoorzieningen. De enige kost zijn de prijzen die de cloud provider aanrekent om de apparatuur of diensten ter beschikking te stellen.
+    Cloud computing zorgt ervoor dat bedrijven zelf geen fysieke hardware meer hoeven aan te kopen voor hun eigen datacenter om software en applicaties te draaien. Een bedrijf hoeft bijvoorbeeld zelf geen webserver meer aan te kopen en te installeren om een webapplicatie te kunnen draaien, de benodigde hardware is beschikbaar bij verschillende cloud providers. Daarnaast zijn er ook geen kosten voor elektriciteitsvoorzieningen. De enige kost zijn de prijzen die de cloud provider aanrekent om de apparatuur of diensten ter beschikking te stellen.
     \newline
 
     \item[Performantie]
