@@ -41,11 +41,13 @@ figuur ~\ref{fig:klassiek-vs-virtualisatie} wordt het verschil tussen een klassi
     \label{fig:klassiek-vs-virtualisatie}  
 \end{figure}
 \newline
+
 Virtualisatie ligt aan de fundamenten van cloud computing, deze technologie maakt het vandaag de dag mogelijk om infrastructuur te draaien in de cloud. Wanneer er naar de cloud gerefereerd wordt, dan bedoelt men meestal de cloud services die grote providers als een Google, Amazon en Microsoft aanbieden. Laten we de conventie maken dat wanneer er in de inleiding gerefereerd wordt naar de cloud, dat dit wijst op de cloud services die door cloud providers worden aangeboden. Later maken we de distinctie tussen welke verschillende soorten cloud er zijn met elk hun eigenschappen. De afgelopen jaren hebben steeds meer bedrijven gekozen om hun applicaties en infrastructuur naar de cloud te migreren. Migratie naar de cloud is interessant in verschillende opzichten, er zijn heel wat voordelen aan verbonden die in sectie ~\ref{voor-en-nadelen} worden uitgelegd. De grootste motivatie waarom bedrijven naar de cloud migreren is enerzijds het feit dat er enkel betaald wordt voor wat men verbruikt en anderzijds neemt het heel wat overhead zoals het onderhouden van infrastructuur weg. Cloud computing zorgt ervoor dat gebruikers een gedeelde poel van resources en opslag kunnen gebruiken bij een cloud provider, deze poel kan worden gezien als duizenden servers waarop virtuele machines of applicaties die worden aangeboden kunnen worden gedraaid. Deze services worden verschaft via het internet. Gebruikers betalen enkel voor de resources die ze verbruiken, zo worden de kosten meestal berekend op de tijd die een server draait en welke gespecificeerde resources deze verbruikt, zo een model wordt ook wel het ''Pay as you go model'' genoemd . De cloud is veelzijdig en biedt mogelijkheden op verschillende niveaus, deze worden in volgende onderdelen besproken.\autocite{Seghal2018} 
 
 
 \subsection{Cloud types op deployment niveau}
-De Cloud kan worden onderverdeeld in verschillende types op niveau van deployment. De onderverdeling op deployment level slaat op de locatie waar de cloud infrastructuur draait, bijvoorbeeld in een datacenter van een grote cloud provider of bij een bedrijf op locatie in een eigen datacenter. Volgens \textcite{Goyal2014} kan de cloud worden opgedeeld in vier verschillende soorten met elk hun specifieke eigenschappen. Om te beginnen wordt ook besproken wat men bedoelt met on-premises.
+\label{cloud-deployment-level}
+De Cloud kan worden onderverdeeld in verschillende types op niveau van deployment. De onderverdeling op deployment level slaat op de locatie waar de cloud infrastructuur draait, bijvoorbeeld in een datacenter van een grote cloud provider of bij een bedrijf op locatie in een eigen datacenter. Volgens \textcite{Goyal2014} kan de cloud worden opgedeeld in vier verschillende soorten met elk hun specifieke eigenschappen. Om te beginnen wordt ook besproken wat men bedoelt met on-premises infrastructuur.
 
 \subsubsection{On-premises}
 Een on-premises infrastructuur wijst op een IT infrastructuur die wordt beheerd door een organisatie zelf, de apparaten bevinden zich ook op locatie bij het bedrijf. Een organisatie die over een on-premises of op locatie infrastructuur beschikt staat in voor het volledige beheer hiervan, dit gaat van fysieke installatie van apparaten netwerk enzovoort tot het beveiligen van applicatie op niveau van software. Een on-premises installatie zien we vaak terug in klassieke benaderingen of in bedrijven waar ze nog niet overtuigd van het hele cloud gebeuren. Sommige organisaties kiezen expliciet om hun infrastructuur niet in de cloud te draaien om allerhande redenen gerelateerd aan privacy en confidentialiteit van data.
@@ -55,12 +57,32 @@ De publieke Cloud wordt onderhouden door een derde partij. Publieke cloud provid
 
 \subsubsection{Private cloud}
 Private cloud bestaat in verschillende opzichten, het kan een datacenter zijn dat op locatie staat en onderhouden wordt of een cloud infrastructuur zijn die is opgezet in een datacenter waar servers worden gehuurd. Een private cloud wordt door de organisatie zelf volledig onderhouden, er is ook enkel toegang voor de organisatie zelf of voor toegestane derde partijen. Wanneer er gekozen wordt voor een private cloud infrastructuur dan brengt dit de veelzijdigheid en tools van cloud computing met zich mee, het is mogelijk dezelfde tools uit de publieke cloud op te zetten in een private cloudomgeving. Private cloud wordt vooral gekozen voor het waarborgen van privacy en veiligheid van data. Deze benadering wordt door veel bedrijven gekozen die veel confidentiële- en bedrijfskritische data moeten verwerken, denk maar aan banken, overheid en farmaceutica.
+
 \subsubsection{Hybride cloud}
 Een hybride cloud bestaat uit minstens één private en één publieke cloud. Wanneer verschillende soorten cloud met elkaar worden samengebracht wordt er verwezen naar een hybride cloud. Een hybride cloud wordt opgezet volgens verschillende standaarden en cloud- en apparatuur specifieke patenten. Een hybride cloud biedt de veelzijdigheid voor up- en down schaling zoals in de publieke cloud, en de veiligheid en integriteit zoals in de private cloud. Het implementeren van een hybride cloud omgeving is moeilijker omdat security hier heel wat overhead met zich meebrengt.
+
 \subsubsection{Communtiy cloud}
-Community cloud valt tussen de publieke en private cloud. Een community cloud bestaat uit twee of meer deelnemende partijen. Dit type van cloud valt te vergelijken met de private cloud die gedeeld wordt door meerdere partijen. Gebruik van een community cloud reduceert de aankoop van infrastructuur en het management voor het opzetten van het cloud datacenter.
+Community cloud valt tussen de publieke en private cloud. Een community cloud bestaat uit twee of meer deelnemende partijen. Dit type van cloud valt te vergelijken met de private cloud die gedeeld wordt door meerdere partijen. Gebruik van een community cloud reduceert de aankoopkost van infrastructuur en de management kosten voor het opzetten van het cloud datacenter.
+
 
 \subsection{Cloud types op service niveau}
+\label{cloud-service-level}
+Naast onderscheid op basis van de locatie waar cloud infrastructuur gedeployed wordt, maakt men ook onderscheid op niveau van service. Termen zoals PaaS, IaaS en SaaS horen tot deze sectie \autocite{Goyal2014}, in volgende drie secties worden deze veelvoorkomende klassieke cloud computing modellen samengevat.
+
+\subsubsection{Infrastructure-as-a-Service (IaaS)}
+Het IaaS service model biedt gebruikers computing, processing, networking en opslag aan waarop applicaties en dergelijke kunnen worden gedraaid. De gebruiker heeft de mogelijkheid om bovenop hardware die voorzien wordt door de cloud provider in te staan voor het volledige beheer van de infrastructuur. De componenten die aanpasbaar zijn, zijn onder andere het OS, de middleware, runtime, data en applicaties. De cloud provider staat in voor de networking, opslag, fysieke servers en bovenliggende virtualisatie. IaaS vormt de basis waarop Cloud computing is gebouwd, overige service modellen bouwen hierop ook verder. Gebruikers die controle willen hebben over (bijna) alle onderdelen van hun cloud infrastructuur opteren voor het gebruik van IaaS. Voorbeelden van IaaS zijn onder andere Google Cloud Platform Compute Engine, Amazon Web Services EC2 en Microsoft Azure.
+
+\subsubsection{Platform-as-a-Service (PaaS)}
+PaaS is vooral gericht op ontwikkelaars. Platform-as-a-Service stelt gebruikers in staat op een eenvoudige manier softwareapplicaties op te zetten zonder zorgen over de onderliggende infrastructuur. Cloud providers die PaaS diensten verschaffen staan in voor het volledige beheer van de infrastructuur zoals servers, zowel virtueel als fysiek, computing, opslag, netwerk, beveiliging, bijhorende tools en API's. Het beheer van servers zoals OS en dergelijke wordt ook door de cloud provider voorzien, PaaS voorziet een platform om applicaties op te draaien. Gebruikers staan enkel in voor ontwikkeling van de applicatie en de data die daar bijhoort. Als PaaS oplossing wordt vaak AWS Elastic Beanstalk gebruikt.
+
+\subsubsection{Software-as-a-Service (SaaS)}
+In het Software-as-a-Service model wordt de gehele infrastructuur inclusief applicatie beheerd door de provider. SaaS voorziet applicaties die draaien in de cloud en raadpleegbaar zijn via een computer of mobiel apparaat, vaak simpelweg via een webbrowser. In het verleden moest software meestal worden aangekocht en worden geïnstalleerd op individuelen systemen, SaaS is hiervoor de oplossing. Wanneer er gebruik wordt gemaakt van SaaS wordt de software aangerekend ob basis van subscripties per gebruiker, dit kan op basis van tijd of verbruik. SaaS draait, zoals eerder gezegd, in de cloud en vereist dus geen extra installatie van software. Eén van de bekendste SaaS applicaties is Office 365, deze Microsoft services werken met een maandelijkse subscriptie die betaald wordt per gebruiker. Een voorbeeld van een gratis SaaS applicatie is bijvoorbeeld Google Docs.
+\begin{figure}
+    \caption{Verschillen in cloud types op niveau van service} 
+    \includegraphics[width=1\textwidth]{img/cloud_service_level.png}
+    \label{fig:cloud-service-levels}  
+\end{figure}
+\newline
 
 \subsection{Voor-en nadelen}
 \label{voor-en-nadelen}
