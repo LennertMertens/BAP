@@ -6,13 +6,13 @@
 \label{ch:inleiding}
 
 %%De inleiding moet de lezer net genoeg informatie verschaffen om het onderwerp te begrijpen en in te zien waarom de onderzoeksvraag de moeite waard is om te onderzoeken. In de inleiding ga je literatuurverwijzingen beperken, zodat de tekst vlot leesbaar blijft. Je kan de inleiding verder onderverdelen in secties als dit de tekst verduidelijkt. Zaken die aan bod kunnen komen in de inleiding~\autocite{Pollefliet2011}:%%
-Cloud Computing technologie is alomtegenwoordig, er bestaan verschillende benaderingen met elk hun specifieke eigenschappen, voor-en nadelen. Meer en meer bedrijven zijn reeds begonnen met migratie van resources naar de Cloud en dit biedt een variëteit aan mogelijkheden. Grote Cloud providers zoals Google Cloud Platform, Amazon Web Services (AWS), Microsoft Azure en IBM bieden hun klanten al heel wat mogelijkheden aan om gebruik te maken van Cloud diensten. Vele bedrijven verkiezen toch nog steeds een eigen infrastructuur boven het toevertrouwen van resources aan grote Cloud providers zoals hierboven genoemd. Klassieke bedrijven waar informatie confidentieel is hebben toch enige argwaan om zomaar alles in de publieke Cloud te draaien. Bedrijven die enige afstand willen nemen van de publieke Cloud kunnen toch meegenieten van de veelzijdige mogelijkheden dat Cloud computing met zich meebrengt. Het is mogelijk voor bedrijven om gebruik te maken van software zoals VMWare, Microsoft Cloud, IBM Bluemix Cloud om zo een eigen Cloud infrastructuur op te zetten op locatie of in een private Cloud. Deze benadering biedt bedrijven, die mee willen groeien in het hele Cloud gebeuren maar niet willen migreren naar de publieke Cloud, toch de mogelijkheid mee te evolueren.
-\newline
-\newline
-De jongste jaren is er een nieuwe trend in Cloud computing geëvolueerd, namelijk Function as a Service (FaaS), beter gekend als serverless. Deze technologie heeft heel wat voordelen bij voortdurende deployment van next-generation applicaties. Serverless neemt overhead weg bij softwareontwikkelaars en stelt hun in staat enkel te focussen op wat er voor hen het meest toe doet, namelijk de software zelf.
-\newline
-\newline
-Deze studie behandelt een uiteenzetting van enkele basis Cloud computing principes, een onderzoek naar wat serverless precies inhoudt, wat de voor- en nadelen zijn en dit alles wordt gestaafd met een proof-of-concept.
+Cloud Computing technologie is alomtegenwoordig, er bestaan verschillende benaderingen met elk hun specifieke eigenschappen, voor- en nadelen. Meer en meer bedrijven zijn reeds begonnen met migratie van resources naar de Cloud en dit biedt een variëteit aan mogelijkheden. Grote Cloud providers zoals Google Cloud Platform, Amazon Web Services (AWS), Microsoft Azure en IBM bieden hun klanten al heel wat mogelijkheden aan om gebruik te maken van Cloud diensten. Vele bedrijven verkiezen toch nog steeds een eigen infrastructuur boven het toevertrouwen van resources aan grote cloud providers zoals hierboven genoemd. Klassieke bedrijven waar informatie confidentieel is hebben toch enige argwaan om zomaar alles in de publieke Cloud te draaien. Bedrijven die enige afstand willen nemen van de publieke Cloud kunnen toch meegenieten van de veelzijdige mogelijkheden dat Cloud computing met zich meebrengt. Het is mogelijk voor bedrijven om gebruik te maken van software zoals VMWare, Microsoft Cloud, IBM Bluemix Cloud om zo een eigen Cloud infrastructuur op te zetten op locatie of in een private Cloud. Deze benadering biedt bedrijven, die mee willen groeien in het hele Cloud gebeuren maar niet willen migreren naar de publieke Cloud, toch de mogelijkheid mee te evolueren.
+\\\\
+
+De jongste jaren is er een nieuwe trend in Cloud computing geëvolueerd, namelijk serverless of vaak gerefereerd als Function-as-a-Service. Serverless technologie biedt heel wat voordelen op basis van verschillende aspecten. Serverless neemt overhead weg bij softwareontwikkelaars en stelt hun in staat enkel te focussen op wat er voor hen het meest toe doet, namelijk de software zelf.
+\\\\
+
+Deze studie behandelt enerzijds een uiteenzetting van de basis Cloud computing principes. Er wordt ook onderzoek gedaan naar wat serverless precies inhoudt, wat de voor- en nadelen zijn en welke componenten serverless mogelijk maken. De theoretische omschrijving van dit concept wordt geïllustreerd aan de hand van voorbeelden om zo de architectuur op een eenvoudige manier over te brengen. Daarnaast wordt op basis van verschillende requirements een overweging gemaakt voor het kiezen van twee open-source frameworks die de mogelijkheden aanbieden serverless te draaien op locatie. Het onderzoek wordt gestaafd met een proof-of-concept die twee frameworks vergelijkt.
 
 %%\begin{itemize}
 %%  \item context, achtergrond
@@ -29,7 +29,7 @@ Deze studie behandelt een uiteenzetting van enkele basis Cloud computing princip
 
 %%Uit je probleemstelling moet duidelijk zijn dat je onderzoek een meerwaarde heeft voor een concrete doelgroep. De doelgroep moet goed gedefinieerd en afgelijnd zijn. Doelgroepen als ``bedrijven,'' ``KMO's,'' systeembeheerders, enz.~zijn nog te vaag. Als je een lijstje kan maken van de personen/organisaties die een meerwaarde zullen vinden in deze bachelorproef (dit is eigenlijk je steekproefkader), dan is dat een indicatie dat de doelgroep goed gedefinieerd is. Dit kan een enkel bedrijf zijn of zelfs één persoon (je co-promotor/opdrachtgever).%%
 
-Er zijn bedrijven die interesse hebben in het gebruik van serverless omgevingen maar opteren om deze niet te draaien bij grote Cloud providers zoals Google, Amazon of Microsoft Azure. Bedrijven die serverless willen werken in hun eigen datacenter, de private cloud of op locatie hebben nood aan een framework dat hen in staat stelt dit te doen. Nubera heeft klanten die argwanend zijn wanneer ze voorstellen een Cloud omgeving op te zetten bij een van de grote spelers. Omdat nubera momenteel nog geen oplossing gebruikt om serverless te implementeren bij klanten op locatie werd mij gevraagd hiernaar onderzoek te doen en een reproduceerbare proof-of-concept uit te werken. Deze bachelorproef dient als gids om serverless te werken.
+Er zijn bedrijven die interesse hebben in het gebruik van serverless omgevingen maar opteren om deze niet te draaien bij grote Cloud providers zoals Google, Amazon of Microsoft Azure. Bedrijven die serverless willen werken in hun eigen datacenter, de private cloud of op locatie hebben nood aan een framework dat hen in staat stelt dit te doen. Nubera heeft klanten die argwanend zijn wanneer ze voorstellen een Cloud omgeving op te zetten bij een van de grote spelers. Omdat nubera momenteel nog geen oplossing gebruikt om serverless te implementeren bij klanten op locatie werd mij gevraagd hiernaar onderzoek te doen en twee mogelijke frameworks te behandelen die voldoen aan vooropgestelde requirements. Er wordt een reproduceerbare proof-of-concept uitgewerkt die inzicht geeft in de behandelde frameworks.
 
 \section{Onderzoeksvraag}
 \label{sec:onderzoeksvraag}
@@ -48,13 +48,12 @@ Deelonderzoeksvragen:
     \item Wat is de rol van onderliggende componenten (containers, microservices)?
     \item Wat zijn de voor-en nadelen van serverless infrastructuur?
     \item Wat is het verschil met traditionele infrastructuren?
-    \item Welke technologieën maken serverless infrastructuren mogelijk?
 \end{itemize}
 
 Voorwaarden: 
 \begin{itemize}
     \item Het onderdeel stand van zaken vormt een begrijpbare uiteenzetting van enkele basisconcepten en geeft een breed beeld over serverless en alle bijkomstigheden
-    \item Onderzoek wordt gestaafd door een proof-of-concept met een interessant open-source framework dat voor Nubera een meerwaarde kan bieden
+    \item Onderzoek wordt gestaafd door een proof-of-concept van  twee interessante open-source frameworks die  Nubera zou kunnen gebruiken in serverless oplossingen op locatie
     \item Het opzetten van de omgeving is reproduceerbaar en is duidelijk gedocumenteerd
 \end{itemize}
 
@@ -64,7 +63,7 @@ Voorwaarden:
 \label{sec:onderzoeksdoelstelling}
 
 %%Wat is het beoogde resultaat van je bachelorproef? Wat zijn de criteria voor succes? Beschrijf die zo concreet mogelijk.%%
-Deze bachlorproef moet kunnen fungeren als een rode draad voor het implementeren van een serverless open-source oplossing voor bedrijven die dit willen opzetten op locatie of in de private Cloud. Deze gids heeft een meerwaarde voor Nubera omdat ze dit als handleiding kunnen gebruiken voor implementatie bij klanten. Het onderzoek moet voldoende inzichten geven zodat de volledige bachelorproef voor iedereen begrijpbaar is, ook voor mensen met weinig Cloud computing ervaring.
+Deze bachlorproef moet kunnen fungeren als een rode draad voor het evolueren naar serverless infrastructuur. Het onderzoek biedt inzicht in open-source oplossingen die op locatie kunnen worden opgezet voor bedrijven die opteren om gebruik te maken van eigen infrastructuur of de private Cloud. Deze gids heeft een meerwaarde voor Nubera omdat ze op basis van verschillende requirements een overweging kunnen maken welk framework het interessantst is. Het onderzoek moet voldoende inzichten geven zodat de volledige bachelorproef voor iedereen begrijpbaar is, ook voor mensen met weinig Cloud computing ervaring.
 
 
 \section{Opzet van deze bachelorproef}
