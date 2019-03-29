@@ -37,7 +37,7 @@ figuur ~\ref{fig:klassiek-vs-virtualisatie} wordt het verschil tussen een klassi
 \newline
 \begin{figure}
     \includegraphics[width=1\textwidth]{img/klassiek_virtualisatie}
-    \caption{Klassieke benadering vs virtualisatie} 
+    \caption{De architectuur aan de linkerkant weergeeft een beeld van hoe de traditionele server architectuur eruit zag. De afbeelding rechts toont hoe een gevirtualiseerde architectuur eruitziet.} 
     \label{fig:klassiek-vs-virtualisatie}  
 \end{figure}
 \newline
@@ -79,7 +79,7 @@ PaaS is vooral gericht op ontwikkelaars. Platform-as-a-Service stelt gebruikers 
 In het Software-as-a-Service model wordt de gehele infrastructuur inclusief applicatie beheerd door de provider. SaaS voorziet applicaties die draaien in de cloud en raadpleegbaar zijn via een computer of mobiel apparaat, vaak simpelweg via een webbrowser. In het verleden moest software meestal worden aangekocht en worden geïnstalleerd op individuelen systemen, SaaS is hiervoor de oplossing. Wanneer er gebruik wordt gemaakt van SaaS wordt de software aangerekend ob basis van subscripties per gebruiker, dit kan op basis van tijd of verbruik. SaaS draait, zoals eerder gezegd, in de cloud en vereist dus geen extra installatie van software. Eén van de bekendste SaaS applicaties is Office 365, deze Microsoft services werken met een maandelijkse subscriptie die betaald wordt per gebruiker. Een voorbeeld van een gratis SaaS applicatie is bijvoorbeeld Google Docs.
 \begin{figure}
     \includegraphics[width=1\textwidth]{img/cloud_service_level.png}
-    \caption{Verschillen in cloud types op niveau van service} 
+    \caption{De afbeelding weergeeft een schematische voorstelling van de verschillende cloud service niveaus. De groene kleur duidt alle onderdelen aan die zelf te managen zijn. De oranje kleur geeft aan welke onderdelen de cloud provider beheert.} 
     \label{fig:cloud-service-levels}  
 \end{figure}
 \newline
@@ -161,10 +161,26 @@ Wanneer er gesproken wordt over serverless dan bedoelt men meestal de Function-a
 In het deployment van klassieke applicaties wordt een applicatie traditioneel gedraaid in een virtuele machine (VM) of in een container. Wanneer de host een container of een VM is, dan draait de applicatie als proces bovenop op het besturingssysteem. De achterliggende code van een applicatie bevat vaak verschillende, aan elkaar gerelateerde, methoden met elk hun eigen functionaliteit.  Figuur \ref{fig:traditional-software-deployment} geeft een visualisatie van klassieke software deployment benadering, er is duidelijk te zien dat binnen een host de applicatie draait als een proces met daarbinnen de individuele methoden die elkaar aanspreken om de functionaliteit van de applicatie te garanderen.
 \begin{figure}
     \includegraphics[width=0.7\textwidth]{img/traditional_software_deployment.png}
-    \caption{Verschillen in cloud types op niveau van service} 
+    \caption{Klassieke monoliet applicaties draaien als één proces op een besturingssysteem binnen een container of virtuele machine. Ee klassieke applicatie is opgebouwd uit verschillende methoden met elk hun eigen functionaliteit gescheiden door softwareklassen.} 
     \label{fig:traditional-software-deployment}  
 \end{figure}
 \\
-De FaaS benadering verandert het klassieke model van applicatie deployment. Ontwikkelaars schrijven in dit model individuele functies die losstaan van elkaar en elk hun eigen specifieke taak hebben. Een applicatie draait nu niet meer voortdurend in een VM of container maar de functionaliteit werkt event-driven. De functies die de ontwikkelaar schrijf worden opgeladen naar een FaaS platform. Omdat de applicatie niet meer voortdurend draait is het FaaS platform zo geconfigureerd dat het luistert naar events die gekoppeld zijn aan een specifieke functie. Wanneer er een event optreedt dat een functie aanroept dan zorgt het FaaS platform ervoor dat er een container op wordt gebracht, de code wordt ingeladen en uitgevoerd en na afloop van de functie wordt de container weer gestopt. Functies worden vaak aangeroepen aan de hand van HTTP API Gateway calls, in de voorbeelden die volgen wordt de cyclus van FaaS duidelijk weergegeven.\autocite{Roberts2017}
+De FaaS benadering verandert het klassieke model van applicatie deployment. Ontwikkelaars schrijven in dit model individuele functies die losstaan van elkaar en elk hun eigen specifieke taak hebben. Een applicatie draait nu niet meer voortdurend in een VM of container maar de functionaliteit werkt event-driven. De functies die de ontwikkelaar schrijf worden opgeladen naar een FaaS platform. Omdat de applicatie niet meer voortdurend draait is het FaaS platform zo geconfigureerd dat het luistert naar events die gekoppeld zijn aan een specifieke functie. Wanneer er een event optreedt dat een functie aanroept dan zorgt het FaaS platform ervoor dat er een container op wordt gebracht, de code wordt ingeladen en uitgevoerd en na afloop van de functie wordt de container weer gestopt. Functies worden vaak aangeroepen aan de hand van HTTP API Gateway calls, in de voorbeelden die volgen wordt de cyclus van FaaS duidelijk weergegeven. Hoe dit nu serverless is? Wel , ontwikkelaars dienen zich enkel maar te focussen op het schrijven van code (functies) en deze plaatsen ze gewoon in het FaaS platform, de achterliggende infrastructuur daar hoeven ze zich niets van aan te trekken.\autocite{Roberts2017}
 \\\\
 Er zijn al heel wat cloud providers die Function-as-a-Service platforms aanbieden en de populairste op moment van schrijven zijn ongetwijfeld: Amazon Web Services met hun AWS Lambda, Google Cloud Platform met Google Cloud Functions en Microsoft Azure met Azure Functions. De opgesomde platformen zijn allen proprietary en dus niet open-source. De FaaS platformen die de grote spelers aanbieden zijn al ver ontwikkeld en bieden heel wat functionaliteit maar zullen niet verder behandelt worden in dit onderzoek. Als alternatief duiken er steeds meer en meer open-source frameworks op voor het opzetten van een FaaS platform. In verder onderzoek zal een overweging worden gemaakt welke twee open-source frameworks het meest interessant zijn voor Nubera, die aan hun vereisten voldoen.
+
+\section{Serverless concepten, begrippen en onderdelen}
+Wat serverless nu precies voorstelt zou na het lezen van de definities al een stuk duidelijker moeten zijn. Serverless brengt echter nog meer begrippen mee om het volledige plaatje te kunnen schetsen. In deze sectie worden de belangrijkste ''key concepts'' uitgelegd.
+
+\subsubsection{Next-Gen applicaties}
+Naar applicaties die draaien in een serverless omgeving wordt vaak gerefereerd als next-gen applicaties. Met next-generation applicaties bedoelen we de applicaties die in een Cloud gebaseerde omgeving draaien en een onderliggende architectuur hebben die bestaat uit enerzijds containers en anderzijds microservices. Applicatieontwikkeling is de afgelopen jaren enorm veranderd, nu is het hele development gebeuren gericht op continue integratie en continue delivery (CI/CD) en zijn de ontwikkelingscyclussen (tijd tussen applicatie releases) verkleind van een aantal weken of aantal maanden tot een aantal minuten, uren of weken in het slechtste geval. 
+
+\subsubsection{Microservices}
+Microservices is een alternatief voor klassieke monoliet applicaties, dit zijn applicaties die verschillende functionaliteiten omvatten en draaien als een enkel proces binnen een VM of container. Een monoliet applicatie kan worden gezien als één gehele applicatie die draait op één machine.  In microservices daarentegen worden verschillende functionaliteiten en services gegroepeerd in groepen met elk hun eigen verantwoordelijkheden. Microservices zijn als het ware  een decompositie van een monoliet applicatie. Applicaties ontwikkeld volgens een microservices architectuur bestaan uit onafhankelijke componenten die naast elkaar bestaan en makkelijk vervangbaar of upgradebaar zijn. In een klassiek ontwerp van een applicatie is de applicatielogica van elkaar gescheiden door behulp van verschillende softwareklassen, deze kunnen met elkaar communiceren. In een microservice architectuur kunnen de verschillende componenten ook met elkaar communiceren maar dit gebeurt aan de hand van REST API vaak via het HTTP protocol. Daar waar monoliet applicaties gebruik maken van eenzelfde datastore, zijn elk component van microservices verantwoordelijk voor hun eigen data en persistentie. Een microservice kan de data van een andere microservice niet rechtstreeks raadplegen. Verschillende microservices kunnen draaien in verschillende VMs of containers, daarom wordt deze architectuur ook wel loosely-coupled genoemd.\autocite{Fowler2014}
+
+\subsubsection{Containers}
+Containers zijn te vergelijken met zeer kleine VMs 
+\subsubsection{API Gateway}
+
+\section{Serverless architectuur}
+

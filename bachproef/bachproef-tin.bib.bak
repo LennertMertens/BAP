@@ -120,4 +120,13 @@
   timestamp = {2019-03-27},
 }
 
+@Electronic{Fowler2014,
+  author    = {Martin Fowler},
+  title     = {Microservices},
+  year      = {2014},
+  url       = {https://www.youtube.com/watch?v=wgdBVIX9ifA},
+  urldate   = {2019-03-29},
+  timestamp = {2019-03-29},
+}
+
 @Comment{jabref-meta: databaseType:biblatex;}
