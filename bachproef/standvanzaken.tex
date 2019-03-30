@@ -170,7 +170,7 @@ De FaaS benadering verandert het klassieke model van applicatie deployment. Ontw
 Er zijn al heel wat cloud providers die Function-as-a-Service platforms aanbieden en de populairste op moment van schrijven zijn ongetwijfeld: Amazon Web Services met hun AWS Lambda, Google Cloud Platform met Google Cloud Functions en Microsoft Azure met Azure Functions. De opgesomde platformen zijn allen proprietary en dus niet open-source. De FaaS platformen die de grote spelers aanbieden zijn al ver ontwikkeld en bieden heel wat functionaliteit maar zullen niet verder behandelt worden in dit onderzoek. Als alternatief duiken er steeds meer en meer open-source frameworks op voor het opzetten van een FaaS platform. In verder onderzoek zal een overweging worden gemaakt welke twee open-source frameworks het meest interessant zijn voor Nubera, die aan hun vereisten voldoen.
 
 \section{Serverless concepten, begrippen en onderdelen}
-Wat serverless nu precies voorstelt zou na het lezen van de definities al een stuk duidelijker moeten zijn. Serverless brengt echter nog meer begrippen mee om het volledige plaatje te kunnen schetsen. In deze sectie worden de belangrijkste ''key concepts'' uitgelegd.
+Wat serverless nu precies voorstelt zou na het lezen van de definities al een stuk duidelijker moeten zijn. Serverless brengt echter nog meer begrippen mee om het volledige plaatje te kunnen schetsen. In deze sectie worden de belangrijkste ''key concepts'' met bijhorende begrippen nader verklaard.
 
 \subsubsection{Next-Gen applicaties}
 Naar applicaties die draaien in een serverless omgeving wordt vaak gerefereerd als next-gen applicaties. Met next-generation applicaties bedoelen we de applicaties die in een Cloud gebaseerde omgeving draaien en een onderliggende architectuur hebben die bestaat uit enerzijds containers en anderzijds microservices. Applicatieontwikkeling is de afgelopen jaren enorm veranderd, nu is het hele development gebeuren gericht op continue integratie en continue delivery (CI/CD) en zijn de ontwikkelingscyclussen (tijd tussen applicatie releases) verkleind van een aantal weken of aantal maanden tot een aantal minuten, uren of weken in het slechtste geval. 
@@ -188,6 +188,14 @@ In essentie is een container te vergelijken met een zeer kleine VM. Volgens \tex
 
 
 \subsubsection{API Gateway}
+Wanneer functies worden aangeroepen, dan gebeurt dat binnen FaaS vaak via een API gateway aan de hand van HTTP. Microservices communiceren ook met elkaar via deze API gateways, op die manier kunnen verschillende microservices gebruik maken van elkaars functionaliteit.
+\textcite{Roberts2017} beschrijven de taak van een API gateways als die van een webserver die verantwoordelijk is voor het ontvangen en routeren van HTTP requests. Een request dat wordt ontvangen wordt gerouteerd naar de handler gebaseerd op de route van de HTTP request. De API gateway ontvangt het antwoord van de handler en routeert dit uiteindelijk terug naar de originele client. Zoals eerder al aangehaald zijn handlers binnen FaaS infrastructuren vaak de functies geschreven door de ontwikkelaars. De API gateway is op de hoogte van alle handlers waar requests naar kunnen worden gerouteerd, deze worden meegegeven in de configuratie van de API. Figuur \ref{fig:api-gateway} geeft een schematische voorstelling van hoe een API gateway eruitziet.
+ 
+ \begin{figure}
+    \includegraphics[width=1\textwidth]{img/api_gateway.png}
+    \caption{In de figuur is een schematische voorstelling van het API gateway concept te zien. Wanneer een client (webbrowser) een HTTP GET request verstuurd naar het pad /api/cats, dan ontvangt de API gateway dit request en zoekt in zijn configuratie de overeenkomstige handler. Wanneer de handler is gevonden wordt het GET request doorgestuurd naar de handler, in dit geval een functie genaamd ''cats''. De functie retourneert de opgevraagde inhoud naar de API gateway die het request op zijn beurt terugstuurt naar de originele client, in dit geval de webbrowser.\autocite{Roberts2018}} 
+    \label{fig:api-gateway}  
+\end{figure}
 
 \section{Serverless architectuur}
 
