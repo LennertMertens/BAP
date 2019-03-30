@@ -129,4 +129,13 @@
   timestamp = {2019-03-29},
 }
 
+@Electronic{Docker2019,
+  author    = {Docker},
+  title     = {What is a container?},
+  year      = {2019},
+  url       = {https://www.docker.com/resources/what-container},
+  urldate   = {2019-03-30},
+  timestamp = {2019-03-30},
+}
+
 @Comment{jabref-meta: databaseType:biblatex;}
