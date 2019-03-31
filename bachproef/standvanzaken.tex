@@ -199,7 +199,7 @@ Wanneer functies worden aangeroepen, dan gebeurt dat binnen FaaS vaak via een AP
 
 \section{Serverless architectuur}
 Hoe serverless infrastructuren eruitzien wordt in deze sectie uitgelegd aan de hand van voorbeelden gebaseerd op een zeer interessant artikel over serverless computing door \textcite{Roberts2018}.
-\subsubsection{Applicaties met een user-interface}
+\subsection{Applicaties met een user-interface}
 In dit voorbeeld bestaat de architectuur uit de klassieke drie-lagen benadering. Er is een client systeem, in dit geval een webbrowser, een server met serverlogica en applicatiecode en een achterliggende databank voor persistentie. De benadering die hier gehanteerd wordt zorgt ervoor dat de client van niets op de hoogte is en dat alle logica aanwezig is in het systeem. De applicatieserver is verantwoordelijk voor alle functionaliteiten zoals: authenticatie, navigatie, zoekmogelijkheden en transacties. In figuur \ref{fig:drielagen_architectuur} wordt de architectuur schematisch voorgesteld.
 \begin{figure}
     \includegraphics[width=1\textwidth]{img/drielagen_architectuur.png}
@@ -217,4 +217,17 @@ In de figuur zijn onmiddellijk enkele grote verschillen te bemerken in vergelijk
 \begin{enumerate}
     \item De authenticatie logica die initieel verwerkt was in de applicatie op de applicatieserver is verplaatst uit de applicatie en wordt vervangen door een Backend-as-a-Service dienst die wordt aangeboden door een derde partij, bijvoorbeeld Okta.
     \item De databank die eerst enkel raadpleegbaar was door de applicatieserver is nu ook te bereiken door de client. De databank wordt uitbesteed aan een derde partij alweer als BaaS dienst, een mogelijkheid hiervoor is Google Firebase zoals eerder in dit onderzoek al werd aangehaald.
+    \item De voorgaande twee stappen zorgen ervoor dat de applicatielogica die initieel enkel beschikbaar was binnen de applicatieserver, nu ook beschikbaar is via de client. De client maakt op deze manier de transitie van ''domme'' component in het gehele verhaal, naar een intelligent deel software dat op de hoogte is van verschillende applicatieonderdelen. De client evolueert in de richting van een ''Single Page Application''. 
+    \item De applicatie heeft nog steeds nood aan toegang tot de databank voor het ophalen en wegschrijven van records. In plaats van het hebben van een server die voortdurend staat de draaien om records te kunnen opvragen, wordt deze functionaliteit in een serverless architectuur vervangen door een functie. Een functie fungeert als handler die luistert op requests die via de API gateway worden gerouteerd. In dit voorbeeld luistert een functie ''search'' naar binnenkomende HTTP requests. De functie heeft toegang tot de databank dienst die door een derde partij onderhouden wordt.
+    \item In de laatste stap wordt er ook een functie gebruikt voor de ''purchase'' functionaliteit. Er wordt opnieuw geopteerd om de functie te implementeren in de server-side kant voor veiligheidsmaatregelen. Het is gebruikelijk dat een applicatie wordt opgesplits in verschillende functies met elk hun eigen functionaliteit in een FaaS omgeving.
 \end{enumerate}
+
+De serverless benadering volgt dezelfde als deze van microservices zoals eerder behandeld. Een klassieke monoliet applicatie wordt opgesplitst in verschillende onderdelen met elk hun eigen functionaliteit, dit kunnen enerzijds BaaS componenten zijn, anderzijds FaaS functies. Zoals het voorbeeld vast al aangeeft biedt een serverless architectuur enorm veel flexibiliteit en mogelijkheden. Werken volgens een serverless infrastructuur stelt teams in staat om individueel te werken aan kleine onderdelen van een applicatie, zo kan er bijvoorbeeld voor elke functie een klein team de verantwoordelijkheid dragen. Het is misschien ook al opgevallen dat de ontwikkelaars niet meer bezig hoeven te zijn met servers zelf maar enkel met code zelf. FaaS frameworks zorgen ervoor dat de overhead van achterliggende servers volledig wordt weggenomen en dat de focus enkel en alleen op code ligt.
+
+\subsection{Bericht gedreven applicaties}
+
+
+
+\section{FaaS Deep Dive}
+
+
