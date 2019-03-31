@@ -198,7 +198,8 @@ Wanneer functies worden aangeroepen, dan gebeurt dat binnen FaaS vaak via een AP
 \end{figure}
 
 \section{Serverless architectuur}
-Hoe serverless infrastructuren eruitzien wordt in deze sectie uitgelegd aan de hand van voorbeelden gebaseerd op een zeer interessant artikel over serverless computing door \textcite{Roberts2018}.
+Hoe serverless infrastructuren eruitzien wordt in deze sectie uitgelegd aan de hand van voorbeelden gebaseerd op een zeer interessant artikel over serverless computing door \textcite{Roberts2018}. Er worden twee voorbeelden aangehaald die kunnen dienen als richtlijnen voor verschillende soorten applicaties.
+
 \subsection{Applicaties met een user-interface}
 In dit voorbeeld bestaat de architectuur uit de klassieke drie-lagen benadering. Er is een client systeem, in dit geval een webbrowser, een server met serverlogica en applicatiecode en een achterliggende databank voor persistentie. De benadering die hier gehanteerd wordt zorgt ervoor dat de client van niets op de hoogte is en dat alle logica aanwezig is in het systeem. De applicatieserver is verantwoordelijk voor alle functionaliteiten zoals: authenticatie, navigatie, zoekmogelijkheden en transacties. In figuur \ref{fig:drielagen_architectuur} wordt de architectuur schematisch voorgesteld.
 \begin{figure}
@@ -225,9 +226,24 @@ In de figuur zijn onmiddellijk enkele grote verschillen te bemerken in vergelijk
 De serverless benadering volgt dezelfde als deze van microservices zoals eerder behandeld. Een klassieke monoliet applicatie wordt opgesplitst in verschillende onderdelen met elk hun eigen functionaliteit, dit kunnen enerzijds BaaS componenten zijn, anderzijds FaaS functies. Zoals het voorbeeld vast al aangeeft biedt een serverless architectuur enorm veel flexibiliteit en mogelijkheden. Werken volgens een serverless infrastructuur stelt teams in staat om individueel te werken aan kleine onderdelen van een applicatie, zo kan er bijvoorbeeld voor elke functie een klein team de verantwoordelijkheid dragen. Het is misschien ook al opgevallen dat de ontwikkelaars niet meer bezig hoeven te zijn met servers zelf maar enkel met code zelf. FaaS frameworks zorgen ervoor dat de overhead van achterliggende servers volledig wordt weggenomen en dat de focus enkel en alleen op code ligt.
 
 \subsection{Bericht gedreven applicaties}
+Een veelvoorkomend voorbeeld dat ook werkt volgens een FaaS architectuur is een service voor backend data-processing. Neem bijvoorbeeld een online advertentie systeem, welbekende ADS die overal terug te vinden zijn op websites. Wanneer een gebruiker op een advertentie klikt moet hij naar de juiste website worden doorgestuurd en moet het click-event worden opgeslagen zodat de het advertentiesysteem de adverteerder kan aanrekenen.
+Klassiek zou zo'n architectuur eruitzien zoals in figuur \ref{fig:klassiek-message-driven}. De Ad Server luistert naar wanneer er een gebruiker op een advertentie klikt, in dat geval post de Ad Server een ''Click message'' in een bericht channel. Het geposte bericht wordt op zijn beurt door een Click Processor verwerkt die instaat voor het bijwerken van de databank, het aanrekenen van de adverteerder etc.
+\begin{figure}
+    \includegraphics[width=1\textwidth]{img/klassiek_message_driven.png}
+    \caption{De figuur weergeeft een schematische voorstelling van een message-driven applicatie van een advertentie systeem opgezet volgens klassieke benadering met alle code in één enkele applicatie. \autocite{Roberts2018}} 
+    \label{fig:klassiek-message-driven}  
+\end{figure}
 
+Wanneer de applicatie wordt omgevormd naar een serverless architectuur dan is in figuur \ref{fig:faas-message-driven} te zien dat een volledige click processor applicatie vervangen is door verschillende FaaS functies die elk hun eigen functionaliteit hebben. De functies zijn event-driven en worden uitgevoerd op het moment dat er een click message ontvangen wordt. De cloud provider (in geval van een on-premises of private cloud oplossing, het serverless framework)  voorziet zowel de FaaS omgeving als het systeem dat de berichten ontvangt.
+\begin{figure}
+    \includegraphics[width=1\textwidth]{img/faas_message_driven.png}
+    \caption{De figuur weergeeft een schematische voorstelling van een message-driven applicatie van een advertentie systeem geschreven specifiek voor een FaaS omgeving. De applicatie is opgesplitst in verschillende functies met elk hun eigen functionaliteit. \autocite{Roberts2018}} 
+    \label{fig:faas-message-driven}  
+\end{figure}
 
+\section{Serverless voor-en nadelen}
+Zoals reeds al enkele keren werd aangehaald biedt een serverless architectuur voor applicaties heel wat voordelen ten opzichte van de klassieke benadering voor applicatieontwikkeling. Echter zijn de nadelen ook niet over het hoofd te zien, deze dienen bestudeerd te worden door iedereen die overweegt om de transitie richting serverless applicaties te maken. \textcite{Stigler2017} beschrijft zowel voor- en nadelen die het meest terugkomen bij het lezen over serverless architecturen.
 
-\section{FaaS Deep Dive}
+\subsubsection{Voordelen}
 
 
