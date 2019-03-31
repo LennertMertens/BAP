@@ -246,4 +246,44 @@ Zoals reeds al enkele keren werd aangehaald biedt een serverless architectuur vo
 
 \subsubsection{Voordelen}
 
+\begin{description}[style=unboxed, labelwidth=\linewidth, listparindent =0pt]
+    \item[Geen beheer van infrastructuur]
+    Voor ontwikkelaars is het interessant dat ze zich niet meer hoeven te focussen op het beheer van achterliggende servers en databanksystemen waarop applicaties draaien. Een ontwikkelaar hoeft zich enkel nog te focussen op de logica, de code die hij schrijft.
+    \newline
+    
+    \item [Snellere development en deployment]
+    Omdat de ontwikkelaars niet meer bezig moeten zijn met de servers kunnen ze zich meer focussen op het schrijven van code waardoor het development proces sneller verloopt. Daarnaast is het mogelijk, wanneer de FaaS omgeving draait bij een van de grote cloud spelers, gebruik te maken van functie templates waardoor code onmiddellijk kan worden uitgevoerd.
+    
+    \item [Makkelijk in gebruiken]
+    Zowel grote cloud providers die serverless oplossingen aanbieden, als open-source alternatieven zijn zo ontwikkeld dat het bouwen van FaaS applicaties vrij makkelijk is. Providers en frameworks bieden vaak alle componenten aan die een ontwikkelaar nodig heeft voor het bouwen van een applicatie, van API gateway tot object opslag waar functies gebruik van maken om data op te halen of weg te schrijven. Het enige dat de ontwikkelaar hoeft te doen is de componenten configureren, de code schrijven en uploaden.
+    \newline
+    
+    \item [Lagere kosten]
+    Bij gebruik van een FaaS infrastructuur betaal je een prijs per functie die wordt uitgevoerd, in het geval de applicatie gehost wordt bij een publieke cloud provider. Wanneer je een serverless infrastructuur draait in een eigen datacenter dan betaal je natuurlijk niet minder want je moet nog steeds servers aankopen, hoewel het wel mogelijk is om minder resources te verbruiken omdat serverless functies per code executie opnieuw een container op brengen en deze na afloop ook weer verwijderen. In een private setting is het dus wel zo dat er een lagere kost is op basis van resources.
+    \newline
+    
+     \item [Verbeterde schaalbaarheid]
+     Wanneer de FaaS inrastructuur draait bij een grote cloud provider dan is er meestal automatische schaalbaarheid beschikbaar, een ontwikkelaar hoeft zich hierover dus geen zorgen te maken. Wanneer de infrastructuur draait in een eigen datacenter dan kan deze schaalbaarheid ook voorzien worden aan de hand van een functie die vooraf wordt gedefinieerd en vervolgens schaalbaarheid zal voorzien.
+     \newline 
+\end{description}
+
+\subsubsection{Nadelen of beperkingen}
+
+\begin{description}[style=unboxed, labelwidth=\linewidth, listparindent =0pt]
+    \item[Geen controle over infrastructuur]
+    Bij het gebruik van cloud diensten van grote cloud spelers is de controle over achterliggend systeem beperkt. De ontwikkelaar heeft de mogelijkheid voor het kiezen van computing resources, permissies en timeout, verder onderhoud van de systemen is afgeschermd voor ontwikkelaars.
+    \newline
+    
+    \item[Server applicatie die lang draait]
+    Sommige applicaties die gebruikmaken van batch-processing draaien soms erg lang. Serverless architecturen zijn net zo ontworpen om snel, schaalbaar en event-driven te zijn en daarbinnen passen batch processing applicaties niet meteen. Serverless biedt echter wel mogelijkheden dat soort applicaties om te vormen naar een FaaS applicatie.
+    \newline
+    
+     \item[Vendor lock-in]
+     Wanneer bedrijven opteren om bijvoorbeeld gebruik te maken van AWS Lambda, dan zitten ze hieraan vast en is het moeilijk om hiervan weg te stappen wegens de grote moeite en kost die migratie naar de cloud met zich meebrengt. Er bestaan echter al alternatieven die ervoor zorgen dat functies werken ongeacht de onderliggende provider. Een populaire benadering is om de loggica uit cloud-specifieke handlers te halen en deze te configureren in een framework dat werkt voor verschillende cloud providers, bijvoorbeeld Serverless Framework \autocite{Serverless2018}. De cloud provider logica wegnemen uit de event handler maakt een applicatie herbruikbaar bij verschillende providers en biedt ook verhoogde flexibiliteit.
+     
+     \item[Cold start]
+     
+    
+    
+\end{description}
 
