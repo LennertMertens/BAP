@@ -1,4 +1,41 @@
 \chapter{Uitwerking}
 \label{ch:uitwerking}
 \section{Open Source tools}
-Het onderwerp van deze bachelorproef gaat over een vergelijking tussen twee open-source serverless frameworks voor het draaien van een serverless infrastructuur on-premises of in een private cloud omgeving.
+Het onderwerp van deze bachelorproef gaat over een vergelijking tussen open-source serverless frameworks voor het draaien van een serverless infrastructuur in house, dit betekend concreet binnen het hele bedrijf. In house duidt op alle infrastructuur waar een organisatie gebruik van maakt, on-premises infrastructuur zoals een eigen datacenter maar ook private cloud behoren hiertoe. Het is ook van belang om nog even te vermelden dat deze bachelorproef zich focust op het FaaS model en niet op het BaaS model. Nubera biedt momenteel nog geen serverless (FaaS) oplossingen aan klanten, voor hun is dit onderzoek zinvol zodat iedereen binnen Nubera een beeld heeft over wat serverless precies is en hoe dit kan worden opgezet. De requirements waaraan de frameworks moeten voldoen worden opgelijst in volgende sectie. De opzet van deze studie maakt een vergelijking tussen twee open-source frameworks die ik op basis van enkele requirements vergelijk. Een eerste framework waar Nubera interesse in heeft is Fission, dit dient te worden uitgewerkt aan de hand van een Proof-of-Concept. Een tweede framework dat als vergelijking moet dienen mag worden gekozen aan de hand van de requirements die werden vastgelegd.
+
+\section{Requirements analyse}
+Hier worden de requirements waaraan de open-source frameworks moeten voldoen opgelijst, zowel functionele als niet-functionele. De requirements worden ook nog eens onderverdeeld in verschillende categorieën volgens prioriteit. De requirements werden gecapteerd in overleg met Nubera.
+
+\subsection{Functionele requirements}
+\subsubsection{Must-have}
+\begin{itemize}
+    \item Kubernetes als onderliggende laag
+    \item Ondersteund serverless functies in Python en GO
+\end{itemize}
+\subsubsection{Should-have}
+\begin{itemize}
+    \item User interface voor makkelijk beheer van functies en API gateways
+    \item Ondersteund serverless functies in Javascript, NodeJS
+\end{itemize}
+\subsubsection{Nice-to-have}
+\begin{itemize}
+    \item Ondersteund serverless functies in nog meer verschillende talen zodat hetzelfde framework kan gebruikt worden bij verschillende klanten
+\end{itemize}
+\subsection{Niet-functionele requirements}
+\subsubsection{Must-have}
+\begin{itemize}
+    \item Het moet open-source zijn
+    \item Het framework moet gratis zijn
+\end{itemize}
+\subsubsection{Should-have}
+\begin{itemize}
+    \item Enige maturiteit als garantie voor het functioneren van het framework
+    \item Project dat dagelijks verder wordt ontwikkeld door erkende organisaties
+    \item Goede documentatie
+\end{itemize}
+\subsubsection{Nice-to-have}
+\begin{itemize}
+    \item Goede community waar je veel support kan krijgen van contributers
+\end{itemize}
+
+\section{Long list}
