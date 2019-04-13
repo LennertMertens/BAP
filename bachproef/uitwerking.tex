@@ -35,12 +35,13 @@ Hier worden de requirements waaraan de open-source frameworks moeten voldoen opg
 \subsubsection{Should-have}
 \begin{itemize}
     \item Enige maturiteit als garantie voor het functioneren van het framework. (Production ready)
-    \item Project dat dagelijks verder wordt ontwikkeld door erkende organisaties.
+    \item Contributors uit erkende organisaties.
+    \item Het project wordt onderhouden, laatste commit is niet ouder dan 2 weken. (Datum van schrijven 13/04/2019)
     \item Goede en duidelijke documentatie.
 \end{itemize}
 \subsubsection{Nice-to-have}
 \begin{itemize}
-    \item Goede community waar je veel support kan krijgen van contributers.
+    \item Slack channel over het project.
 \end{itemize}
 
 \section{Long list}
@@ -73,8 +74,9 @@ Nuclio wordt vaak gebruikt als alternatief voor AWS Lambda. Nuclio is een server
 \subsection{Knative}
 \textcite{Pivotal2019} beschrijft Knative als een uitbreiding van Kubernetes die helpt bij het bouwen van moderne, container-gebaseerde applicaties. Knative voorziet een eenvoudige manier voor ontwikkelaars om applicaties bovenop Kubernetes te draaien. Knative is een open-source project in samenwerking met Google.
 
+%bla bla in tabel x en in y worden vergeleken op basis van FR en NFR..
 
-\begin{sidewaystable}[]
+\begin{table}[]
    % \centering
     \resizebox{\textwidth}{!}{%
         \begin{tabular}{@{}llccccccccc@{}}
@@ -90,6 +92,26 @@ Nuclio wordt vaak gebruikt als alternatief voor AWS Lambda. Nuclio is een server
         \end{tabular}%
     }
     \caption{Vergelijking serverless frameworks op basis van functionele requirements}
-    \label{my-label}
-\end{sidewaystable}
+    \label{frameworks-fr}
+\end{table}
 
+
+\begin{table}[]
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{@{}llccccccccc@{}}
+            \toprule
+            &  & \textbf{Fission} & \textbf{Kubeless} & \textbf{OpenFaaS} & \textbf{OpenWhisk} & \textbf{Fn} & \textbf{IronFunctions} & \textbf{OpenLambda} & \textbf{Knative} & \textbf{Nuclio} \\ \midrule
+            \multirow{4}{*}{\textbf{Must-have}} & Open-source & X & X & X & X & X & X & X & X & X \\
+            & Gratis & X & X & X & X & X & X & X & X & X \\
+            & > 40 contributors & 76 & 77 & 99 & 151 & 77 & 32 & 17 & 115 & 36 \\
+            & > 3K GitHub stars & 4.2K & 4.5K & 13.8K & 3.9K & 3.9K & 2.5K & 593 & 1.6K & 2.6K \\
+            \multirow{4}{*}{\textbf{Should-have}} & Maturiteit (Production ready) & X & X & X & X & X & - & - & X & X \\
+            & Mede ontwikkeld door erkende organisaties & Platform9 & Bitnami & VMWare & IBM & Oracle & iron.io & - & Google & - \\
+            & Laatste commit (datum schrijven 13/04/2019) & 09/04/2019 & 09/04/2019 & 13/04/2019 & 11/04/2019 & 10/04/2019 & 20/08/2018 & 14/01/2019 & 13/03/2019 & 01/04/2019 \\
+            & Goede/duidelijke documentatie & X & X & X & X & - & - & - & X & X \\
+            \textbf{Nice-to-have} & Slack channel over het project & X & X & X & X & X & - & - & X & X \\ \bottomrule
+        \end{tabular}%
+    }
+    \caption{Vergelijking serverless frameworks op basis van niet-functionele requirements}
+    \label{frameworks-nfr}
+\end{table}
