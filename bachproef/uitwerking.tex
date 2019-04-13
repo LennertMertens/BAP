@@ -17,7 +17,7 @@ Hier worden de requirements waaraan de open-source frameworks moeten voldoen opg
 \subsubsection{Should-have}
 \begin{itemize}
     \item User interface voor makkelijk beheer van functies en API gateways.
-    \item Ondersteund serverless functies in Java.
+    \item Ondersteund serverless functies in NodeJS.
     \item YAML format voor templating en definiëring van functies.
 \end{itemize}
 \subsubsection{Nice-to-have}
@@ -72,4 +72,24 @@ Nuclio wordt vaak gebruikt als alternatief voor AWS Lambda. Nuclio is een server
 
 \subsection{Knative}
 \textcite{Pivotal2019} beschrijft Knative als een uitbreiding van Kubernetes die helpt bij het bouwen van moderne, container-gebaseerde applicaties. Knative voorziet een eenvoudige manier voor ontwikkelaars om applicaties bovenop Kubernetes te draaien. Knative is een open-source project in samenwerking met Google.
+
+
+\begin{sidewaystable}[]
+   % \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{@{}llccccccccc@{}}
+            \toprule
+            \multicolumn{2}{l}{} & \textbf{Fission} & \textbf{Kubeless} & \textbf{OpenFaaS} & \textbf{OpenWhisk} & \textbf{Fn} & \textbf{IronFunctions} & \textbf{OpenLambda} & \textbf{Knative} & \textbf{Nuclio} \\ \midrule
+            \multirow{3}{*}{\textbf{Must-have}} & Native Kubernetes & X & X & X & X & X & X & X & X & X \\
+            & Python/GO support & X & X & X & X & Geen GO & X & Enkel Python & X & X \\
+            & Auto-scalable & X & X & X & - & - & - & - & X & X \\
+            \multirow{3}{*}{\textbf{Should-have}} & User-interface & X & X & X & - & - & X & - & - & X \\
+            & NodeJS support & X & X & X & X & X & X & - & X & X \\
+            & YAML templating & X & - & X & X & - & - & - & X & X \\
+            \textbf{Nice-to-have} & Support voor meer talen & X & X & X & X & X & X & - & X & X \\ \bottomrule
+        \end{tabular}%
+    }
+    \caption{Vergelijking serverless frameworks op basis van functionele requirements}
+    \label{my-label}
+\end{sidewaystable}
 
