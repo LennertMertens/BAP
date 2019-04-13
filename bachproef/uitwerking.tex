@@ -9,38 +9,67 @@ Hier worden de requirements waaraan de open-source frameworks moeten voldoen opg
 \subsection{Functionele requirements}
 \subsubsection{Must-have}
 \begin{itemize}
-    \item Kubernetes als onderliggende laag
-    \item Ondersteund serverless functies in Python en GO
+    \item Kubernetes als onderliggende laag.
+    \item Ondersteund serverless functies in Python en GO.
+    \item Snelle executietijd van functies.
+    \item Auto-scalable.
 \end{itemize}
 \subsubsection{Should-have}
 \begin{itemize}
-    \item User interface voor makkelijk beheer van functies en API gateways
-    \item Ondersteund serverless functies in Javascript, NodeJS
+    \item User interface voor makkelijk beheer van functies en API gateways.
+    \item Ondersteund serverless functies in Java.
+    \item YAML format voor templating en definiëring van functies.
 \end{itemize}
 \subsubsection{Nice-to-have}
 \begin{itemize}
-    \item Ondersteund serverless functies in nog meer verschillende talen zodat hetzelfde framework kan gebruikt worden bij verschillende klanten
+    \item Ondersteund serverless functies in nog meer verschillende talen zodat hetzelfde framework kan gebruikt worden bij verschillende klanten.
 \end{itemize}
 \subsection{Niet-functionele requirements}
 \subsubsection{Must-have}
 \begin{itemize}
-    \item Het moet open-source zijn
-    \item Het framework moet gratis zijn
+    \item Het moet open-source zijn.
+    \item Het framework moet gratis zijn.
+    \item Minstens 40 contributors op GitHub.
+    \item Minstens 3000 stars op GitHub.
 \end{itemize}
 \subsubsection{Should-have}
 \begin{itemize}
-    \item Enige maturiteit als garantie voor het functioneren van het framework
-    \item Project dat dagelijks verder wordt ontwikkeld door erkende organisaties
-    \item Goede documentatie
+    \item Enige maturiteit als garantie voor het functioneren van het framework. (Production ready)
+    \item Project dat dagelijks verder wordt ontwikkeld door erkende organisaties.
+    \item Goede en duidelijke documentatie.
 \end{itemize}
 \subsubsection{Nice-to-have}
 \begin{itemize}
-    \item Goede community waar je veel support kan krijgen van contributers
+    \item Goede community waar je veel support kan krijgen van contributers.
 \end{itemize}
 
 \section{Long list}
-In deze sectie worden alle mogelijke frameworks die voldoen aan de gecapteerde requirements opgelijst. Per alternatief wordt de website vermeld en wordt er een korte beschrijving gegeven.
+In deze sectie worden alle mogelijke frameworks die in aanmerking komen overeenstemmend met de gecapteerde requirements opgelijst. Per alternatief wordt de website vermeld volgens APA stijl er wordt ook een korte beschrijving gegeven. Na de oplijsting van de verschillende frameworks die in aanmerking komen wordt er een tabel opgemaakt waarin terug te vinden is of de frameworks al dan niet aan de requirements voldoen. Op basis van de tabel worden er drie gekozen die verder worden uitgelegd in de short list, van deze drie kiezen we er twee om een proof-of-concept op te zetten.
+
 \subsection{Fission}
+Fission werd reeds vastgelegd door Nubera en is een Kubernetes native serverless framework voor functies. Het stelt ontwikkelaars in staat functies te schrijven, die een korte levensduur hebben, in verschillende talen. De functies kunnen worden gemapt aan HTTP triggers. \autocite{Fission2019}
+
 \subsection{Kubeless}
+\textcite{Kubeless2019} beschrijft zichzelf als een Kubernetes native serverless framework dat ontwikkelaars in staat stelt kleine stukken code of functies op te laden zonder zorg over de onderliggende infrastructuur. Kubeless is de ideale tool voor ieder die op zoek is naar een open-source alternatief voor wat AWS Lambda, Google Cloud Functions en Azure Functions aanbieden.
+
 \subsection{OpenFaaS}
-\subsection{OpenWhisk}
+\textcite{OpenFaaS2019} beschrijft zichzelf ook als een framework voor het bouwen van serverless functies met Kubernetes en Docker, het voorziet ook support voor metrics. Tools als Prometheus kunnen makkelijk worden geïmplementeerd voor monitoring.
+
+\subsection{Apache OpenWhisk}
+OpenWhisk is een open-source serverless platform dat als respons op events en triggers functies uitvoert. OpenWhisk staat in voor het beheer van de hardware en schaalbaarheid van applicaties met behulp van Docker containers zodat ontwikkelaars zich kunnen focussen op het bouwen van applicaties. \autocite{Apache2019}
+
+\subsection{Fn}
+De beschrijving waarmee \textcite{FnProject2019} zichzelf voorstelt luidt als volgt: Het Fn Project is een open-source container-native serverless platform dat overal kan draaien, in elk type van cloud maar ook op locatie. Het is makkelijk in gebruik, ondersteund elke programmeertaal, is uitbreidbaar en performant. 
+
+\subsection{IronFunctions}
+\textcite{Iron2018} belooft met hun IronFunctions serverless framework dat taken die veel CPU vragen onmerkbaar in de achtergrond draaien. Het laat ontwikkelaars toe functies te implementeren in applicaties en de focus te leggen op het schrijven van de software. Het voorziet ook snelle en eenvoudige configuratie van de onderliggende infrastructuur en job processing.
+
+\subsection{OpenLambda}
+\textcite{OpenLambda2019} is in tegenstelling tot de eerder besproken alternatieven minder ver ontwikkeld. OpenLambda is een framework dat interessant is voor iedereen die wil wil testen en serverless wilt leren kennen. OpenLambda is niet production ready, de eerder besproken tools zijn dit vaak wel al.
+
+\subsection{Nuclio}
+Nuclio wordt vaak gebruikt als alternatief voor AWS Lambda. Nuclio is een serverless framework voor functies in real-time en data gedreven applicaties. Nuclio ondersteund ook Kubernetes als platform. \autocite{Nuclio2019}
+
+\subsection{Knative}
+\textcite{Pivotal2019} beschrijft Knative als een uitbreiding van Kubernetes die helpt bij het bouwen van moderne, container-gebaseerde applicaties. Knative voorziet een eenvoudige manier voor ontwikkelaars om applicaties bovenop Kubernetes te draaien. Knative is een open-source project in samenwerking met Google.
+
