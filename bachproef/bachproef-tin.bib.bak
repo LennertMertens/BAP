@@ -222,4 +222,13 @@
   timestamp = {2019-04-13},
 }
 
+@Electronic{Pivotal2019,
+  author    = {Pivotal},
+  title     = {Knative},
+  year      = {2019},
+  url       = {https://pivotal.io/knative},
+  urldate   = {2019-04-13},
+  timestamp = {2019-04-13},
+}
+
 @Comment{jabref-meta: databaseType:biblatex;}

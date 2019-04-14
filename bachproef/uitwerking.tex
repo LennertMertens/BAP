@@ -12,6 +12,7 @@ Hier worden de requirements waaraan de open-source frameworks moeten voldoen opg
     \item Kubernetes als onderliggende laag.
     \item Ondersteund serverless functies in Python en GO.
     \item Auto-scalable.
+    \item Zo snel mogelijke uitvoeringstijd van functies.
 \end{itemize}
 \subsubsection{Should-have}
 \begin{itemize}
@@ -30,6 +31,8 @@ Hier worden de requirements waaraan de open-source frameworks moeten voldoen opg
     \item Het framework moet gratis zijn.
     \item Minstens 40 contributors op GitHub.
     \item Minstens 3000 stars op GitHub. (Garantie voor populariteit in de community.)
+    \item Gebruiksvriendelijk.
+    \item Eenvoudig op te zetten.
 \end{itemize}
 \subsubsection{Should-have}
 \begin{itemize}
@@ -44,7 +47,7 @@ Hier worden de requirements waaraan de open-source frameworks moeten voldoen opg
 \end{itemize}
 
 \section{Long list}
-In deze sectie worden alle mogelijke frameworks die in aanmerking komen overeenstemmend met de gecapteerde requirements opgelijst. Per alternatief wordt de website vermeld volgens APA stijl er wordt ook een korte beschrijving gegeven. Na de oplijsting van de verschillende frameworks die in aanmerking komen worden er tabellen opgemaakt waarin terug te vinden is of de frameworks al dan niet aan de requirements voldoen, er is één tabel voor de functionele en één voor de niet-functionele requirements. Op basis van de tabellen worden drie frameworks (inclusief Fission) gekozen die verder worden verwerkt in de short list.
+In deze sectie worden alle mogelijke frameworks die in aanmerking komen overeenstemmend met de gecapteerde requirements opgelijst. Per alternatief wordt de website vermeld volgens APA stijl er wordt ook een korte beschrijving gegeven. Na de oplijsting van de verschillende frameworks die in aanmerking komen worden er tabellen opgemaakt waarin terug te vinden is of de frameworks al dan niet aan de requirements voldoen, er is één tabel voor de functionele en één voor de niet-functionele requirements. Op basis van de tabellen worden drie frameworks (inclusief Fission) gekozen die verder worden verwerkt in de short list. De functionele en niet-functionele requirements worden per framework tegen elkaar afgewogen, executietijd van functies, gebruiksvriendelijkheid en eenvoud in installatie zijn niet meetbaar zonder proof-of-concept en zullen maar later in dit onderzoek worden gemeten. Deze requirements worden daarom ook niet in de tabellen opgenomen.
 
 \subsection{Fission}
 Fission werd reeds vastgelegd door Nubera en is een Kubernetes native serverless framework voor functies. Het stelt ontwikkelaars in staat functies te schrijven, die een korte levensduur hebben, in verschillende talen. De functies kunnen worden gemapt aan HTTP triggers. \autocite{Fission2019}
@@ -152,6 +155,57 @@ Vervolgens worden de niet-functionele requirements bekeken. De tabel weergeeft d
 
 \section{Short List}
 \label{sec:short-list}
+
+In deze sectie wordt op basis van voorgaande long list, zoals eerder al aangehaald, drie frameworks die aan de meeste/alle requirements voldoen verder behandelt. Nubera wilt zeker verdere informatie en proof-of-concept over Fission, daarnaast willen ze ook een evenwaardig alternatief zodat op basis van dit onderzoek een keuze kan gemaakt worden. De verdere uitwerking tracht ook de requirments die nog niet werden gemeten te behandelen. De functionele requirement: ''Zo snel mogelijke uitvoeringstijd van functies.'' en de niet-functionele requirements: ''Gebruiksvriendelijk'' en ''Eenvoudig op te zetten'' worden in de proof-of-concept verder onderzocht. Op basis van de shortlist kiezen wordt het meest veelbelovende alternatief voor Fission gekozen, de proof-of-concept bestaat dan uit een vergelijking tussen dit gekozen framework en Fission.
+
+
 \subsection{OpenFaaS}
+\textcite{OpenFaaS2019} is een open-source Function as a Service (serverless) project dat werd opgestart door Alex Ellis. Alex is lid van het VMWare Open Source Technology Center (OSTC), VMWare is eveneens ''backer'' van dit project, ze ondersteunen in de ontwikkeling van OpenFaaS. Het project telt 13.8K GitHub stars, 99 contributors en is daarmee momenteel het grootste en populairste open-source Function as a Service framework. OpenFaaS wordt al gebruikt bij verschillende grote organisaties zoals: VMWare, BT (British Telecom), Citrix, Contiamo, University of Washington, ... 
+\\
+De aspecten waarmee OpenFaaS uitpakt om zich te onderscheiden van anderen zijn:
+\begin{itemize}
+    \item Makkelijke installatie en eenvoud in gebruik door de beschikbare UI.
+    \item Portable: draait op bestaande hardware of in de public/private cloud maar ook op Kubernetes of Docker Swarm.
+    \item Functies in eender welke taal voor Linux of Windows.
+    \item Auto-scalable wanneer de vraag verhoogt.
+    \item YAML format voor templating en definiëren van functies.
+\end{itemize}
+\subsubsection{Conceptueel ontwerp}
+OpenFaaS kan worden opgedeeld in verschillende onderdelen met elk hun eigen verantwoordelijkheden.
+\begin{figure}
+    \includegraphics[width=1\textwidth]{img/open-faas.jpg}
+    \caption{De figuur weergeeft een conceptuele voorstelling van de componenten van OpenFaaS. \autocite{Ellis2019}}
+    \label{fig:open-faas-conceptueel}  
+\end{figure}
+
+\begin{description}[style=unboxed, labelwidth=\linewidth, listparindent =0pt]
+    \item[Docker laag]
+    In figuur \ref{fig:open-faas-conceptueel} is de onderste laag een volledige Docker laag, dit weergeeft dat alle functies die geschreven worden worden uitgevoerd in Docker containers, deze containers bevatten alle dependencies nodig voor de code om uit te voeren.
+    \newline
+    
+    \item[Swarm/Kubernetes]
+    Bovenop de Docker laag in figuur \ref{fig:open-faas-conceptueel} is er een Swarm of Kubernetes component terug te vinden. Deze laag is de zogenoemde ''orchestrator'', deze staat in voor het management, configuratie en de coördinatie van de Docker containers.
+    \newline
+    
+    \item[Prometheus]
+    OpenFaaS maakt gebruik van Prometheus, een tool voor het verzamelen van metrics.
+    \newline
+    
+    \item[Function Watchdog]
+    In figuur \ref{fig:open-faas-conceptueel} staat de Function Watchdog bovenop de reeds opgesomde componenten. Function Watchdog zorgt ervoor dat een Docker image kan worden omgevormd in een serverless functie, dit door het toevoegen van een kleine HTTP server. Daarnaast is de Function Watchdog eveneens het ingangspunt dat HTTP requests toelaat om geforward te worden naar het bestemmingsproces via HTTP of STDIN. Het responsbericht wordt teruggestuurd naar STDOUT of HTTP van de applicatie. \autocite{Ellis2019}
+    \newline
+    
+    \item[API Gateway/UI Portal]
+    De API Gateway in figuur \ref{fig:open-faas-conceptueel} verzorgt een route naar de geschreven functies en verzameld metrics aan de hand van Prometheus. De API Gateways zorgt eveneens voor schaalbaarheid van Functies door de vraag op te halen via de replica count in Docker Swarm of de Kubernetes API. Bij installatie van OpenFaaS wordt er ook een UI meegeleverd, deze laat gebruikers toe functies op te vragen en toe te voegen via deze interface. \autocite{Ellis2019} 
+    \newline
+    
+    \item[CLI]
+    Elk proces binnen een container of de container op zich kan een serverless functie zijn. OpenFaaS voorziet FaaS CLI om snel functies te deployen. Nieuwe functies kunnen worden gemaakt aan de hand van templates maar ook via een Dockerfile. \autocite{Ellis2019}  
+\end{description}
+
 \subsection{Kubeless}
+
+
 \subsection{Fission}
+
+\subsection{Verschillen en overweging}
