@@ -248,6 +248,22 @@ De  belangrijkste aspecten van Fission zijn:
 \end{itemize}
 
 \subsubsection{Architectuur}
-Fission
+Fission bestaat uit verschillende componenten, met elk hun eigen verantwoordelijkheden. Hieronder wordt een overzicht gegeven hoe een Fission architectuur precies in elkaar zit. 
+
+\begin{figure}
+    \includegraphics[width=1\textwidth]{img/fission_architectuur.png}
+    \caption{Deze figuur weergeeft de architectuur van een Fission infrastructuur die draait op een Kubernetes cluster. \autocite{Chemitiganti2018}}
+    \label{fig:fission-architectuur}
+\end{figure}
+
+\begin{enumerate}
+    \item Fission bestaat uit verschillende microservices. De controller houdt functies, event triggers, HTTP routes en omgevings images bij. Een pool manager (poolmgr) staat in voor het beheer van een groep omgevingscontainers die niet aan het draaien zijn. Daarnaast is de poolmgr ook verantwoordelijk voor het inladen van de functies in deze containers en na afloop de containers ook weer af te zetten. De router ontvangt, zoals te zien is in figuur \ref{fig:fission-architectuur} HTTP requests en routeert deze naar draaiende containers die de corresponderende functie bevatten, indien de nodige functie niet beschikbaar is wordt deze via de pool manager aangevraagd. \autocite{Chemitiganti2018}
+    \item De controller bedient de Fission API terwijl alle andere componenten de controller in het oog houden voor updates. De router component wordt geëxposed als een Kubernetes dienst van de load balancer of NodePort type, dit afhankelijk van de locatie waar de cluster wordt gehost. Wanneer de router een HTTP request ontvangt kijkt hij eerst of er in de cache reeds een service is die gelinkt is met de request, zo niet zoekt hij de overeenstemmende functie om de request mee te mappen en vraagt hij de poolmgr voor een instantie. De poolmgr beschikt over een pool van pods die momenteel niet aan het werk zijn, de poolmgr kiest een pod waarin de functie wordt ingeladen. Als de functie is ingeladen wordt het adres van die pod teruggestuurd naar de router. De pod wordt nu opgeslagen in de cache voor toekomstige requests, indien er binnen enkele minuten geen nieuwe requests volgen wordt de pod gestopt.  \autocite{Chemitiganti2018}
+    \item Fission voorziet een eenvoudige manier van functie deployment op alle Kubernetes clusters. Functies worden uitgevoerd los van elkaar.
+    \item Voor het maken van complexere serverless applicaties moeten functies met elkaar kunnen communiceren en van elkaar gebruikmaken. Dit proces is vaak moeilijk en neemt veel tijd in beslag. Fission Workflows voorziet makkelijke orkestratie van een sequentie serverless functies voor het maken van een applicatie. \autocite{Chemitiganti2018}
+    \item Workflows voorziet een makkelijke manier om serverless functies op elkaar af te stemmen en samen te laten werken aan de hand van sequenties van taken, keuzes en loops. Functies kunnen uitgevoerd worden om de beurt of parallel, daarnaast kan de output van een functie de input zijn van een andere. \autocite{Chemitiganti2018}
+    \item In Fission worden logs bijgehouden in een databank aan de hand van Fluentd\footnote{https://www.fluentd.org/} en InfluxDB\footnote{https://www.influxdata.com/}. Logs kunnen worden opgevraagd via de CLI die Fission aanlevert.
+    \item Monitoring van de infrastructuur is voorzien aan de hand van Prometheus.Via Prometheus worden metrics voor functies zoals het aantal keer dat een functie wordt aangeroepen, het aantal errors, aanroeptijd, responstijd, cold starts, levensduur van een functie etc. gemeten.
+\end{enumerate}
 
 \subsection{Verschillen en overweging}
