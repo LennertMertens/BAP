@@ -17,7 +17,7 @@ Hier worden de requirements waaraan de open-source frameworks moeten voldoen opg
 \subsubsection{Should-have}
 \begin{itemize}
     \item User interface voor makkelijk beheer van functies en API gateways.
-    \item Ondersteund serverless functies in NodeJS.
+    \item Ondersteund serverless functies in Node.js.
     \item YAML format voor templating en definiëring van functies.
 \end{itemize}
 \subsubsection{Nice-to-have}
@@ -91,7 +91,7 @@ In tabel \ref{frameworks-fr} worden de verschillende frameworks vergeleken op ba
             & Auto-scalable & X & X & X & X & X & - & - & X & X \\
             \hline
             \multirow{3}{*}{\textbf{Should-have}} & User-interface & X & X & X & - & X & X & - & - & X \\
-            & NodeJS support & X & X & X & X & X & X & - & X & X \\
+            & Node.js support & X & X & X & X & X & X & - & X & X \\
             & YAML templating & X & X & X & X & X & - & - & X & X \\
             \hline
             \textbf{Nice-to-have} & Support voor meer talen & X & X & X & X & X & X & - & X & X \\ \bottomrule
@@ -204,6 +204,30 @@ OpenFaaS kan worden opgedeeld in verschillende onderdelen met elk hun eigen vera
 \end{description}
 
 \subsection{Kubeless}
+\textcite{Kubeless2019} omschrijft zichzelf als een Kubernetes native serverless framework. Het is ontwikkeld om bovenop een Kubernetes cluster te worden geïnstalleerd. Kubeless zegt zelf het beste alternatief te zijn voor de serverless oplossingen die de grote spelers vandaag reeds aanbieden. De aspecten eigen aan Kubeless zijn:
+\begin{itemize}
+    \item Ondersteuning voor Python, Node.js Ruby, Golang, PHP, .NET, Ballerina en nog meer custom runtimes.
+    \item CLI gelijkaardig aan die van AWS Lambda.
+    \item Event triggers en HTTP events.
+    \item Plugin voor gebruik van het Serverless framework. \autocite{Serverless2018}
+    \item Standaard monitoring van functies die worden aangeroepen en latency aan de hand van Prometheus.
+\end{itemize}
+
+\subsubsection{Architectuur}
+Kubeless is gebouwd rond drie concepten die hieronder verder in detail worden toegelicht.
+\begin{description}[style=unboxed, labelwidth=\linewidth, listparindent =0pt]
+    \item[Functies]
+    Een functie is een representatie van de code die moet worden uitgevoerd. Naast code bevat een functie ook metadata over de runtime dependencies alsook build instructies. De levensduur van een functie staat niet vast, de functie wordt ook enkel uitgevoerd wanneer een trigger deze activeert. \autocite{KnightXun2018}
+    \newline
+    
+    \item[Triggers]
+    Een trigger reageert op binnenkomende  events, aan de triggers worden functies gekoppeld. Wanneer er een event voorkomt zal Kubeless ervoor zorgen dat de corresponderende functie wordt aangeroepen, het event zorgt ervoor dat de trigger op de hoogte wordt gebracht en die roept bijgevolg de juiste functie aan. Een trigger kan bij een of meerdere functie horen en staan ook los van deze functies. Triggers worden apart onderhouden en geconfigureerd los van de functies. \autocite{KnightXun2018}
+    \newline
+    
+    \item[Runtime]
+    Een runtime staat in voor de taal en de taal-specifieke omgeving waarin functies worden uitgevoerd. Elke specifieke taal heeft een andere runtime, zo heeft Java een andere runtime dan Python nodig voor de uitvoering van code. \autocite{KnightXun2018}
+    \newline
+\end{description}
 
 
 \subsection{Fission}
