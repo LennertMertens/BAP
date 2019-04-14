@@ -204,7 +204,9 @@ OpenFaaS kan worden opgedeeld in verschillende onderdelen met elk hun eigen vera
 \end{description}
 
 \subsection{Kubeless}
-\textcite{Kubeless2019} omschrijft zichzelf als een Kubernetes native serverless framework. Het is ontwikkeld om bovenop een Kubernetes cluster te worden geïnstalleerd. Kubeless zegt zelf het beste alternatief te zijn voor de serverless oplossingen die de grote spelers vandaag reeds aanbieden. De aspecten eigen aan Kubeless zijn:
+\textcite{Kubeless2019} is een Kubernetes native serverless framework. Het is ontwikkeld om bovenop een Kubernetes cluster te worden geïnstalleerd. De eerste commit aan het Kubeless project dateert van 16 november 2016 en werd gemaakt door iemand met de naam ''ngtuna'' op GitHub. Kubeless is goed voor 5K GitHub stars en heeft telt momenteel 77 contributors. Bitnami is de ondersteunende organisatie achter Kubeless. Organisaties die reeds Kubeless implementeren zijn moeilijk terug te vinden in tegenstelling tot OpenFaaS gebruikers, dit wijst mogelijks op een grotere maturiteit van OpenFaaS ten opzichte van Kubeless. 
+\\
+Kubeless zegt zelf het beste alternatief te zijn voor de serverless oplossingen die de grote spelers vandaag reeds aanbieden. De aspecten eigen aan Kubeless zijn:
 \begin{itemize}
     \item Ondersteuning voor Python, Node.js Ruby, Golang, PHP, .NET, Ballerina en nog meer custom runtimes.
     \item CLI gelijkaardig aan die van AWS Lambda.
@@ -231,5 +233,21 @@ Kubeless is gebouwd rond drie concepten die hieronder verder in detail worden to
 
 
 \subsection{Fission}
+Fission is een framework voor serverless functies op Kubernetes dat werd aangegeven door Nubera zelf, na verder onderzoek bleek dit ook te voldoen aan alle opgestelde requirements. Fission bestaat sinds augustus 2016 en wordt ontwikkeld door medewerkers van Platform9. Momenteel Heeft Fission 4K stars op GitHub en 76 contributors. Gebruikers die Fission reeds in hun organisatie implementeren zijn eveneens een stuk moeilijker te vinden in vergelijking met OpenFaaS.
+\\
+De  belangrijkste aspecten van Fission zijn:
+\begin{itemize}
+    \item Native Kubernetes: Fission draait op elke locatie op Kubernetes.
+    \item Snelle cold-start: functies hebben een korte cold-start latency, lager dan ~100ms.
+    \item Functie samenstelling: Fission Workflows zorgt ervoor dat ontwikkelaars niet moeten bezig zijn met networking, bericht wachtrijen of andere onderdelen die serverless functies complex maken.
+    \item Administratie en operationele eenvoud: logs worden onmiddellijk via de CLI weergegeven daarnaast is er ook integratie met Prometheus voor het evalueren van metrics aan de hand van een duidelijk dashboard.
+    \item Istio integratie: Fission integreert met Istio, een platform dat instaat voor management en beveiliging van microservices. Via dashboards kunnen gebruikers ook informatie ophalen over de latency van functies die worden aangeroepen.
+    \item Declaratie van functies moet maar éénmaal door de ontwikkelaar worden gedaan, vervolgens kan de functie overal worden gedeployed.
+    \item Ondersteuning voor meerdere programmeertalen: Python, Node.js, GO, C#, PHP daarnaast kunnen ook eigen containers worden gebouwd indien dit nodig is. 
+    \item Auto-scaling van functies. 
+\end{itemize}
+
+\subsubsection{Architectuur}
+
 
 \subsection{Verschillen en overweging}
