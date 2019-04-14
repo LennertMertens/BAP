@@ -149,24 +149,6 @@
   timestamp = {2019-03-30},
 }
 
-@Electronic{Fission2019,
-  author    = {Fission},
-  title     = {What is Fission?},
-  year      = {2019},
-  url       = {https://fission.io/},
-  urldate   = {2019-04-13},
-  timestamp = {2019-04-13},
-}
-
-@Electronic{Kubeless2019,
-  author    = {Kubeless},
-  title     = {What is Kubeless?},
-  year      = {2019},
-  url       = {https://kubeless.io/},
-  urldate   = {2019-04-13},
-  timestamp = {2019-04-13},
-}
-
 @Electronic{OpenFaaS2019,
   author    = {OpenFaaS},
   title     = {Introduction},
@@ -246,6 +228,7 @@
   year      = {2018},
   date      = {2018-05-04},
   url       = {https://github.com/kubeless/kubeless/blob/master/docs/architecture.md},
+  urldate   = {2019-04-14},
   timestamp = {2019-04-14},
 }
 

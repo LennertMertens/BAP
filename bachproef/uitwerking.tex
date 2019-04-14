@@ -50,31 +50,31 @@ Hier worden de requirements waaraan de open-source frameworks moeten voldoen opg
 In deze sectie worden alle mogelijke frameworks die in aanmerking komen overeenstemmend met de gecapteerde requirements opgelijst. Per alternatief wordt de website vermeld volgens APA stijl er wordt ook een korte beschrijving gegeven. Na de oplijsting van de verschillende frameworks die in aanmerking komen worden er tabellen opgemaakt waarin terug te vinden is of de frameworks al dan niet aan de requirements voldoen, er is één tabel voor de functionele en één voor de niet-functionele requirements. Op basis van de tabellen worden drie frameworks (inclusief Fission) gekozen die verder worden verwerkt in de short list. De functionele en niet-functionele requirements worden per framework tegen elkaar afgewogen, executietijd van functies, gebruiksvriendelijkheid en eenvoud in installatie zijn niet meetbaar zonder proof-of-concept en zullen maar later in dit onderzoek worden gemeten. Deze requirements worden daarom ook niet in de tabellen opgenomen.
 
 \subsection{Fission}
-Fission werd reeds vastgelegd door Nubera en is een Kubernetes native serverless framework voor functies. Het stelt ontwikkelaars in staat functies te schrijven, die een korte levensduur hebben, in verschillende talen. De functies kunnen worden gemapt aan HTTP triggers. \autocite{Fission2019}
+Fission\footnote{https://fission.io/} werd reeds vastgelegd door Nubera en is een Kubernetes native serverless framework voor functies. Het stelt ontwikkelaars in staat functies te schrijven, die een korte levensduur hebben, in verschillende talen. De functies kunnen worden gemapt aan HTTP triggers.
 
 \subsection{Kubeless}
-\textcite{Kubeless2019} beschrijft zichzelf als een Kubernetes native serverless framework dat ontwikkelaars in staat stelt kleine stukken code of functies op te laden zonder zorg over de onderliggende infrastructuur. Kubeless is de ideale tool voor ieder die op zoek is naar een open-source alternatief voor wat AWS Lambda, Google Cloud Functions en Azure Functions aanbieden.
+Kubeless\footnote{https://kubeless.io/} beschrijft zichzelf als een Kubernetes native serverless framework dat ontwikkelaars in staat stelt kleine stukken code of functies op te laden zonder zorg over de onderliggende infrastructuur. Kubeless is de ideale tool voor ieder die op zoek is naar een open-source alternatief voor wat AWS Lambda, Google Cloud Functions en Azure Functions aanbieden.
 
 \subsection{OpenFaaS}
 \textcite{OpenFaaS2019} beschrijft zichzelf ook als een framework voor het bouwen van serverless functies met Kubernetes en Docker, het voorziet ook support voor metrics. Tools als Prometheus kunnen makkelijk worden geïmplementeerd voor monitoring.
 
 \subsection{Apache OpenWhisk}
-OpenWhisk is een open-source serverless platform dat als respons op events en triggers functies uitvoert. OpenWhisk staat in voor het beheer van de hardware en schaalbaarheid van applicaties met behulp van Docker containers zodat ontwikkelaars zich kunnen focussen op het bouwen van applicaties. \autocite{Apache2019}
+OpenWhisk\footnote{https://openwhisk.apache.org/} is een open-source serverless platform dat als respons op events en triggers functies uitvoert. OpenWhisk staat in voor het beheer van de hardware en schaalbaarheid van applicaties met behulp van Docker containers zodat ontwikkelaars zich kunnen focussen op het bouwen van applicaties.
 
 \subsection{Fn}
 De beschrijving waarmee \textcite{FnProject2019} zichzelf voorstelt luidt als volgt: Het Fn Project is een open-source container-native serverless platform dat overal kan draaien, in elk type van cloud maar ook op locatie. Het is makkelijk in gebruik, ondersteund elke programmeertaal, is uitbreidbaar en performant. 
 
 \subsection{IronFunctions}
-\textcite{Iron2018} belooft met hun IronFunctions serverless framework dat taken die veel CPU vragen onmerkbaar in de achtergrond draaien. Het laat ontwikkelaars toe functies te implementeren in applicaties en de focus te leggen op het schrijven van de software. Het voorziet ook snelle en eenvoudige configuratie van de onderliggende infrastructuur en job processing.
+Iron belooft met hun IronFunctions\footnote{https://open.iron.io/} serverless framework dat taken die veel CPU vragen onmerkbaar in de achtergrond draaien. Het laat ontwikkelaars toe functies te implementeren in applicaties en de focus te leggen op het schrijven van de software. Het voorziet ook snelle en eenvoudige configuratie van de onderliggende infrastructuur en job processing.
 
 \subsection{OpenLambda}
-\textcite{OpenLambda2019} is in tegenstelling tot de eerder besproken alternatieven minder ver ontwikkeld. OpenLambda is een framework dat interessant is voor iedereen die wil wil testen en serverless wilt leren kennen. OpenLambda is niet production ready, de eerder besproken tools zijn dit vaak wel al.
+OpenLambda\footnote{https://open-lambda.org/index.htm} is in tegenstelling tot de eerder besproken alternatieven minder ver ontwikkeld. OpenLambda is een framework dat interessant is voor iedereen die wil wil testen en serverless wilt leren kennen. OpenLambda is niet production ready, de eerder besproken tools zijn dit vaak wel al.
 
 \subsection{Nuclio}
-Nuclio wordt vaak gebruikt als alternatief voor AWS Lambda. Nuclio is een serverless framework voor functies in real-time en data gedreven applicaties. Nuclio ondersteund ook Kubernetes als platform. \autocite{Nuclio2019}
+Nuclio\footnote{https://nuclio.io} wordt vaak gebruikt als alternatief voor AWS Lambda. Nuclio is een serverless framework voor functies in real-time en data gedreven applicaties. Nuclio ondersteund ook Kubernetes als platform. \autocite{Nuclio2019}
 
 \subsection{Knative}
-\textcite{Pivotal2019} beschrijft Knative als een uitbreiding van Kubernetes die helpt bij het bouwen van moderne, container-gebaseerde applicaties. Knative voorziet een eenvoudige manier voor ontwikkelaars om applicaties bovenop Kubernetes te draaien. Knative is een open-source project in samenwerking met Google.
+Pivotal beschrijft Knative\footnote{https://pivotal.io/knative} als een uitbreiding van Kubernetes die helpt bij het bouwen van moderne, container-gebaseerde applicaties. Knative voorziet een eenvoudige manier voor ontwikkelaars om applicaties bovenop Kubernetes te draaien. Knative is een open-source project in samenwerking met Google.
 
 %bla bla in tabel x en in y worden vergeleken op basis van FR en NFR..
 \subsection{Vergelijking}
@@ -160,7 +160,7 @@ In deze sectie wordt op basis van voorgaande long list, zoals eerder al aangehaa
 
 
 \subsection{OpenFaaS}
-\textcite{OpenFaaS2019} is een open-source Function as a Service (serverless) project dat werd opgestart door Alex Ellis. Alex is lid van het VMWare Open Source Technology Center (OSTC), VMWare is eveneens ''backer'' van dit project, ze ondersteunen in de ontwikkeling van OpenFaaS. Het project telt 13.8K GitHub stars, 99 contributors en is daarmee momenteel het grootste en populairste open-source Function as a Service framework. OpenFaaS wordt al gebruikt bij verschillende grote organisaties zoals: VMWare, BT (British Telecom), Citrix, Contiamo, University of Washington, ... 
+OpenFaaS\footnote{https://www.openfaas.com/} is een open-source Function as a Service (serverless) project dat werd opgestart door Alex Ellis. Alex is lid van het VMWare Open Source Technology Center (OSTC), VMWare is eveneens ''backer'' van dit project, ze ondersteunen in de ontwikkeling van OpenFaaS. Het project telt 13.8K GitHub stars, 99 contributors en is daarmee momenteel het grootste en populairste open-source Function as a Service framework. OpenFaaS wordt al gebruikt bij verschillende grote organisaties zoals: VMWare, BT (British Telecom), Citrix, Contiamo, University of Washington, ... 
 \\
 De aspecten waarmee OpenFaaS uitpakt om zich te onderscheiden van anderen zijn:
 \begin{itemize}
@@ -204,7 +204,7 @@ OpenFaaS kan worden opgedeeld in verschillende onderdelen met elk hun eigen vera
 \end{description}
 
 \subsection{Kubeless}
-\textcite{Kubeless2019} is een Kubernetes native serverless framework. Het is ontwikkeld om bovenop een Kubernetes cluster te worden geïnstalleerd. De eerste commit aan het Kubeless project dateert van 16 november 2016 en werd gemaakt door iemand met de naam ''ngtuna'' op GitHub. Kubeless is goed voor 5K GitHub stars en heeft telt momenteel 77 contributors. Bitnami is de ondersteunende organisatie achter Kubeless. Organisaties die reeds Kubeless implementeren zijn moeilijk terug te vinden in tegenstelling tot OpenFaaS gebruikers, dit wijst mogelijks op een grotere maturiteit van OpenFaaS ten opzichte van Kubeless. 
+Kubeless\footnote{https://kubeless.io/} is een Kubernetes native serverless framework. Het is ontwikkeld om bovenop een Kubernetes cluster te worden geïnstalleerd. De eerste commit aan het Kubeless project dateert van 16 november 2016 en werd gemaakt door iemand met de naam ''ngtuna'' op GitHub. Kubeless is goed voor 5K GitHub stars en heeft telt momenteel 77 contributors. Bitnami is de ondersteunende organisatie achter Kubeless die ook instaat voor het onderhoud van dit framework. Organisaties die reeds Kubeless implementeren zijn moeilijk terug te vinden in tegenstelling tot OpenFaaS gebruikers, dit wijst mogelijks op een grotere maturiteit van OpenFaaS ten opzichte van Kubeless. 
 \\
 Kubeless zegt zelf het beste alternatief te zijn voor de serverless oplossingen die de grote spelers vandaag reeds aanbieden. De aspecten eigen aan Kubeless zijn:
 \begin{itemize}
@@ -233,7 +233,7 @@ Kubeless is gebouwd rond drie concepten die hieronder verder in detail worden to
 
 
 \subsection{Fission}
-Fission is een framework voor serverless functies op Kubernetes dat werd aangegeven door Nubera zelf, na verder onderzoek bleek dit ook te voldoen aan alle opgestelde requirements. Fission bestaat sinds augustus 2016 en wordt ontwikkeld door medewerkers van Platform9. Momenteel Heeft Fission 4K stars op GitHub en 76 contributors. Gebruikers die Fission reeds in hun organisatie implementeren zijn eveneens een stuk moeilijker te vinden in vergelijking met OpenFaaS.
+Fission\footnote{https://fission.io} is een framework voor serverless functies op Kubernetes dat werd aangegeven door Nubera zelf, na verder onderzoek bleek dit ook te voldoen aan alle opgestelde requirements. Fission bestaat sinds augustus 2016 en wordt ontwikkeld en onderhouden door medewerkers van Platform9. Momenteel Heeft Fission 4K stars op GitHub en 76 contributors. Gebruikers die Fission reeds in hun organisatie implementeren zijn eveneens een stuk moeilijker te vinden in vergelijking met OpenFaaS.
 \\
 De  belangrijkste aspecten van Fission zijn:
 \begin{itemize}
@@ -243,11 +243,11 @@ De  belangrijkste aspecten van Fission zijn:
     \item Administratie en operationele eenvoud: logs worden onmiddellijk via de CLI weergegeven daarnaast is er ook integratie met Prometheus voor het evalueren van metrics aan de hand van een duidelijk dashboard.
     \item Istio integratie: Fission integreert met Istio, een platform dat instaat voor management en beveiliging van microservices. Via dashboards kunnen gebruikers ook informatie ophalen over de latency van functies die worden aangeroepen.
     \item Declaratie van functies moet maar éénmaal door de ontwikkelaar worden gedaan, vervolgens kan de functie overal worden gedeployed.
-    \item Ondersteuning voor meerdere programmeertalen: Python, Node.js, GO, C#, PHP daarnaast kunnen ook eigen containers worden gebouwd indien dit nodig is. 
+    \item Ondersteuning voor meerdere programmeertalen: Python, Node.js, GO, C\#, PHP daarnaast kunnen ook eigen containers worden gebouwd indien dit nodig is. 
     \item Auto-scaling van functies. 
 \end{itemize}
 
 \subsubsection{Architectuur}
-
+Fission
 
 \subsection{Verschillen en overweging}
