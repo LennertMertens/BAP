@@ -84,12 +84,12 @@ In tabel \ref{frameworks-fr} worden de verschillende frameworks vergeleken op ba
             \toprule
             \multicolumn{2}{l}{} & \textbf{Fission} & \textbf{Kubeless} & \textbf{OpenFaaS} & \textbf{OpenWhisk} & \textbf{Fn} & \textbf{IronFunctions} & \textbf{OpenLambda} & \textbf{Knative} & \textbf{Nuclio} \\ \midrule
             \multirow{3}{*}{\textbf{Must-have}} & Native Kubernetes & X & X & X & X & X & X & X & X & X \\
-            & Python/GO support & X & X & X & X & Geen GO & X & Enkel Python & X & X \\
-            & Auto-scalable & X & X & X & X & - & - & - & X & X \\
+            & Python/GO support & X & X & X & X & X & X & Enkel Python & X & X \\
+            & Auto-scalable & X & X & X & X & X & - & - & X & X \\
             \hline
-            \multirow{3}{*}{\textbf{Should-have}} & User-interface & X & X & X & - & - & X & - & - & X \\
+            \multirow{3}{*}{\textbf{Should-have}} & User-interface & X & X & X & - & X & X & - & - & X \\
             & NodeJS support & X & X & X & X & X & X & - & X & X \\
-            & YAML templating & X & X & X & X & - & - & - & X & X \\
+            & YAML templating & X & X & X & X & X & - & - & X & X \\
             \hline
             \textbf{Nice-to-have} & Support voor meer talen & X & X & X & X & X & X & - & X & X \\ \bottomrule
         \end{tabular}%
@@ -122,6 +122,36 @@ In tabel \ref{frameworks-fr} worden de verschillende frameworks vergeleken op ba
 \end{table}
 
 \subsubsection{Resultatenverwerking}
-Eerst worden de functionele requirements behandelt. Op basis van tabel \ref{frameworks-fr} is onmiddellijk zichtbaar dat enkele frameworks minder interessant zijn dan anderen. Fn, IronFunctions en OpenLambda voldoen niet aan de must-have requirements en worden dus niet verder behandelt. Bij het overlopen van de should-have functionele requirements zien we dat OpenWhisk en Knative niet beschikken over een meegeleverde user interface. Wanneer we de nice-to-haves overlopen zien we dat alle frameworks die nog als mogelijke kandidaten overblijven meerdere programmeertalen ondersteunen.
+Eerst worden de functionele requirements behandelt. Op basis van tabel \ref{frameworks-fr} is onmiddellijk zichtbaar dat enkele frameworks minder interessant zijn dan anderen. IronFunctions en OpenLambda voldoen niet aan de must-have requirements en worden dus niet verder behandelt. OpenWhisk en Knative worden niet geleverd met een user interface en voldoen zo beiden niet aan de should-have functionele requirements. Alle overige kandidaten voldoen aan de nice-to-have requirements, namelijk ondersteuning voor meerdere programmeertalen.
 \\\\
-Vervolgens worden de niet-functionele requirements bekeken. De tabel weergeeft dat alle frameworks open-source en gratis zijn, deze requirements worden dus voor alle frameworks voldaan. De volgende requirements die in acht worden genomen zijn het aantal contributors eveneens als het aantal ''stars'' op GitHub. Een hoger aantal contributors wijst vaak op meer kennis, meer review van code en enige zekerheid in vergelijking met een laag aantal contributors. De GitHub stars worden als factor gekozen om te meten hoe populair een framework is. De metingen werden gedaan op 13 april 2019 en kunnen tegen de tijd van lezen reeds gewijzigd zijn. Als norm werd vooropgesteld dat een project minstens veertig contributors moet hebben alsook een minimum van drieduizend stars. IronFunctions, OpenLambda en Nuclio voldoen niet aan het opgelegde aantal contributors. Knative, OpenLambda, Nuclio en IronFunctions behalen ook niet het minimum van drieduizend stars. OpenLambda en Nuclio zijn nu zeker afgeschreven en worden niet verder in overweging genomen. Daarnaast worden ook de should-have requirements bekeken. Alle kandidaat frameworks voldoen aan maturiteit en zijn ''production ready''. Elk framework behalve Nuclio wordt mede ontwikkeld door erkende organisaties, de bedrijven die werden opgelijst worden ook wel de ''backers'' van het project genoemd. Omdat Nuclio geen erkende organisatie achter zich heeft wordt deze kandidaat ook niet meer in overweging genomen. De datum van de laatste commit is ook een belangrijk gegeven om te beslissen of het project overlevingskans heeft en up-to-date blijft. Bij Knative dateert de laatste commit van een maand geleden wat erg lang is voor een open-source project, ook deze optie wordt geschrapt. De overige kandidaten beschikken allemaal over een duidelijke documentatiewebsite, videobronnen en Slack channels om over het project te praten. Tabel \ref{frameworks-samenvatting} weergeeft een samenvatting van de frameworks en het aantal requirements waaraan ze voldoen, ze worden gerangschikt volgens de graad dat ze in aanmerking komen, van boven naar beneden.
+Vervolgens worden de niet-functionele requirements bekeken. De tabel weergeeft dat alle frameworks open-source en gratis zijn, deze requirements worden dus voor alle frameworks voldaan. De volgende requirements die in acht worden genomen zijn het aantal contributors eveneens als het aantal ''stars'' op GitHub. Een hoger aantal contributors wijst vaak op meer kennis, meer review van code en enige zekerheid in vergelijking met een laag aantal contributors. De GitHub stars worden als factor gekozen om te meten hoe populair een framework is. De metingen werden gedaan op 13 april 2019 en kunnen tegen de tijd van lezen reeds gewijzigd zijn. Als norm werd vooropgesteld dat een project minstens veertig contributors moet hebben alsook een minimum van drieduizend stars. IronFunctions, OpenLambda en Nuclio voldoen niet aan het opgelegde aantal contributors. Knative, OpenLambda, Nuclio en IronFunctions behalen ook niet het minimum van drieduizend stars. Daarnaast worden ook de should-have requirements bekeken. Alle kandidaat frameworks voldoen aan maturiteit en zijn ''production ready''. Elk framework behalve Nuclio en OpenLambda wordt mede ontwikkeld door erkende organisaties, de bedrijven die werden opgelijst worden ook wel de ''backers'' van het project genoemd. Omdat Nuclio en OpenLambda geen erkende organisatie achter zich hebben worden deze kandidaten niet meer in overweging genomen. De datum van de laatste commit is ook een belangrijk gegeven om te beslissen of het project overlevingskans heeft en up-to-date blijft. Bij Knative dateert de laatste commit van een maand geleden wat erg lang is voor een open-source project, ook deze optie wordt geschrapt. De overige kandidaten beschikken allemaal over een duidelijke documentatiewebsite, videobronnen en Slack channels om over het project te praten. Tabel \ref{frameworks-samenvattingl} weergeeft een samenvatting van de frameworks en het aantal requirements waaraan ze voldoen, ze worden gerangschikt volgens de graad dat ze in aanmerking komen, van boven naar beneden. In de tabel wordt telkens voor de verschillende categorieën van requirements een optelling gemaakt waaraan een framework voldoet. Uit de tabel is af te leiden dat OpenFaaS, Kubeless en Fission een maximumscore behalen en dus ook het meest interessant zijn voor verder onderzoek. In sectie \ref{sec:short-list} worden deze drie frameworks verder in detail besproken. Nubera gaf aan dat zij interesse hebben in Fission, dit framework zal worden opgezet in een proof-of-concept, daarnaast wordt ook nog een alternatief, OpenFaaS of Kubeless opgezet als vergelijking. Aan de hand van de uitwerking moet blijken of Fission een goede keuze is of dat een ander alternatief misschien nog meer mogelijkheden biedt.
+\\
+\begin{table}[]
+    \centering
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{@{}llccccccccc@{}}
+            \toprule
+            &  & \multicolumn{3}{c}{\textbf{Functionele requirements}} & \textbf{} & \multicolumn{3}{c}{\textbf{Niet-functionele requirements}} & \textbf{} & \textbf{Totaal} \\ \midrule
+            &  & \textbf{M-H} & \textbf{S-H} & \textbf{N-T-H} & \textbf{} & \textbf{M-H} & \textbf{S-H} & \textbf{N-T-H} & \textbf{} & \textbf{/16} \\
+            \textbf{1.} & \textbf{OpenFaaS} & 3 & 3 & 1 &  & 4 & 4 & 1 &  & 16 \\
+            \textbf{2.} & \textbf{Kubeless} & 3 & 3 & 1 &  & 4 & 4 & 1 &  & 16 \\
+            \textbf{3.} & \textbf{Fission} & 3 & 3 & 1 &  & 4 & 4 & 1 &  & 16 \\
+            \textbf{4.} & \textbf{OpenWhisk} & 3 & 2 & 1 &  & 4 & 4 & 1 &  & 15 \\
+            \textbf{5.} & \textbf{Fn} & 3 & 3 & 1 &  & 4 & 3 & 1 &  & 15 \\
+            \textbf{6.} & \textbf{Knative} & 3 & 2 & 1 &  & 3 & 4 & 1 &  & 14 \\
+            \textbf{7.} & \textbf{Nuclio} & 3 & 3 & 1 &  & 2 & 3 & 1 &  & 13 \\
+            \textbf{8.} & \textbf{IronFunctions} & 2 & 2 & 1 &  & 2 & 1 & 0 &  & 8 \\
+            \textbf{9.} & \textbf{OpenLambda} & 1 & 0 & 0 &  & 2 & 0 & 0 &  & 3 \\
+            &  & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} \\
+            &  & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} \\ \bottomrule
+        \end{tabular}%
+    }
+    \caption{Frameworks opgelijst in graad waarin ze in aanmerking komen. De top drie van meest interessante frameworks voor dit onderzoek zijn OpenFaaS, Kubeless en Fission. Door Nubera werd zelf aangegeven dat ze interesse hebben in Fission. (M-H: Must-have, S-H: Should-have, N-T-H: Nice to have.) }
+    \label{frameworks-samenvattingl}
+\end{table}
+
+\section{Short List}
+\label{sec:short-list}
+\subsection{OpenFaaS}
+\subsection{Kubeless}
+\subsection{Fission}
