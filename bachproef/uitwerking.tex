@@ -1,7 +1,7 @@
 \chapter{Uitwerking}
 \label{ch:uitwerking}
 \section{Open Source tools}
-Het onderwerp van deze bachelorproef gaat over een vergelijking tussen open-source serverless frameworks voor het draaien van een serverless infrastructuur in house, dit betekend concreet binnen het hele bedrijf. In house duidt op alle infrastructuur waar een organisatie gebruik van maakt, on-premises infrastructuur zoals een eigen datacenter maar ook private cloud behoren hiertoe. Het is ook van belang om nog even te vermelden dat deze bachelorproef zich focust op het FaaS model en niet op het BaaS model. Nubera biedt momenteel nog geen serverless (FaaS) oplossingen aan klanten, voor hun is dit onderzoek zinvol zodat iedereen binnen Nubera een beeld heeft over wat serverless precies is en hoe dit kan worden opgezet. De requirements waaraan de frameworks moeten voldoen worden opgelijst in volgende sectie. De opzet van deze studie maakt een vergelijking tussen twee open-source frameworks die ik op basis van enkele requirements vergelijk. Een eerste framework waar Nubera interesse in heeft is Fission, dit dient te worden uitgewerkt aan de hand van een Proof-of-Concept. Een tweede framework dat als vergelijking moet dienen mag worden gekozen aan de hand van de requirements die werden vastgelegd.
+Het onderwerp van deze bachelorproef gaat over een vergelijking tussen open-source serverless frameworks voor het draaien van een serverless infrastructuur in house, dit betekend concreet binnen het hele bedrijf. In house duidt op alle infrastructuur waar een organisatie gebruik van maakt, on-premises infrastructuur zoals een eigen datacenter maar ook private cloud behoren hiertoe. Het is van belang om nog even te vermelden dat deze bachelorproef zich focust op het FaaS model en niet op het BaaS model. Nubera biedt momenteel nog geen serverless (FaaS) oplossingen aan klanten, voor hun is dit onderzoek zinvol zodat iedereen binnen Nubera een beeld heeft over wat serverless precies is en hoe dit kan worden opgezet. De requirements waaraan de frameworks moeten voldoen worden opgelijst in volgende sectie. De opzet van deze studie maakt een vergelijking tussen twee open-source frameworks die ik op basis van enkele requirements vergelijk. Een eerste framework waar Nubera interesse in heeft is Fission, dit dient te worden uitgewerkt aan de hand van een Proof-of-Concept. Een tweede framework dat als vergelijking moet dienen mag worden gekozen aan de hand van de requirements die werden vastgelegd.
 
 \section{Requirements analyse}
 Hier worden de requirements waaraan de open-source frameworks moeten voldoen opgelijst, zowel functionele als niet-functionele. De requirements worden ook nog eens onderverdeeld in verschillende categorieën volgens prioriteit. De requirements werden gecapteerd in overleg met Nubera.
@@ -11,7 +11,6 @@ Hier worden de requirements waaraan de open-source frameworks moeten voldoen opg
 \begin{itemize}
     \item Kubernetes als onderliggende laag.
     \item Ondersteund serverless functies in Python en GO.
-    \item Snelle executietijd van functies.
     \item Auto-scalable.
 \end{itemize}
 \subsubsection{Should-have}
@@ -30,7 +29,7 @@ Hier worden de requirements waaraan de open-source frameworks moeten voldoen opg
     \item Het moet open-source zijn.
     \item Het framework moet gratis zijn.
     \item Minstens 40 contributors op GitHub.
-    \item Minstens 3000 stars op GitHub.
+    \item Minstens 3000 stars op GitHub. (Garantie voor populariteit in de community.)
 \end{itemize}
 \subsubsection{Should-have}
 \begin{itemize}
@@ -45,7 +44,7 @@ Hier worden de requirements waaraan de open-source frameworks moeten voldoen opg
 \end{itemize}
 
 \section{Long list}
-In deze sectie worden alle mogelijke frameworks die in aanmerking komen overeenstemmend met de gecapteerde requirements opgelijst. Per alternatief wordt de website vermeld volgens APA stijl er wordt ook een korte beschrijving gegeven. Na de oplijsting van de verschillende frameworks die in aanmerking komen wordt er een tabel opgemaakt waarin terug te vinden is of de frameworks al dan niet aan de requirements voldoen. Op basis van de tabel worden er drie gekozen die verder worden uitgelegd in de short list, van deze drie kiezen we er twee om een proof-of-concept op te zetten.
+In deze sectie worden alle mogelijke frameworks die in aanmerking komen overeenstemmend met de gecapteerde requirements opgelijst. Per alternatief wordt de website vermeld volgens APA stijl er wordt ook een korte beschrijving gegeven. Na de oplijsting van de verschillende frameworks die in aanmerking komen worden er tabellen opgemaakt waarin terug te vinden is of de frameworks al dan niet aan de requirements voldoen, er is één tabel voor de functionele en één voor de niet-functionele requirements. Op basis van de tabellen worden drie frameworks (inclusief Fission) gekozen die verder worden verwerkt in de short list.
 
 \subsection{Fission}
 Fission werd reeds vastgelegd door Nubera en is een Kubernetes native serverless framework voor functies. Het stelt ontwikkelaars in staat functies te schrijven, die een korte levensduur hebben, in verschillende talen. De functies kunnen worden gemapt aan HTTP triggers. \autocite{Fission2019}
@@ -75,19 +74,23 @@ Nuclio wordt vaak gebruikt als alternatief voor AWS Lambda. Nuclio is een server
 \textcite{Pivotal2019} beschrijft Knative als een uitbreiding van Kubernetes die helpt bij het bouwen van moderne, container-gebaseerde applicaties. Knative voorziet een eenvoudige manier voor ontwikkelaars om applicaties bovenop Kubernetes te draaien. Knative is een open-source project in samenwerking met Google.
 
 %bla bla in tabel x en in y worden vergeleken op basis van FR en NFR..
+\subsection{Vergelijking}
+In tabel \ref{frameworks-fr} worden de verschillende frameworks vergeleken op basis van hun functionele requirements die vooropgesteld  werden.  De tabel duidt de requirements waaraan de frameworks voldoen aan met een ''X'', indien ze niet voldoen volgt er een ''-'' of aangepaste omschrijving. Tabel \ref{frameworks-nfr} geeft een overzicht van de frameworks ten opzichte van de vooropgestelde niet-functionele requirements. In deze tabel geldt hetzelfde: een ''X'' wilt zeggen dat er aan de requirement is voldaan, een ''-'' betekent dat er een requirement niet voldaan is en een aangepaste beschrijving werd gekozen wanneer deze meer zegt dan een ''X'' of ''-''.
 
 \begin{table}[]
-   % \centering
+    % \centering
     \resizebox{\textwidth}{!}{%
         \begin{tabular}{@{}llccccccccc@{}}
             \toprule
             \multicolumn{2}{l}{} & \textbf{Fission} & \textbf{Kubeless} & \textbf{OpenFaaS} & \textbf{OpenWhisk} & \textbf{Fn} & \textbf{IronFunctions} & \textbf{OpenLambda} & \textbf{Knative} & \textbf{Nuclio} \\ \midrule
             \multirow{3}{*}{\textbf{Must-have}} & Native Kubernetes & X & X & X & X & X & X & X & X & X \\
             & Python/GO support & X & X & X & X & Geen GO & X & Enkel Python & X & X \\
-            & Auto-scalable & X & X & X & - & - & - & - & X & X \\
+            & Auto-scalable & X & X & X & X & - & - & - & X & X \\
+            \hline
             \multirow{3}{*}{\textbf{Should-have}} & User-interface & X & X & X & - & - & X & - & - & X \\
             & NodeJS support & X & X & X & X & X & X & - & X & X \\
-            & YAML templating & X & - & X & X & - & - & - & X & X \\
+            & YAML templating & X & X & X & X & - & - & - & X & X \\
+            \hline
             \textbf{Nice-to-have} & Support voor meer talen & X & X & X & X & X & X & - & X & X \\ \bottomrule
         \end{tabular}%
     }
@@ -105,13 +108,20 @@ Nuclio wordt vaak gebruikt als alternatief voor AWS Lambda. Nuclio is een server
             & Gratis & X & X & X & X & X & X & X & X & X \\
             & > 40 contributors & 76 & 77 & 99 & 151 & 77 & 32 & 17 & 115 & 36 \\
             & > 3K GitHub stars & 4.2K & 4.5K & 13.8K & 3.9K & 3.9K & 2.5K & 593 & 1.6K & 2.6K \\
+            \hline
             \multirow{4}{*}{\textbf{Should-have}} & Maturiteit (Production ready) & X & X & X & X & X & - & - & X & X \\
             & Mede ontwikkeld door erkende organisaties & Platform9 & Bitnami & VMWare & IBM & Oracle & iron.io & - & Google & - \\
             & Laatste commit (datum schrijven 13/04/2019) & 09/04/2019 & 09/04/2019 & 13/04/2019 & 11/04/2019 & 10/04/2019 & 20/08/2018 & 14/01/2019 & 13/03/2019 & 01/04/2019 \\
             & Goede/duidelijke documentatie & X & X & X & X & - & - & - & X & X \\
+            \hline
             \textbf{Nice-to-have} & Slack channel over het project & X & X & X & X & X & - & - & X & X \\ \bottomrule
         \end{tabular}%
     }
     \caption{Vergelijking serverless frameworks op basis van niet-functionele requirements}
     \label{frameworks-nfr}
 \end{table}
+
+\subsubsection{Resultatenverwerking}
+Eerst worden de functionele requirements behandelt. Op basis van tabel \ref{frameworks-fr} is onmiddellijk zichtbaar dat enkele frameworks minder interessant zijn dan anderen. Fn, IronFunctions en OpenLambda voldoen niet aan de must-have requirements en worden dus niet verder behandelt. Bij het overlopen van de should-have functionele requirements zien we dat OpenWhisk en Knative niet beschikken over een meegeleverde user interface. Wanneer we de nice-to-haves overlopen zien we dat alle frameworks die nog als mogelijke kandidaten overblijven meerdere programmeertalen ondersteunen.
+\\\\
+Vervolgens worden de niet-functionele requirements bekeken. De tabel weergeeft dat alle frameworks open-source en gratis zijn, deze requirements worden dus voor alle frameworks voldaan. De volgende requirements die in acht worden genomen zijn het aantal contributors eveneens als het aantal ''stars'' op GitHub. Een hoger aantal contributors wijst vaak op meer kennis, meer review van code en enige zekerheid in vergelijking met een laag aantal contributors. De GitHub stars worden als factor gekozen om te meten hoe populair een framework is. De metingen werden gedaan op 13 april 2019 en kunnen tegen de tijd van lezen reeds gewijzigd zijn. Als norm werd vooropgesteld dat een project minstens veertig contributors moet hebben alsook een minimum van drieduizend stars. IronFunctions, OpenLambda en Nuclio voldoen niet aan het opgelegde aantal contributors. Knative, OpenLambda, Nuclio en IronFunctions behalen ook niet het minimum van drieduizend stars. OpenLambda en Nuclio zijn nu zeker afgeschreven en worden niet verder in overweging genomen. Daarnaast worden ook de should-have requirements bekeken. Alle kandidaat frameworks voldoen aan maturiteit en zijn ''production ready''. Elk framework behalve Nuclio wordt mede ontwikkeld door erkende organisaties, de bedrijven die werden opgelijst worden ook wel de ''backers'' van het project genoemd. Omdat Nuclio geen erkende organisatie achter zich heeft wordt deze kandidaat ook niet meer in overweging genomen. De datum van de laatste commit is ook een belangrijk gegeven om te beslissen of het project overlevingskans heeft en up-to-date blijft. Bij Knative dateert de laatste commit van een maand geleden wat erg lang is voor een open-source project, ook deze optie wordt geschrapt. De overige kandidaten beschikken allemaal over een duidelijke documentatiewebsite, videobronnen en Slack channels om over het project te praten. Tabel \ref{frameworks-samenvatting} weergeeft een samenvatting van de frameworks en het aantal requirements waaraan ze voldoen, ze worden gerangschikt volgens de graad dat ze in aanmerking komen, van boven naar beneden.
