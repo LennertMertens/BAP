@@ -1,7 +1,7 @@
 \chapter{Uitwerking}
 \label{ch:uitwerking}
 \section{Open Source tools}
-Het onderwerp van deze bachelorproef gaat over een vergelijking tussen open-source serverless frameworks voor het draaien van een serverless infrastructuur in house, dit betekend concreet binnen het hele bedrijf. In house duidt op alle infrastructuur waar een organisatie gebruik van maakt, on-premises infrastructuur zoals een eigen datacenter maar ook private cloud behoren hiertoe. Het is van belang om nog even te vermelden dat deze bachelorproef zich focust op het FaaS model en niet op het BaaS model. Nubera biedt momenteel nog geen serverless (FaaS) oplossingen aan klanten, voor hun is dit onderzoek zinvol zodat iedereen binnen Nubera een beeld heeft over wat serverless precies is en hoe dit kan worden opgezet. De requirements waaraan de frameworks moeten voldoen worden opgelijst in volgende sectie. De opzet van deze studie maakt een vergelijking tussen twee open-source frameworks die ik op basis van enkele requirements vergelijk. Een eerste framework waar Nubera interesse in heeft is Fission, dit dient te worden uitgewerkt aan de hand van een Proof-of-Concept. Een tweede framework dat als vergelijking moet dienen mag worden gekozen aan de hand van de requirements die werden vastgelegd.
+Het onderwerp van deze bachelorproef gaat over een vergelijking tussen open-source serverless frameworks voor het draaien van een serverless infrastructuur in house, dit betekend concreet binnen het hele bedrijf. In house duidt op alle infrastructuur waar een organisatie gebruik van maakt, on-premises infrastructuur zoals een eigen datacenter maar ook private cloud behoren hiertoe. Het is van belang om nog even te vermelden dat deze bachelorproef zich focust op het FaaS model en niet op het BaaS model. Nubera biedt momenteel nog geen serverless (FaaS) oplossingen aan klanten, voor hun is dit onderzoek zinvol zodat iedereen binnen Nubera een beeld heeft over wat serverless precies is en hoe dit kan worden opgezet. De requirements waaraan de frameworks moeten voldoen worden opgelijst in volgende sectie. De opzet van deze studie maakt een vergelijking tussen twee open-source frameworks die ik op basis van enkele requirements vergelijk. Een eerste framework waar Nubera interesse in heeft is Fission, dit dient te worden uitgewerkt aan de hand van een Proof of Concept. Een tweede framework dat als vergelijking moet dienen mag worden gekozen aan de hand van de requirements die werden vastgelegd.
 
 \section{Requirements analyse}
 Hier worden de requirements waaraan de open-source frameworks moeten voldoen opgelijst, zowel functionele als niet-functionele. De requirements worden ook nog eens onderverdeeld in verschillende categorieën volgens prioriteit. De requirements werden gecapteerd in overleg met Nubera.
@@ -47,7 +47,7 @@ Hier worden de requirements waaraan de open-source frameworks moeten voldoen opg
 \end{itemize}
 
 \section{Long list}
-In deze sectie worden alle mogelijke frameworks die in aanmerking komen overeenstemmend met de gecapteerde requirements opgelijst. Per alternatief wordt de website vermeld volgens APA stijl er wordt ook een korte beschrijving gegeven. Na de oplijsting van de verschillende frameworks die in aanmerking komen worden er tabellen opgemaakt waarin terug te vinden is of de frameworks al dan niet aan de requirements voldoen, er is één tabel voor de functionele en één voor de niet-functionele requirements. Op basis van de tabellen worden drie frameworks (inclusief Fission) gekozen die verder worden verwerkt in de short list. De functionele en niet-functionele requirements worden per framework tegen elkaar afgewogen, executietijd van functies, gebruiksvriendelijkheid en eenvoud in installatie zijn niet meetbaar zonder proof-of-concept en zullen maar later in dit onderzoek worden gemeten. Deze requirements worden daarom ook niet in de tabellen opgenomen.
+In deze sectie worden alle mogelijke frameworks die in aanmerking komen overeenstemmend met de gecapteerde requirements opgelijst. Per alternatief wordt de website vermeld volgens APA stijl er wordt ook een korte beschrijving gegeven. Na de oplijsting van de verschillende frameworks die in aanmerking komen worden er tabellen opgemaakt waarin terug te vinden is of de frameworks al dan niet aan de requirements voldoen, er is één tabel voor de functionele en één voor de niet-functionele requirements. Op basis van de tabellen worden drie frameworks (inclusief Fission) gekozen die verder worden verwerkt in de short list. De functionele en niet-functionele requirements worden per framework tegen elkaar afgewogen, executietijd van functies, gebruiksvriendelijkheid en eenvoud in installatie zijn niet meetbaar zonder Proof of Concept en zullen maar later in dit onderzoek worden gemeten. Deze requirements worden daarom ook niet in de tabellen opgenomen.
 
 \subsection{Fission}
 Fission\footnote{https://fission.io/} werd reeds vastgelegd door Nubera en is een Kubernetes native serverless framework voor functies. Het stelt ontwikkelaars in staat functies te schrijven, die een korte levensduur hebben, in verschillende talen. De functies kunnen worden gemapt aan HTTP triggers.
@@ -127,7 +127,7 @@ In tabel \ref{frameworks-fr} worden de verschillende frameworks vergeleken op ba
 \subsubsection{Resultatenverwerking}
 Eerst worden de functionele requirements behandelt. Op basis van tabel \ref{frameworks-fr} is onmiddellijk zichtbaar dat enkele frameworks minder interessant zijn dan anderen. IronFunctions en OpenLambda voldoen niet aan de must-have requirements en worden dus niet verder behandelt. OpenWhisk en Knative worden niet geleverd met een user interface en voldoen zo beiden niet aan de should-have functionele requirements. Alle overige kandidaten voldoen aan de nice-to-have requirements, namelijk ondersteuning voor meerdere programmeertalen.
 \\\\
-Vervolgens worden de niet-functionele requirements bekeken. De tabel weergeeft dat alle frameworks open-source en gratis zijn, deze requirements worden dus voor alle frameworks voldaan. De volgende requirements die in acht worden genomen zijn het aantal contributors eveneens als het aantal ''stars'' op GitHub. Een hoger aantal contributors wijst vaak op meer kennis, meer review van code en enige zekerheid in vergelijking met een laag aantal contributors. De GitHub stars worden als factor gekozen om te meten hoe populair een framework is. De metingen werden gedaan op 13 april 2019 en kunnen tegen de tijd van lezen reeds gewijzigd zijn. Als norm werd vooropgesteld dat een project minstens veertig contributors moet hebben alsook een minimum van drieduizend stars. IronFunctions, OpenLambda en Nuclio voldoen niet aan het opgelegde aantal contributors. Knative, OpenLambda, Nuclio en IronFunctions behalen ook niet het minimum van drieduizend stars. Daarnaast worden ook de should-have requirements bekeken. Alle kandidaat frameworks voldoen aan maturiteit en zijn ''production ready''. Elk framework behalve Nuclio en OpenLambda wordt mede ontwikkeld door erkende organisaties, de bedrijven die werden opgelijst worden ook wel de ''backers'' van het project genoemd. Omdat Nuclio en OpenLambda geen erkende organisatie achter zich hebben worden deze kandidaten niet meer in overweging genomen. De datum van de laatste commit is ook een belangrijk gegeven om te beslissen of het project overlevingskans heeft en up-to-date blijft. Bij Knative dateert de laatste commit van een maand geleden wat erg lang is voor een open-source project, ook deze optie wordt geschrapt. De overige kandidaten beschikken allemaal over een duidelijke documentatiewebsite, videobronnen en Slack channels om over het project te praten. Tabel \ref{frameworks-samenvattingl} weergeeft een samenvatting van de frameworks en het aantal requirements waaraan ze voldoen, ze worden gerangschikt volgens de graad dat ze in aanmerking komen, van boven naar beneden. In de tabel wordt telkens voor de verschillende categorieën van requirements een optelling gemaakt waaraan een framework voldoet. Uit de tabel is af te leiden dat OpenFaaS, Kubeless en Fission een maximumscore behalen en dus ook het meest interessant zijn voor verder onderzoek. In sectie \ref{sec:short-list} worden deze drie frameworks verder in detail besproken. Nubera gaf aan dat zij interesse hebben in Fission, dit framework zal worden opgezet in een proof-of-concept, daarnaast wordt ook nog een alternatief, OpenFaaS of Kubeless opgezet als vergelijking. Aan de hand van de uitwerking moet blijken of Fission een goede keuze is of dat een ander alternatief misschien nog meer mogelijkheden biedt.
+Vervolgens worden de niet-functionele requirements bekeken. De tabel weergeeft dat alle frameworks open-source en gratis zijn, deze requirements worden dus voor alle frameworks voldaan. De volgende requirements die in acht worden genomen zijn het aantal contributors eveneens als het aantal ''stars'' op GitHub. Een hoger aantal contributors wijst vaak op meer kennis, meer review van code en enige zekerheid in vergelijking met een laag aantal contributors. De GitHub stars worden als factor gekozen om te meten hoe populair een framework is. De metingen werden gedaan op 13 april 2019 en kunnen tegen de tijd van lezen reeds gewijzigd zijn. Als norm werd vooropgesteld dat een project minstens veertig contributors moet hebben alsook een minimum van drieduizend stars. IronFunctions, OpenLambda en Nuclio voldoen niet aan het opgelegde aantal contributors. Knative, OpenLambda, Nuclio en IronFunctions behalen ook niet het minimum van drieduizend stars. Daarnaast worden ook de should-have requirements bekeken. Alle kandidaat frameworks voldoen aan maturiteit en zijn ''production ready''. Elk framework behalve Nuclio en OpenLambda wordt mede ontwikkeld door erkende organisaties, de bedrijven die werden opgelijst worden ook wel de ''backers'' van het project genoemd. Omdat Nuclio en OpenLambda geen erkende organisatie achter zich hebben worden deze kandidaten niet meer in overweging genomen. De datum van de laatste commit is ook een belangrijk gegeven om te beslissen of het project overlevingskans heeft en up-to-date blijft. Bij Knative dateert de laatste commit van een maand geleden wat erg lang is voor een open-source project, ook deze optie wordt geschrapt. De overige kandidaten beschikken allemaal over een duidelijke documentatiewebsite, videobronnen en Slack channels om over het project te praten. Tabel \ref{frameworks-samenvattingl} weergeeft een samenvatting van de frameworks en het aantal requirements waaraan ze voldoen, ze worden gerangschikt volgens de graad dat ze in aanmerking komen, van boven naar beneden. In de tabel wordt telkens voor de verschillende categorieën van requirements een optelling gemaakt waaraan een framework voldoet. Uit de tabel is af te leiden dat OpenFaaS, Kubeless en Fission een maximumscore behalen en dus ook het meest interessant zijn voor verder onderzoek. In sectie \ref{sec:short-list} worden deze drie frameworks verder in detail besproken. Nubera gaf aan dat zij interesse hebben in Fission, dit framework zal worden opgezet in een Proof of Concept, daarnaast wordt ook nog een alternatief, OpenFaaS of Kubeless opgezet als vergelijking. Aan de hand van de uitwerking moet blijken of Fission een goede keuze is of dat een ander alternatief misschien nog meer mogelijkheden biedt.
 \\
 \begin{table}[]
     \centering
@@ -156,13 +156,13 @@ Vervolgens worden de niet-functionele requirements bekeken. De tabel weergeeft d
 \section{Short List}
 \label{sec:short-list}
 
-In deze sectie wordt op basis van voorgaande long list, zoals eerder al aangehaald, drie frameworks die aan de meeste/alle requirements voldoen verder behandelt. Nubera wilt zeker verdere informatie en proof-of-concept over Fission, daarnaast willen ze ook een evenwaardig alternatief zodat op basis van dit onderzoek een keuze kan gemaakt worden. De verdere uitwerking tracht ook de requirments die nog niet werden gemeten te behandelen. De functionele requirement: ''Zo snel mogelijke uitvoeringstijd van functies.'' en de niet-functionele requirements: ''Gebruiksvriendelijk'' en ''Eenvoudig op te zetten'' worden in de proof-of-concept verder onderzocht. Op basis van de shortlist kiezen wordt het meest veelbelovende alternatief voor Fission gekozen, de proof-of-concept bestaat dan uit een vergelijking tussen dit gekozen framework en Fission.
+In deze sectie wordt op basis van voorgaande long list, zoals eerder al aangehaald, drie frameworks die aan de meeste/alle requirements voldoen verder behandelt. Nubera wilt zeker verdere informatie en Proof of Concept over Fission, daarnaast willen ze ook een evenwaardig alternatief zodat op basis van dit onderzoek een keuze kan gemaakt worden. De verdere uitwerking tracht ook de requirments die nog niet werden gemeten te behandelen. De functionele requirement: ''Zo snel mogelijke uitvoeringstijd van functies.'' en de niet-functionele requirements: ''Gebruiksvriendelijk'' en ''Eenvoudig op te zetten'' worden in de Proof of Concept verder onderzocht. Op basis van de shortlist wordt het meest veelbelovende alternatief voor Fission gekozen, de Proof of Concept bestaat dan uit een vergelijking tussen dit gekozen framework en Fission.
 
 
 \subsection{OpenFaaS}
 OpenFaaS\footnote{https://www.openfaas.com/} is een open-source Function as a Service (serverless) project dat werd opgestart door Alex Ellis. Alex is lid van het VMWare Open Source Technology Center (OSTC), VMWare is eveneens ''backer'' van dit project, ze ondersteunen in de ontwikkeling van OpenFaaS. Het project telt 13.8K GitHub stars, 99 contributors en is daarmee momenteel het grootste en populairste open-source Function as a Service framework. OpenFaaS wordt al gebruikt bij verschillende grote organisaties zoals: VMWare, BT (British Telecom), Citrix, Contiamo, University of Washington, ... 
 \\
-De aspecten waarmee OpenFaaS uitpakt om zich te onderscheiden van anderen zijn:
+De aspecten waarmee OpenFaaS uitpakt om zich te onderscheiden van anderen zijn: \autocite{OpenFaaS2019}
 \begin{itemize}
     \item Makkelijke installatie en eenvoud in gebruik door de beschikbare UI.
     \item Portable: draait op bestaande hardware of in de public/private cloud maar ook op Kubernetes of Docker Swarm.
@@ -170,7 +170,7 @@ De aspecten waarmee OpenFaaS uitpakt om zich te onderscheiden van anderen zijn:
     \item Auto-scalable wanneer de vraag verhoogt.
     \item YAML format voor templating en definiëren van functies.
 \end{itemize}
-\subsubsection{Conceptueel ontwerp}
+\subsubsection{Architectuur}
 OpenFaaS kan worden opgedeeld in verschillende onderdelen met elk hun eigen verantwoordelijkheden.
 \begin{figure}
     \includegraphics[width=1\textwidth]{img/open-faas.jpg}
@@ -188,7 +188,7 @@ OpenFaaS kan worden opgedeeld in verschillende onderdelen met elk hun eigen vera
     \newline
     
     \item[Prometheus]
-    OpenFaaS maakt gebruik van Prometheus, een tool voor het verzamelen van metrics.
+    OpenFaaS maakt gebruik van Prometheus\footnote{https://prometheus.io/}, een tool voor het verzamelen van metrics.
     \newline
     
     \item[Function Watchdog]
@@ -196,7 +196,7 @@ OpenFaaS kan worden opgedeeld in verschillende onderdelen met elk hun eigen vera
     \newline
     
     \item[API Gateway/UI Portal]
-    De API Gateway in figuur \ref{fig:open-faas-conceptueel} verzorgt een route naar de geschreven functies en verzameld metrics aan de hand van Prometheus. De API Gateways zorgt eveneens voor schaalbaarheid van Functies door de vraag op te halen via de replica count in Docker Swarm of de Kubernetes API. Bij installatie van OpenFaaS wordt er ook een UI meegeleverd, deze laat gebruikers toe functies op te vragen en toe te voegen via deze interface. \autocite{Ellis2019} 
+    De API Gateway in figuur \ref{fig:open-faas-conceptueel} verzorgt een route naar de geschreven functies en verzameld metrics aan de hand van Prometheus. De API Gateway zorgt eveneens voor schaalbaarheid van Functies door de vraag op te halen via de replica count in Docker Swarm of de Kubernetes API. Bij installatie van OpenFaaS wordt er ook een UI meegeleverd, deze laat gebruikers toe functies op te vragen en toe te voegen via deze interface. \autocite{Ellis2019} 
     \newline
     
     \item[CLI]
@@ -211,11 +211,12 @@ Kubeless zegt zelf het beste alternatief te zijn voor de serverless oplossingen 
     \item Ondersteuning voor Python, Node.js Ruby, Golang, PHP, .NET, Ballerina en nog meer custom runtimes.
     \item CLI gelijkaardig aan die van AWS Lambda.
     \item Event triggers en HTTP events.
-    \item Plugin voor gebruik van het Serverless framework. \autocite{Serverless2018}
+    \item Plugin voor gebruik van het Serverless framework\footnote{https://serverless.com/}.
     \item Standaard monitoring van functies die worden aangeroepen en latency aan de hand van Prometheus.
 \end{itemize}
 
 \subsubsection{Architectuur}
+\subsubsection{Concepten}
 Kubeless is gebouwd rond drie concepten die hieronder verder in detail worden toegelicht.
 \begin{description}[style=unboxed, labelwidth=\linewidth, listparindent =0pt]
     \item[Functies]
@@ -223,7 +224,7 @@ Kubeless is gebouwd rond drie concepten die hieronder verder in detail worden to
     \newline
     
     \item[Triggers]
-    Een trigger reageert op binnenkomende  events, aan de triggers worden functies gekoppeld. Wanneer er een event voorkomt zal Kubeless ervoor zorgen dat de corresponderende functie wordt aangeroepen, het event zorgt ervoor dat de trigger op de hoogte wordt gebracht en die roept bijgevolg de juiste functie aan. Een trigger kan bij een of meerdere functie horen en staan ook los van deze functies. Triggers worden apart onderhouden en geconfigureerd los van de functies. \autocite{KnightXun2018}
+    Een trigger reageert op binnenkomende  events, aan de triggers worden functies gekoppeld. Wanneer er een event voorkomt zal Kubeless ervoor zorgen dat de corresponderende functie wordt aangeroepen, het event zorgt ervoor dat de trigger op de hoogte wordt gebracht en die roept bijgevolg de juiste functie aan. Een trigger kan bij een of meerdere functie horen en staat ook los van deze functies. Triggers worden apart onderhouden en geconfigureerd los van de functies. Mogelijke triggers die Kubeless ondersteund zijn: HTTP triggers, cronjob triggers en Kafka triggers.\autocite{KnightXun2018}
     \newline
     
     \item[Runtime]
@@ -231,6 +232,17 @@ Kubeless is gebouwd rond drie concepten die hieronder verder in detail worden to
     \newline
 \end{description}
 
+\subsubsection{Ontwerp}
+De \textcite{Kubeless2019} documentatiewebsite omschrijft het Kubeless ontwerp als volgt: Kubeless bevat verschillend functionaliteiten die het mogelijk maken om bovenop een Kubernetelaag functies te deployen. Volgende lijst weergeeft de verschillende componenten met hun bijhorende taak:
+\begin{itemize}
+    \item Custom Resource Definitions (CRD): wordt gebruikt om functies te representeren. CRDss staan in voor het ontkoppelen van code en zorgt voor modulariteit en herbruikbaarheid. Het gebruik van afzonderlijke CRD's voor functies en triggers voorziet scheiding van verantwoordelijkheden.
+    \item Elk event beschikt over een apart trigger CRD object, voor elk event dat optreedt wordt een unieke functie aangeroepen.
+    \item Afzonderlijke Custom Resource Definitions controller dat CRUD operaties uitvoert die aangeroepen worden door een CRD object.
+    \item Deployment en pods draaien de gewenste runtime.
+    \item Configmap die de code van functies inladen in de pod met de nodige runtime.
+    \item Init-container staat in voor het inladen van de dependencies die bij een functie horen.
+    \item Service om een functie te ''exposen'' (= Beschikbaar en aanroepbaar maken).
+\end{itemize}
 
 \subsection{Fission}
 Fission\footnote{https://fission.io} is een framework voor serverless functies op Kubernetes dat werd aangegeven door Nubera zelf, na verder onderzoek bleek dit ook te voldoen aan alle opgestelde requirements. Fission bestaat sinds augustus 2016 en wordt ontwikkeld en onderhouden door medewerkers van Platform9. Momenteel Heeft Fission 4K stars op GitHub en 76 contributors. Gebruikers die Fission reeds in hun organisatie implementeren zijn eveneens een stuk moeilijker te vinden in vergelijking met OpenFaaS.
@@ -267,3 +279,5 @@ Fission bestaat uit verschillende componenten, met elk hun eigen verantwoordelij
 \end{enumerate}
 
 \subsection{Verschillen en overweging}
+
+Tijdens de uitwerking van de shortlist werd duidelijk dat er over het ene framework meer terug te vinden is dan over het andere. De meeste documentatie en voorbeelden werden teruggevonden bij het zoeken naar OpenFaaS. In vergelijking met Fission en Kubeless is OpenFaaS op dit moment ook een stuk populairder en naar eigen mening ook duidelijker beschreven dan Kubeless. De uitwerking van de shortlist liep het vlotst bij het OpenFaaS en Fission framework, deze twee frameworks beschikken over de duidelijkste documentatie. Het is voor beginners ook makkelijker om in serverless te stappen met het OpenFaaS in vergelijking met Kubeless omdat de documentatie hierover duidelijker is, aangenamer leest maar ook over relevante ''talks'' beschikt op YouTube en andere blog platformen. OpenFaaS pakt daarnaast ook uit met de eenvoud van installatie en garanderen een installatie die makkelijk uit te voeren is. Op basis van de ervaring opgedaan tijdens het onderzoek in deze short list wordt gekozen voor OpenFaaS als alternatief voor Fission. In volgend hoofdstuk wordt er een Proof of Concept (PoC) opgezet van beide frameworks, op basis van deze PoC worden de requirements die nog niet gemeten werden vergeleken. Op basis van de Proof of Concept moet het eveneens duidelijk zijn welk framework het meest interessant zou kunnen zijn voor Nubera. De verschillen, gelijkenissen voor- en nadelen tussen Fission en OpenFaaS worden vergeleken en op basis daarvan wordt een advies gevormd.

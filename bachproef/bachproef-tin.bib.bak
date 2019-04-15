@@ -196,4 +196,13 @@
   timestamp = {2019-04-14},
 }
 
+@Electronic{Kubeless2019,
+  author    = {Kubeless},
+  title     = {Kubeless Architecture},
+  year      = {2019},
+  url       = {https://kubeless.io/docs/architecture/},
+  urldate   = {2019-04-15},
+  timestamp = {2019-04-15},
+}
+
 @Comment{jabref-meta: databaseType:biblatex;}
