@@ -1,0 +1,59 @@
+\section{Installatiescript OpenFaaS}
+\label{sec:installatie-openfaas}
+\begin{lstlisting}[language=bash]
+#!/bin/bash
+# Install OpenFaaS
+brew install faas-cli
+
+# Install Kubernetes Helm
+brew install kubernetes-helm
+
+# Deploy OpenFaaS to Minikube
+# 1. Create a service account for tiller
+kubectl -n kube-system create sa tiller && \
+kubectl create clusterrolebinding tiller --clusterrole \
+cluster-admin --serviceaccount=kube-system:tiller
+sleep 10
+
+# 2. Install tiller
+helm init --skip-refresh --upgrade --service-account tiller
+sleep 10
+
+# 3. Create namespaces for OpenFaaS core components and OpenFaaS Functions
+kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
+sleep 10
+
+# 4. Add the OpenFaaS helm repository
+helm repo add openfaas https://openfaas.github.io/faas-netes/
+sleep 10
+
+# 5. Update all helm charts
+helm repo update
+sleep 10
+
+# 6. Generate a random password and export the variable
+export PASSWORD=$(head -c 12 /dev/urandom | shasum| cut -d' ' -f1)
+
+# 7. Log the password value to the user
+echo $PASSWORD
+
+# 8. Create a secret for the generated password
+kubectl -n openfaas create secret generic basic-auth \
+--from-literal=basic-auth-user=admin --from-literal=basic-auth-password="$PASSWORD"
+sleep 10
+
+# 9. Install OpenFaaS using chart
+helm upgrade openfaas --install openfaas/openfaas \
+--namespace openfaas --set functionNamespace=openfaas-fn --set basic_auth=true
+sleep 10
+
+# 10. Set an environment variable for the OpenFaaS URL: OPENFAAS_URL
+export OPENFAAS_URL=$(minikube ip):31112
+sleep 1O
+
+# 11. Login using the CLI one all pods are started
+faas-cli login -g http://$OPENFAAS_URL -u admin --password $PASSWORD
+
+# 12. Show list of pods being installed
+kubectl get pods -n openfaas
+\end{lstlisting}

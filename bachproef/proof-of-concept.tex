@@ -1,8 +1,10 @@
 \chapter{Proof of Concept}
 \label{ch:proof-of-concept}
-Dit hoofdstuk bevat het vergelijkend experiment tussen twee eerder gekozen open source serverless (FaaS) frameworks, namelijk Fission en OpenFaaS. In dit onderdeel worden de twee frameworks opgezet op een Kubernetes cluster die bestaat uit één node. Beide frameworks worden opgezet op een MacBook Pro waarop Minikube draait. Minikube is een ''Out-of-the-box'' Kubernetes cluster die overal kan draaien. Er wordt gekozen om gebruik te maken van Minikube omdat op deze manier beide frameworks op identiek dezelfde hardware kunnen gedraaid worden. Daarnaast biedt Minikube dezelfde functionaliteiten als een volledige Kubernetes cluster die elders is opgezet. Dit hoofdstuk is opgedeeld in twee grote onderdelen waarbinnen telkens dezelfde secties met dezelfde stappen voor elk framework terug te vinden zijn.
-
-\section{Onderliggende hardware}
+Dit hoofdstuk bevat het vergelijkend experiment tussen twee eerder gekozen open source serverless (FaaS) frameworks, namelijk Fission en OpenFaaS. In dit onderdeel worden de twee frameworks opgezet op een Kubernetes cluster die bestaat uit één node. Beide frameworks worden opgezet op een MacBook Pro waarop Minikube draait. Minikube is een ''Out-of-the-box'' Kubernetes cluster die overal kan draaien. Er wordt gekozen om gebruik te maken van Minikube omdat op deze manier beide frameworks op identiek dezelfde hardware kunnen gedraaid worden. Daarnaast biedt Minikube dezelfde functionaliteiten als een volledige Kubernetes cluster die elders is opgezet. Dit hoofdstuk is opgedeeld in twee grote onderdelen waarbinnen telkens dezelfde secties met dezelfde stappen voor elk framework terug te vinden zijn. Daarnaast is er eveneens een sectie in dit hoofdstuk terug te vinden waarin de demo functie die serverless gedraaid zal worden op de frameworks wordt voorgesteld. De demo bestaat uit het deployen van een Python functie die de functionaliteit van beide frameworks demonstreert en de executietijd van de functie meet. Later wordt er in dit onderzoek een vergelijking tussen Fission en OpenFaaS gemaakt waarbij onder meer gekeken zal worden naar het verschil in executietijd tussen de geschreven functie alsook de gebruiksvriendelijkheid. Deze Proof of Concept moet meer inzicht geven in beide frameworks en geeft een duidelijk beeld van wat deze precies inhouden.
+\\\\
+\section{Voorbereiding omgeving}
+\label{sec:voorbereiding-omgeving}
+\subsection{Onderliggende hardware}
 Het experiment zal worden uitgevoerd op een MacBook Pro, model 2018 met volgende specificaties:
 \begin{itemize}
     \item Processor: 2,2 GHz Intel Core i7
@@ -10,14 +12,51 @@ Het experiment zal worden uitgevoerd op een MacBook Pro, model 2018 met volgende
     \item Graphics: Radeon Pro 555X 4 GB en Intel UHD Graphics 630 1536 MB
     \item Opslag: 256 GB SSD
 \end{itemize}
-\section{Klaarzetten omgeving}
+
+\subsection{Homebrew}
+Om de opstelling van het experiment klaar te zetten is het zinvol gebruik te maken van Homebrew\footnote{https://brew.sh/}, dit is een packetmanager ontwikkeld voor macOS. Homebrew zorgt ervoor dat softwarepakketten kunnen worden gedownload uit bestaande repositories. In de verdere uitwerking van dit onderzoek wordt Homebrew eveneens gebruikt voor het installeren van software.\\\\
+Homebrew kan worden geïnstalleerd door volgend commando in de Terminal uit te voeren: 
+\begin{lstlisting}[language=bash]
+$ /usr/bin/ruby -e "$(curl -fsSL 
+https://raw.githubusercontent.com/Homebrew/install/master/install)"
+\end{lstlisting}
+
+\subsection{Softwarepakketten}
+Alvorens de frameworks kunnen worden opgezet moeten er reeds enkele softwarepakketten worden geïnstalleerd. Enerzijds is Docker nodig als container engine, anderzijds Kubernetes als container platform. Daarnaast is er ook een hypervisor nodig die het draaien van een Minikube cluster mogelijk maakt. In dit onderzoek wordt gebruik gemaakt van VirtualBox als hypervisor, deze is open source en gratis. De softwarepakketten kunnen als volgt succesvol geïnstalleerd worden met Homebrew:        
+\begin{lstlisting}[language=bash]
+$ brew tap caskroom/cask
+$ brew cask install virtualbox
+$ brew cask install docker
+$ brew cask install minikube
+$ brew install kubernetes-cli
+\end{lstlisting}
+
+\section{Python demofunctie}
 
 \section{OpenFaaS}
-In deze sectie wordt de opstelling met OpenFaaS beschreven. Het experiment wordt opgezet op een MacBook Pro met specificaties zoals eerder beschreven. De stappen die werden doorlopen worden stapsgewijs verklaard.
+Het eerste framework dat wordt uitgetest is OpenFaaS. Het experiment wordt opgezet op een MacBook Pro die voldoet aan voorgaande specificaties en beschikt over de benodigde softwarepakketten zoals eerder ook beschreven werd. De stappen die doorlopen worden in het opzetten en uitvoeren van het experiment, zijn steeds duidelijk gedocumenteerd en staan chronologisch gerangschikt. De installatieprocedure is eenvoudig te volgen en is reproduceerbaar aan de hand van de gedocumenteerde stappen en bijhorende scripts.
+\\\\\\
+\subsection{Configuratie Minikube}
+Vooraleer OpenFaaS geïnstalleerd kan worden, wordt er een lokale Kubernetes cluster die bestaat uit één node opgezet met Minikube. Een Minikube cluster biedt dezelfde functionaliteiten als een productieomgeving waarop een Kubernetes cluster is geïnstalleerd. Er wordt gebruik gemaakt van Kubernetes als container orchestrator. Een orchestrator is een tool die instaat voor het management van containers en microservice applicaties. Kubernetes zorgt ervoor dat applicaties schaalbaar kunnen worden opgezet, staat in voor het volledige beheer van de containers en voorziet ''High-availability''.
+\\
+In sectie \ref{sec:voorbereiding-omgeving} werden de benodigde softwarepakketten reeds geïnstalleerd. Indien alle stappen succesvol werden doorlopen dan kan de Minikube cluster probleemloos als volgt worden gestart. Na de installatie wordt eerst ook de status van de cluster nagegaan.
 
-\subsection{Opzetten Minikube}
+\begin{lstlisting}[language=bash]
+$ minikube start
+$ minikube status
+\end{lstlisting}
+
+De uitvoer van het tweede commando geeft een overzicht dat er als volgt zou moeten uitzien, het IP adres wijkt mogelijks af van hetgene in de output. Wanneer de output overeenkomt met deze dan is Minikube succesvol geïnstalleerd.
+\begin{lstlisting}[language=bash]
+host: Running
+kubelet: Running
+apiserver: Running
+kubectl: Correctly Configured: pointing to \ 
+minikube-vm at 192.168.99.107
+\end{lstlisting}
+
+\subsection{Installatie OpenFaaS}
+Indien de installatie van Minikube uit voorgaande sectie succesvol is, dan kan OpenFaaS worden geïnstalleerd. De installatie van OpenFaaS bestaat uit enkele stappen die werden omgevormd tot een shell script. Het is mogelijk dit script vanuit de Terminal uit te voeren, vervolgens start de installatie van OpenFaaS. De volledige installatie van het framework is geautomatiseerd en reproduceerbaar. Het script is terug te vinden als bijlage \ref{sec:installatie-openfaas} onder de naam Installatiescript OpenFaaS. De installatie is gebaseerd op een blogpost van \textcite{Ellis2017}, de founder van OpenFaaS. In de documentatie van OpenFaaS\footnote{https://docs.openfaas.com/} wordt eveneens naar deze blogpost gerefereerd als installatiehandleiding. Na de  uitvoering van het script is OpenFaaS geïnstalleerd bovenop de Minikube cluster.
+\\\\
 
 
-
-
-\section{Fission}
