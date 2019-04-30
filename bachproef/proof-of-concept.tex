@@ -32,6 +32,22 @@ $ brew install kubernetes-cli
 \end{lstlisting}
 
 \section{Python demofunctie}
+Om de werking van beide frameworks te demonstreren wordt er gekozen voor een functie in Python. De functie wordt aangeroepen via de API van het framework waarop deze draait. De demofunctie is eenvoudig en bestaat uit een print statement dat de gebruiker verwelkomt, vervolgens wordt er een loop uitgevoerd die ervoor zorgt dat de functie toch even loopt en uiteindelijk wordt deze uitvoeringstijd weggeschreven naar een Google Spreadsheet bestand. De Python functie maakt gebruik van de Google API voor het wegschrijven naar het spreadsheet bestand. De functie wordt verpakt in een Docker image zodat deze kan worden gedeployed op beide frameworks zonder dat deze nog moet worden gebuild. De Docker image met de functie is gepubliceerd op de Docker Hub repository van Lennert Mertens.
+
+\subsection{Code}
+\begin{lstlisting}[language=python]
+# demofunctie.py
+import time
+start = time.time()
+print("Hello everyone, this is a serverless demo function!")
+a = range(1000000)
+b = []
+for i in a:
+b.append(i*2)
+end = time.time()
+execution_time= end - start
+print(execution_time)
+\end{lstlisting}
 
 \section{OpenFaaS}
 Het eerste framework dat wordt uitgetest is OpenFaaS. Het experiment wordt opgezet op een MacBook Pro die voldoet aan voorgaande specificaties en beschikt over de benodigde softwarepakketten zoals eerder ook beschreven werd. De stappen die doorlopen worden in het opzetten en uitvoeren van het experiment, zijn steeds duidelijk gedocumenteerd en staan chronologisch gerangschikt. De installatieprocedure is eenvoudig te volgen en is reproduceerbaar aan de hand van de gedocumenteerde stappen en bijhorende scripts.
@@ -72,4 +88,19 @@ De eerste keer dient er aangemeld te worden met gebruiker ''admin'' (Deze gebrui
     \label{fig:openfaas-ui}  
 \end{figure}
 
-\subsubsection{faas-cli}
+\subsubsection{Command-line tools}
+Faas-cli is de command-line tool die beheer van OpenFaaS voorziet aan de hand van de console. Vooraleer van start te kunnen gaan moet de gebruiker inloggen via de Terminal door volgend commando in te voeren. Het paswoord is hetgene dat eerder in de Terminal werd weggeschreven, net zoals het IP adres waarop OpenFaaS draait.
+\begin{lstlisting}[language=bash]
+$ faas-cli login -g http://$OPENFAAS_URL -u admin -p $PASSWORD
+\end{lstlisting}
+De command-line tools voorzien dezelfde functionaliteiten als die van de UI. Het is mogelijk om functies te deployen via de CLI. Later in dit onderzoek zal de demofunctie die werd geschreven aan de hand van de command-line tools worden gedeployed.
+
+\subsubsection{Prometheus monitoring}
+OpenFaaS voorziet ook monitoring aan de hand van Prometheus, via een Grafana dashboard kunnen verschillende metrics van functies worden bekeken. De configuratie van het dashboard werd reeds voorzien in installatiescript \ref{sec:installatie-openfaas}. Na de configuratie van Prometheus en Grafana kan het dashboard worden geraadpleegd via de GRAFANA\_URL, bijvoorbeeld http://192.168.99.107:32548/dashboard/db/openfaas. In figuur \ref{fig:grafana-dashboard} is het Grafana dashboard zichtbaar dat wordt weergegeven bij het openen van de link. Alvorens dit scherm kan geraadpleegd worden dient de gebruiker in te loggen met de standaard gebruiker ''admin'' met wachtwoord ''admin''.
+\begin{figure}
+    \includegraphics[width=1\textwidth]{img/grafana-dashboard.png}
+    \caption{Grafana dashboard}
+    \label{fig:grafana-dashboard}  
+\end{figure}
+
+\subsection{Deployment demofunctie}

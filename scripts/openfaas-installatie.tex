@@ -27,33 +27,43 @@ sleep 10
 helm repo add openfaas https://openfaas.github.io/faas-netes/
 sleep 10
 
-# 5. Update all helm charts
-helm repo update
-sleep 10
 
-# 6. Generate a random password and export the variable
+# 5. Generate a random password
 export PASSWORD=$(head -c 12 /dev/urandom | shasum| cut -d' ' -f1)
 
-# 7. Log the password value to the user
-echo $PASSWORD
+# 6. Log the password value to the user
+echo Password: $PASSWORD
 
-# 8. Create a secret for the generated password
+# 7. Create a secret for the generated password and write it to gateway-password.txt
 kubectl -n openfaas create secret generic basic-auth \
 --from-literal=basic-auth-user=admin --from-literal=basic-auth-password="$PASSWORD"
-sleep 10
 
-# 9. Install OpenFaaS using chart
-helm upgrade openfaas --install openfaas/openfaas \
+echo $PASSWORD > gateway-password.txt
+
+# 8. Install OpenFaaS using chart
+helm repo update \
+&& helm upgrade openfaas --install openfaas/openfaas \
 --namespace openfaas --set functionNamespace=openfaas-fn --set basic_auth=true
 sleep 10
 
-# 10. Set an environment variable for the OpenFaaS URL: OPENFAAS_URL
+# 9. Set an environment variable for the OpenFaaS URL: OPENFAAS_URL
 export OPENFAAS_URL=$(minikube ip):31112
-sleep 1O
+export URL=$(minikube ip)
+echo URL: $OPENFAAS_URL
 
-# 11. Login using the CLI one all pods are started
-faas-cli login -g http://$OPENFAAS_URL -u admin --password $PASSWORD
 
-# 12. Show list of pods being installed
-kubectl get pods -n openfaas
+# Configure Prolmetheus Grafana dashboard
+kubectl -n openfaas run \
+--image=stefanprodan/faas-grafana:4.6.3 \
+--port=3000 \
+grafana
+
+kubectl -n openfaas expose deployment grafana \
+--type=NodePort \
+--name=grafana
+
+GRAFANA_PORT=$(kubectl -n openfaas get svc grafana -o \
+jsonpath="{.spec.ports[0].nodePort}")
+GRAFANA_URL= \
+$URL: $GRAFANA_PORT/dashboard/db/openfaas
 \end{lstlisting}
