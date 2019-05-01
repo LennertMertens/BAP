@@ -32,7 +32,10 @@ $ brew install kubernetes-cli
 \end{lstlisting}
 
 \section{Python demofunctie}
-Om de werking van beide frameworks te demonstreren wordt er gekozen voor een functie in Python. De functie wordt aangeroepen via de API van het framework waarop deze draait. De demofunctie is eenvoudig en bestaat uit een print statement dat de gebruiker verwelkomt, vervolgens wordt er een loop uitgevoerd die ervoor zorgt dat de functie toch even loopt en uiteindelijk wordt deze uitvoeringstijd weggeschreven naar een Google Spreadsheet bestand. De Python functie maakt gebruik van de Google API voor het wegschrijven naar het spreadsheet bestand. De functie wordt verpakt in een Docker image zodat deze kan worden gedeployed op beide frameworks zonder dat deze nog moet worden gebuild. De Docker image met de functie is gepubliceerd op de Docker Hub repository van Lennert Mertens.
+Om de werking van beide frameworks te demonstreren wordt er gekozen voor een functie in Python. De functie wordt aangeroepen via de API van het framework waarop deze draait. De demofunctie is eenvoudig en bestaat uit een print statement dat de gebruiker verwelkomt, vervolgens wordt er een loop uitgevoerd die ervoor zorgt dat de functie toch even loopt en uiteindelijk wordt deze uitvoeringstijd weggeschreven naar een Google Spreadsheet bestand. De Python functie maakt gebruik van de Google API voor het wegschrijven naar het spreadsheet bestand. De functie wordt verpakt in een Docker image zodat deze kan worden gedeployed op beide frameworks zonder dat deze nog moet worden gebuild. De Docker image met de functie is gepubliceerd op de Docker Hub repository van Lennert Mertens. Om gebruik te kunnen maken van Google spreadsheets moet er een Google project worden aangemaakt via de Google API, deze stappen staan verder beschreven.
+
+\subsection{Google API}
+De Python functie schrijft de executietijd van de functies weg naar een bestand op Google spreadsheets. Om gebruik te maken van een spreadsheet bestand moet eerst de API worden geconfigureerd, daarnaast moeten ook de credentials op de demo machine worden geconfigureerd. Het Goolge project wordt opgezet zodat de functie data kan wegschrijven naar de spreadsheet
 
 \subsection{Code}
 \begin{lstlisting}[language=python]
@@ -43,11 +46,13 @@ print("Hello everyone, this is a serverless demo function!")
 a = range(1000000)
 b = []
 for i in a:
-b.append(i*2)
+    b.append(i*2)
 end = time.time()
 execution_time= end - start
 print(execution_time)
 \end{lstlisting}
+
+\subsection{Google spreadsheets}
 
 \section{OpenFaaS}
 Het eerste framework dat wordt uitgetest is OpenFaaS. Het experiment wordt opgezet op een MacBook Pro die voldoet aan voorgaande specificaties en beschikt over de benodigde softwarepakketten zoals eerder ook beschreven werd. De stappen die doorlopen worden in het opzetten en uitvoeren van het experiment, zijn steeds duidelijk gedocumenteerd en staan chronologisch gerangschikt. De installatieprocedure is eenvoudig te volgen en is reproduceerbaar aan de hand van de gedocumenteerde stappen en bijhorende scripts.
