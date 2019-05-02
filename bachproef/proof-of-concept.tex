@@ -36,15 +36,9 @@ $ brew install kubernetes-cli
 Aan de hand van een zelfgeschreven Python functie zal de werking van beide frameworks worden gedemonstreerd. De demofunctie is eenvoudig en bestaat uit een print statement dat de gebruiker verwelkomt, vervolgens wordt er een loop uitgevoerd die ervoor zorgt dat de functie toch even loopt en uiteindelijk wordt deze uitvoeringstijd weggeschreven naar een Google Spreadsheet bestand. De Python functie maakt gebruik van de Google API voor het wegschrijven naar het spreadsheet bestand. De functie wordt verpakt in een Docker image zodat deze naadloos kan worden gedeployed op beide frameworks. De Docker image met de functie is gepubliceerd op de Docker Hub repository van Lennert Mertens (private repository). Om gebruik te kunnen maken van Google spreadsheets moet er een Google project worden aangemaakt via de Google API, deze stappen staan verder beschreven. Er wordt gekozen voor dit soort functie zodat er later in dit onderzoek een besluit kan worden gevormd over welk framework de snelste executie van functies biedt. Het ultieme doel is dat de data in het Google bestand kan worden geanalyseerd en vergeleken. Elke demo start met een leeg werkblad zodat de resultaten die werden weggeschreven toepasbaar zijn op het specifieke framework dat werd getest.
 
 \subsection{Google API}
-De Python functie schrijft de executietijd van de functies weg naar een bestand op Google spreadsheets. Om gebruik te maken van een spreadsheet bestand moet eerst de API worden geconfigureerd, daarnaast moeten ook de credentials op de demo machine worden geconfigureerd. Het Goolge project wordt opgezet zodat de functie data kan wegschrijven naar de spreadsheet, in sectie \ref{sec:google-api} is een gedetailleerd stappenplan terug te vinden voor het instellen van de Google API in combinatie met Google spreadsheets. Om gebruik te maken van Google API features moeten oauth2client, gspread en google-api-python-client geïnstalleerd worden. De drie packages die nodig zijn voor de uitvoer van de functie worden gebundeld in een tekstbestand ''requirements.txt'', dit bestand kan vervolgens door ''pip'' worden gebruikt voor de installatie van de softwarepakketten.
+De Python functie schrijft de executietijd van de functies weg naar een bestand op Google spreadsheets. Om gebruik te maken van een spreadsheet bestand moet eerst de API worden geconfigureerd, daarnaast moeten ook de credentials op de demo machine worden geconfigureerd. Het Goolge project wordt opgezet zodat de functie data kan wegschrijven naar de spreadsheet, in sectie \ref{sec:google-api} is een gedetailleerd stappenplan terug te vinden voor het instellen van de Google API in combinatie met Google spreadsheets. Om gebruik te maken van Google API features moeten oauth2client, gspread en google-api-python-client geïnstalleerd worden. De drie packages die nodig zijn voor de uitvoer van de functie worden gebundeld in een tekstbestand ''requirements.txt'', dit bestand kan vervolgens door ''pip'' worden gebruikt voor de installatie van de softwarepakketten, het bestand is terug te vinden in bijlage \ref{sec:requirements.txt}.
 
-\subsubsection{requirements.txt}
-\begin{lstlisting}
-oauth2client
-gspread
-google-api-python-client
-\end{lstlisting}
-
+\newpage
 \subsection{Code demofunctie}
 \begin{lstlisting}[language=python]
 import time
@@ -53,7 +47,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 
 # Function to get the first empty row in Gooogle Spreadsheet
 def next_available_row(worksheet):
-      str_list = filter(None, worksheet.col_values(1))  # fastest
+      str_list = filter(None, worksheet.col_values(1)) 
       return str(len(str_list)+1)
 
 # Initialize variables for Google API
@@ -117,6 +111,7 @@ Indien de installatie van Minikube uit voorgaande sectie succesvol is, dan kan O
     \item OpenFaaS UI standaard poort: 31112
     \item OpenFaaS UI URL: http://MINIKUBE-IP:31112/ui/
 \end{itemize}
+ 
 \subsection{Gebruik OpenFaaS}
 \subsubsection{User Interface}
 Na de installatie is het mogelijk naar de OpenFaaS UI te surfen, \\bijvoorbeeld: http://192.168.99.107:31112. 
@@ -142,16 +137,73 @@ OpenFaaS voorziet monitoring aan de hand van Prometheus, via een Grafana dashboa
     \label{fig:grafana-dashboard}  
 \end{figure}
 
-\subsection{Deployment demofunctie}
+\subsection{Deployment nieuwe demofunctie}
 Het OpenFaaS framework wordt getest aan de hand van de zelfgeschreven functie die reeds beschreven is in sectie \ref{sec:python-demofunctie}. De functie wordt gedeployed aan de hand van de faas-cli tool. De code die werd geschreven wordt eveneens aangepast zodanig dat er gebruik kan worden gemaakt van Kubernetes secrets\footnote{https://docs.openfaas.com/reference/secrets/} voor het beheer van credentials die nodig zijn voor de Google API. Het deployen van een functie is slechts mogelijk indien alle voorgaande stappen succesvol werden uitgevoerd. Het deployen van de functie is onderverdeeld in verschillende stappen die hieronder uitgebreid worden beschreven.
 
-\subsubsection{1. Aanmaken Kubernetes secret}
+\subsubsection{1. Aanmelden via faas-cli}
+Indien er eerder nog niet werd ingelogd via de faas-cli dan moet dit gebeuren alvorens verder te gaan. Met behulp van volgend commando kan worden ingelogd, indien dit vanuit dezelfde shell als diegene waarin het installatiescript werd uitgevoerd gebeurt. Als de omgevingsvariabelen niet ingesteld zijn dan kunnen deze worden aangepast naar het IP adres en wachtwoord van het Tiller service account.
+\begin{lstlisting}[language=bash]
+$ faas-cli login -g http://$OPENFAAS_URL -u admin -p $PASSWORD
+\end{lstlisting}
+
+\subsubsection{2. Aanmaken Kubernetes secret}
 Eerder werd er een credential account aangemaakt via Google Cloud API. De credentials die bij het aangemaakte account horen werden opgeslagen op een lokale locatie, deze credentials worden nu in een Kubernetes secret gestopt. OpenFaaS kan secrets uitlezen en deze gebruiken in functies, dit zorgt voor extra security, zo hoeven de credentials niet aanwezig te zijn in de Docker image van de functie.
 
 \begin{lstlisting}[language=bash]
-$ kubectl create secret generic secret-api-credentials \ 
---from-file=secret-api-credentials=credentials-serverless.json \
---namespace openfaas-fn
+$ kubectl create secret generic secret-api-credentials \
+ --from-file=secret-api-credentials=credentials-serverless.json \
+ --namespace openfaas-fn
 \end{lstlisting}
 
+\subsubsection{3. Deploy functie}
+De eerste keer dat de gebruiker een functie wilt deployen moeten er enkele stappen worden genomen, de functie moet worden geschreven, een YAML bestand met parameters specifiek voor deployment moet worden gemaakt en de gebruiker moet inloggen op Docker Hub voor het publiceren van Docker images. Wanneer een gebruiker een functie maakt, dan wordt deze op Docker Hub geplaats, vandaar het belang dat de gebruiker inlogt. Volgende stappen worden ondernomen wanneer de demofunctie voor het eerst wordt gedeployed.
+
+\begin{lstlisting}[language=bash]
+# 1. Login op Docker Hub
+$ docker login
+
+# 2. Maak een nieuwe functie
+$ mkdir demo-functie; cd demo-functie
+
+# serverless-demo is de naam die de functie zal krijgen,
+# prefix is de gebruikersnaam op Docker Hub
+
+$ faas-cli new --lang python serverless-demo --prefix="lennertmertens"
+
+# De inhoud van de map ziet eruit als volgt na uitvoer 
+# van vorig commando
+$ ls
+serverless-demo     serverless-demo.yml    template
+
+# Vul de template bestanden aan naar eigen wensen en schrijf de functie
+# De inhoud van de bestanden wordt hieronder weergegeven
+
+# 3. Build de functie die werd geschreven
+$ faas-cli build -f serverless-demo.yml
+
+# 4. Push de Docker image van de functie naar Docker Hub
+$ faas-cli push -f serverless-demo.yml
+
+# 5. Deploy de functie op het OpenFaaS framework
+$ faas-cli deploy -f serverless-demo.yml
+\end{lstlisting}
+
+De bestanden voor het maken en deployen van de functie zien er als volgt uit.
+
+\subsubsection{serverless-demo.yml}
+Aan de hand van dit bestand wordt de functie gedeployed. Dit bestand is een template waaraan enkele zaken zijn toegevoegd die specifiek zijn voor de demo-omgeving die werd opgezet. In bijlage \ref{sec:serverless-demo.yml} is de inhoud van dit bestand terug te vinden. De gateway is de URL van de OpenFaaS omgeving. De image is de Docker image dat wordt gebruikt voor het deployen van de functie op het framework. De ''secrets'' optie moet eveneens worden toegevoegd indien er gebruik wordt gemaakt van een Kubernetes secret, op die manier kan de functie de inhoud ervan opvragen.
+
+\subsubsection{severless-demo/handler.py}
+Onder de map serverless-demo is het handler.py bestand terug te vinden, dit is een Python script dat de functionaliteit bevat. Het Python bestand is de code die de functie vormt. In bijlage \ref{sec:demofunctie-openfaas} is de code te zien die specifiek voor deze opstelling wordt gebruikt
+
+\subsubsection{serverless-demo/requirements.txt}
+Onder de serverless-demo map is eveneens een requirements.txt bestand terug te vinden. Het bestand bevat de dependencies waar het Python script afhankelijk van is, dit zijn packages nodig om de functie uit te voeren. De packages staan opgelijst in bijlage \ref{sec:requirements.txt}.
+
+\subsection{Deployment bestaande functie}
+Wanneer de functie werd gebuild en in een repository op Docker Hub werd geplaatst dan volstaat het om enkel een template file te hebben zoals \ref{sec:serverless-demo.yml}. De functie wordt vanaf een bestaande image gedeployed dus het is niet meer nodig deze image opnieuw te builden. Images in Docker registries bieden de mogelijkheden dat ze eender waar kunnen worden gebruikt door iedereen of door een afgeschermde groep mensen. Het voordeel van serverless functies is dat er per functie een container wordt gebuild die alle dependencies en runtime voor een specifiek stuk code bevat.
+
+\begin{lstlisting}
+# Deploy bestaande functie op het OpenFaaS framework
+$ faas-cli deploy -f serverless-demo.yml
+\end{lstlisting}
 

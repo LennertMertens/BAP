@@ -1,5 +1,6 @@
 \newpage
 \section{Demofunctie OpenFaaS}
+\subsection{handler.py}
 \label{sec:demofunctie-openfaas}
 \begin{lstlisting}[language=python]
 import time
@@ -41,4 +42,28 @@ execution_time= end - start
 
 # Write the execution time to Google spreadsheet
 worksheet.update_acell("A{}".format(next_row), execution_time)
+\end{lstlisting}
+
+\newpage
+\subsection{serverless-demo.yml}
+\label{sec:serverless-demo.yml}
+\begin{lstlisting}
+provider:
+  name: openfaas
+  gateway: http://192.168.99.119:31112
+functions:
+  serverless-demo:
+    lang: python
+    handler: ./serverless-demo
+    image: lennertmertens/serverless-demo:latest
+    secrets:
+      - secret-api-credentials
+\end{lstlisting}
+
+\subsection{requirements.txt}
+\label{sec:requirements.txt}
+\begin{lstlisting}
+oauth2client
+gspread
+google-api-python-client
 \end{lstlisting}
