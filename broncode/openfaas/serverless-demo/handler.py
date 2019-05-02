@@ -11,7 +11,7 @@ def handle(req):
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
     credentials = ServiceAccountCredentials.from_json_keyfile_name('/var/openfaas/secrets/secret-api-credentials', scope)
     client = gspread.authorize(credentials)
-    worksheet = client.open("executietijd-openfaas").sheet1
+    worksheet = client.open("executietijd-demofunctie").sheet1
     next_row = next_available_row(worksheet)
 
     # Start timer 

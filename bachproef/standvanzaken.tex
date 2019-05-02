@@ -14,7 +14,10 @@
 %
 %\textcite{Knuth1998} schreef een van de standaardwerken over sorteer- en zoekalgoritmen. Experten zijn het erover eens dat cloud computing een interessante opportuniteit vormen, zowel voor gebruikers als voor dienstverleners op vlak van informatietechnologie~\autocite{Creeger2009}.
 
+ Dit hoofdstuk is de aanloop naar wat serverless is en wat het inhoudt. Er wordt vertrekken vanuit enkele basisprincipes omtrent cloud computing die de lezer meer inzicht geven in dit onderwerp. Lezers die nog weinig tot geen kennis hebben vinden hier voldoende informatie om een beeld te vormen bij cloud computing concepten alsook serverless. Lezers die vertrouwd zijn met cloud computing en op de hoogte zijn van de basisconcepten kunnen meteen verdergaan naar sectie \ref{sec:wat-is-serverless}, hoewel deze inleiding een goede opfrissing kan zijn.
+ 
 \section{Wat is Cloud computing?}
+\label{sec:wat-is-cloud-computing}
  
 Cloud computing is alomtegenwoordig en een basiskennis van het begrip is interessant voor iedereen die werkt binnen de IT wereld. In dit hoofdstuk worden allerhande begrippen over cloud computing geïntroduceerd. Na het lezen van dit hoofdstuk zal u instaat zijn om mee te praten over de basiscomponenten en workflows binnen cloud computing. De begrippen in dit hoofdstuk zijn van belang voor het vervolg van dit onderzoek naar serverless of FaaS.
 
@@ -136,6 +139,7 @@ Cloud computing kent voordelen die heel wat mogelijkheden bieden ten opzichte va
 \newpage
 
 \section{Wat is Serverless?}
+\label{sec:wat-is-serverless}
 Sinds de geboorte van de cloud hebben cloud diensten en technologieën een enorme (re)volutie gekend, denk maar aan de brede waaier van diensten die grote cloud providers vandaag aanbieden. Serverless  is ook een technologie die nog maar enkele jaren wordt aangeboden door cloud providers. Velen hebben waarschijnlijk wel al eens over de term ''Serverless'' gehoord maar weten vaak niet wat het inhoudt. Serverless wordt vaak omschreven als de volgende evolutie in cloud computing, een die van gelijkaardig succes kan zijn als het succes van zijn voorgangers zoals IaaS, PaaS en SaaS. Serverless brengt heel wat begrippen met zich mee, deze worden allemaal behandeld in volgende secties.
  
 \subsection{Definitie}
@@ -169,7 +173,7 @@ De FaaS benadering verandert het klassieke model van applicatie deployment. Ontw
 \\\\
 Er zijn al heel wat cloud providers die Function-as-a-Service platforms aanbieden en de populairste op moment van schrijven zijn ongetwijfeld: Amazon Web Services met hun AWS Lambda, Google Cloud Platform met Google Cloud Functions en Microsoft Azure met Azure Functions. De opgesomde platformen zijn allen proprietary,  dit wilt zeggen dat ze gepatenteerd zijn en in bezit van een tech-gigant, en dus niet open source. De FaaS platformen die de grote spelers aanbieden zijn al ver ontwikkeld en bieden heel wat functionaliteit maar zullen niet verder behandeld worden in dit onderzoek. Als alternatief duiken er steeds meer en meer open source frameworks op voor het opzetten van een FaaS platform. In verder onderzoek zal een overweging worden gemaakt welke  open source frameworks het meest interessant zijn voor Nubera en die aan hun vereisten voldoen.
 
-\section{Serverless concepten, begrippen en onderdelen}
+\subsection{Serverless concepten, begrippen en onderdelen}
 Het begrip serverless zou nu al een stuk duidelijker moeten zijn. Serverless brengt echter nog meer begrippen mee om het volledige plaatje te kunnen schetsen. In deze sectie worden de belangrijkste ''key concepts'' met bijhorende begrippen nader verklaard.
 
 \subsubsection{Next-Gen applicaties}
@@ -197,10 +201,10 @@ Wanneer functies worden aangeroepen, dan gebeurt dat binnen FaaS vaak via een AP
     \label{fig:api-gateway}  
 \end{figure}
 
-\section{Serverless architectuur}
+\subsection{Serverless architectuur}
 Hoe serverless infrastructuren eruitzien wordt in deze sectie uitgelegd aan de hand van voorbeelden gebaseerd op een zeer interessant artikel over serverless computing door \textcite{Roberts2018}. Er worden twee voorbeelden aangehaald die kunnen dienen als richtlijnen voor verschillende soorten applicaties.
 
-\subsection{Applicaties met een user-interface}
+\subsubsection{Applicaties met een user-interface}
 In dit voorbeeld bestaat de architectuur uit de klassieke drie-lagen benadering. Er is een client systeem, in dit geval een webbrowser, een server met serverlogica en applicatiecode en een achterliggende databank voor persistentie. De gehanteerde benadering zorgt ervoor dat de client van niets op de hoogte is en dat alle logica aanwezig is in het systeem. De applicatieserver is verantwoordelijk voor alle functionaliteiten zoals: authenticatie, navigatie, zoekmogelijkheden en transacties. In figuur \ref{fig:drielagen_architectuur} wordt de architectuur schematisch voorgesteld.
 \begin{figure}
     \includegraphics[width=1\textwidth]{img/drielagen_architectuur.png}
@@ -225,7 +229,7 @@ In de figuur zijn onmiddellijk enkele grote verschillen te bemerken in vergelijk
 
 De serverless benadering volgt dezelfde als deze van microservices zoals eerder behandeld. Een klassieke monoliet applicatie wordt opgesplitst in verschillende onderdelen met elk hun eigen functionaliteit, dit kunnen enerzijds BaaS componenten zijn, anderzijds FaaS functies. Zoals het voorbeeld vast al aangeeft, biedt een serverless architectuur enorm veel flexibiliteit en mogelijkheden. Werken volgens een serverless infrastructuur stelt teams in staat om individueel te werken aan kleine onderdelen van een applicatie, zo kan er bijvoorbeeld voor elke functie een klein team de verantwoordelijkheid dragen. Het is misschien ook al opgevallen dat de ontwikkelaars niet meer bezig hoeven te zijn met servers zelf maar enkel met code zelf. FaaS frameworks zorgen ervoor dat de overhead van achterliggende servers volledig wordt weggenomen en dat de focus enkel en alleen op code ligt.
 
-\subsection{Bericht gedreven applicaties}
+\subsubsection{Bericht gedreven applicaties}
 Een veelvoorkomend voorbeeld dat ook werkt volgens een FaaS architectuur is een service voor backend data-processing. Neem bijvoorbeeld een online advertentie systeem, welbekende advertenties die overal terug te vinden zijn op websites. Wanneer een gebruiker op een advertentie klikt moet hij naar de juiste website worden doorgestuurd en moet het click-event worden opgeslagen zodat de het advertentiesysteem de adverteerder kan aanrekenen.
 Klassiek zou zo'n architectuur eruitzien zoals in figuur \ref{fig:klassiek-message-driven}. De Ad Server luistert naar wanneer er een gebruiker op een advertentie klikt, in dat geval post de Ad Server een ''Click message'' in een bericht channel. Het geposte bericht wordt op zijn beurt door een Click Processor verwerkt die instaat voor het bijwerken van de databank, het aanrekenen van de adverteerder etc.
 \begin{figure}
@@ -241,7 +245,7 @@ Wanneer de applicatie wordt omgevormd naar een serverless architectuur dan is in
     \label{fig:faas-message-driven}  
 \end{figure}
 
-\section{Serverless voor-en nadelen}
+\subsection{Serverless voor-en nadelen}
 Zoals reeds al enkele keren werd aangehaald biedt een serverless architectuur voor applicaties heel wat voordelen ten opzichte van de klassieke benadering voor applicatieontwikkeling. Echter zijn de nadelen ook niet over het hoofd te zien, deze dienen bestudeerd te worden door iedereen die overweegt om de transitie richting serverless applicaties te maken. \textcite{Stigler2017} beschrijft zowel voor- en nadelen die het meest terugkomen bij het lezen over serverless architecturen.
 
 \subsubsection{Voordelen}
@@ -288,5 +292,5 @@ Zoals reeds al enkele keren werd aangehaald biedt een serverless architectuur vo
 \end{description}
 
 \section{Grote spelers of trends in ontwikkeling?}
-In dit hoofdstuk werd eerst de theorie omtrent cloud computing behandelt. Vervolgens werd aan de hand van voorbeelden en schematische voorstellingen het serverless concept uitgelegd. Het valt misschien op dat er vaak gerefereerd werd naar de grote spelers, zoals Amazon, Google, Microsoft of IBM. Momenteel bieden deze grote cloud providers al heel wat diensten aan om serverless te kunnen werken, deze services hebben allen voor- en nadelen zoals eerder behandeld werd. Er zijn veel bedrijven die worden afgeschrikt door de cloud omdat ze genoodzaakt lijken klant te worden bij een van deze grote spelers. De terughoudendheid heeft vaak te maken met argwaan omtrent databeveiliging en integriteit. Bedrijven die deze redenering volgen kunnen we geen ongelijk geven, wanneer het budget het toelaat is het nog steeds zeer interessant om een eigen datacenter op te zetten en te configureren als een private cloud omgeving. Sommige bedrijven met een private cloud of on-premises infrastructuur die interesse hebben in serverless infrastructuur kunnen hier ook mee naar evolueren zonder te moeten migreren naar de publieke cloud. Momenteel zijn er al heel wat open source alternatieven om serverless te werken. Open source tools laten het toe een eigen serverless infrastructuur op te zetten op locatie of in de private cloud gelijkaardig aan de serverless diensten die cloud providers aanbieden. In volgend hoofdstuk worden twee open source tools gekozen voor het opstellen van een Proof of Concept. De tools worden geselecteerd op basis van requirements opgesteld door Nubera, het bedrijf waarvoor deze bachelorproef wordt geschreven.
+In dit hoofdstuk werd eerst de theorie omtrent cloud computing behandelt. Vervolgens werd aan de hand van voorbeelden en schematische voorstellingen het serverless concept uitgelegd. Het valt misschien op dat er vaak gerefereerd werd naar de grote spelers, zoals Amazon, Google, Microsoft of IBM. Momenteel bieden deze grote cloud providers al heel wat diensten aan om serverless te kunnen werken, deze services hebben allen voor- en nadelen zoals eerder behandeld werd. Er zijn veel bedrijven die worden afgeschrikt door de cloud omdat ze genoodzaakt lijken klant te worden bij een van deze grote spelers. De terughoudendheid heeft vaak te maken met argwaan omtrent databeveiliging en integriteit. Bedrijven die deze redenering volgen kunnen we geen ongelijk geven, wanneer het budget het toelaat is het nog steeds zeer interessant om een eigen datacenter op te zetten en te configureren als een private cloud omgeving. Sommige bedrijven met een private cloud of on-premises infrastructuur die interesse hebben in serverless infrastructuur kunnen hier ook mee naar evolueren zonder te moeten migreren naar de publieke cloud. Momenteel zijn er al heel wat open source alternatieven om serverless te werken. Open source tools laten het toe een eigen serverless infrastructuur op te zetten op locatie of in de private cloud gelijkaardig aan de serverless diensten die cloud providers aanbieden. In volgend hoofdstuk wordt er een alternatief open source framework gekozen voor Fission, hiervan wordt ook een Proof of Concept opgesteld. De tool wordt geselecteerd op basis van requirements opgesteld door Nubera, het bedrijf waarvoor deze bachelorproef wordt geschreven.
 

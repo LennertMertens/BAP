@@ -1,6 +1,6 @@
 \chapter{Proof of Concept}
 \label{ch:proof-of-concept}
-Dit hoofdstuk bevat het vergelijkend experiment tussen twee eerder gekozen open source serverless (FaaS) frameworks, namelijk Fission en OpenFaaS. In dit onderdeel worden de twee frameworks opgezet op een Kubernetes cluster die bestaat uit één node. Beide frameworks worden opgezet op een MacBook Pro waarop Minikube draait. Minikube is een ''Out-of-the-box'' Kubernetes cluster die overal kan draaien. Er wordt gekozen om gebruik te maken van Minikube omdat op deze manier beide frameworks op identiek dezelfde hardware kunnen gedraaid worden. Daarnaast biedt Minikube dezelfde functionaliteiten als een volledige Kubernetes cluster die elders is opgezet. Dit hoofdstuk is opgedeeld in twee grote onderdelen waarbinnen telkens dezelfde secties met dezelfde stappen voor elk framework terug te vinden zijn. Daarnaast is er eveneens een sectie in dit hoofdstuk terug te vinden waarin de demo functie die serverless gedraaid zal worden op de frameworks wordt voorgesteld. De demo bestaat uit het deployen van een Python functie die de functionaliteit van beide frameworks demonstreert en de executietijd van de functie meet. Later wordt er in dit onderzoek een vergelijking tussen Fission en OpenFaaS gemaakt waarbij onder meer gekeken zal worden naar het verschil in executietijd tussen de geschreven functie alsook de gebruiksvriendelijkheid. Deze Proof of Concept moet meer inzicht geven in beide frameworks en geeft een duidelijk beeld van wat deze precies inhouden.
+Dit hoofdstuk bevat het vergelijkend experiment tussen twee eerder gekozen open source serverless (FaaS) frameworks, namelijk Fission en OpenFaaS. In dit onderdeel worden de twee frameworks opgezet op een Kubernetes cluster die bestaat uit één node. Beide frameworks worden opgezet op een MacBook Pro waarop Minikube draait. Minikube is een ''Out-of-the-box'' Kubernetes cluster die overal kan draaien. Er wordt gekozen om gebruik te maken van Minikube omdat op deze manier beide frameworks op identiek dezelfde hardware kunnen gedraaid worden. Daarnaast biedt Minikube dezelfde functionaliteiten als een volledige Kubernetes cluster die elders is opgezet. Dit hoofdstuk is opgedeeld in twee grote onderdelen waarbinnen telkens dezelfde secties met dezelfde stappen voor elk framework terug te vinden zijn. Daarnaast is er eveneens een sectie in dit hoofdstuk terug te vinden waarin de demo functie die serverless gedraaid zal worden op de frameworks wordt voorgesteld. De demo bestaat uit het deployen van een Python functie die de functionaliteit van beide frameworks demonstreert en de executietijd van de functie meet. Later wordt er in dit onderzoek een vergelijking tussen Fission en OpenFaaS gemaakt waarbij onder meer gekeken zal worden naar het verschil in executietijd tussen de geschreven functie, de tijd die de volledige functie in beslag neemt (vanaf dat het HTTP request wordt verzonden), alsook de gebruiksvriendelijkheid. Deze Proof of Concept moet meer inzicht geven in beide frameworks en geeft een duidelijk beeld van wat deze precies inhouden.
 \\\\
 \section{Voorbereiding omgeving}
 \label{sec:voorbereiding-omgeving}
@@ -207,3 +207,44 @@ Wanneer de functie werd gebuild en in een repository op Docker Hub werd geplaats
 $ faas-cli deploy -f serverless-demo.yml
 \end{lstlisting}
 
+\subsection{Uitvoeren demofunctie}
+De demofunctie reageert wanneer het een HTTP GET request ontvangt, deze actie kan worden getriggered op verschillende manieren. Via de UI is het mogelijk de functie aan te roepen door deze te selecteren en dan op de knop ''invoke'' te klikken, wanneer deze actie wordt uitgevoerd, wordt er een boodschap teruggegeven en eveneens werd de uitvoeringstijd van de functie weggeschreven naar het Google spreadsheet bestand. In figuur \ref{fig:openfaas-functie-ui} is de response van de functie zichtbaar, de overeenkomstige uitvoeringstijd van de functie (de tijd dat de code uitvoert en niet de tijd dat het duurt vanaf de request tot de response) werd weggeschreven naar het Google spreadsheet bestand.
+\\\\
+De functie kan eveneens worden aangeroepen via het ''curl'' commando in de terminal, er werd een script geschreven dat tweehonderd keer de functie aanroept. Door de functie vaak aan te roepen kan er een representeerbare hoeveelheid data worden weggeschreven naar de spreadsheet om later dataverwerking op uit te voeren en te vergelijken met Fission. Het script dat werd gebruikt voor het aanroepen van de functie ziet eruit als volgt. De Google spreadsheet lijst met de uitvoeringstijd is beschikbaar in bijlage.
+
+\begin{lstlisting}[language=bash]
+for i in {1..200}; 
+do
+    curl http://192.168.99.119:31112/function/serverless-demo
+done
+\end{lstlisting}
+
+\begin{figure}
+    \includegraphics[width=1\textwidth]{img/openfaas-demo-ui.png}
+    \caption{Aanroep OpenFaaS functie via UI.}
+    \label{fig:openfaas-functie-ui}  
+\end{figure}
+
+\subsection{Schaalbaarheid OpenFaaS}
+Een van de requirements waaraan het framework moet voldoen is automatische schaalbaarheid. Wanneer het aantal pods (dit is te vergelijken met één container in Kubernetes) van de functie wordt opgevraagd dan is er te zien dat er initieel maar één draait, zie figuur \ref{fig:openfaas-scalability-1}.
+\begin{figure}
+    \includegraphics[width=1\textwidth]{img/openfaas-scalability-1.png}
+    \caption{OpenFaaS standaard pods}
+    \label{fig:openfaas-scalability-1}  
+\end{figure}
+
+Wanneer de functie zeer veel wordt aangeroepen aan de hand van bijvoorbeeld loop statements, dan zullen we zien dat wanneer we de pods opnieuw opvragen deze opschalen zonder dat hier iets moet voor worden gedaan. In figuur \ref{fig:openfaas-scalability-2} is te zien hoe de functie wordt aangeroepen en hoe de pods automatisch schalen. De functie die dit demonstreert is een eenvoudige functie die informatie over de node ophaalt en deze teruggeeft aan de gebruiker, dit is een community functie die beschikbaar is in de OpenFaaS store. Hoe meer requests de functie moet verwerken, hoe meer pods er worden opgebracht. Als de requests worden gestopt dan schaalt OpenFaaS weer down zoals in figuur \ref{fig:openfaas-scalability-3} te zien is.
+
+\begin{figure}
+    \includegraphics[width=1\textwidth]{img/openfaas-scalability-2.png}
+    \caption{OpenFaaS opschalen pods na HTTP GET requests}
+    \label{fig:openfaas-scalability-2}  
+\end{figure}
+
+\begin{figure}
+    \includegraphics[width=1\textwidth]{img/openfaas-scalability-3.png}
+    \caption{OpenFaaS down schalen pods wanneer requests worden afgebroken}
+    \label{fig:openfaas-scalability-3}  
+\end{figure}
+
+\section{Fission}

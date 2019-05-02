@@ -2,6 +2,9 @@ import time
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
+# Start timer 
+start = time.time()
+
 # Function to get the first empty row in Gooogle Spreadsheet
 def next_available_row(worksheet):
     str_list = filter(None, worksheet.col_values(1))  # fastest
@@ -11,11 +14,8 @@ def next_available_row(worksheet):
 scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
 credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials.json', scope)
 client = gspread.authorize(credentials)
-worksheet = client.open("executietijd-openfaas").sheet1
+worksheet = client.open("executietijd-demofunctie").sheet1
 next_row = next_available_row(worksheet)
-
-# Start timer 
-start = time.time()
 
 # Print message visible by users
 print("Hello everyone, this is a serverless demo function!")
