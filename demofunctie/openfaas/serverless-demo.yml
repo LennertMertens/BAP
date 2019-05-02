@@ -1,0 +1,10 @@
+provider:
+  name: openfaas
+  gateway: http://192.168.99.117:31112
+functions:
+  serverless-demo:
+    lang: python
+    handler: ./serverless-demo
+    image: lennertmertens/serverless-demo:latest
+    secrets:
+      - secret-api-credentials
