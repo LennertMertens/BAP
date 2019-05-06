@@ -40,6 +40,7 @@ De Python functie schrijft de executietijd van de functies weg naar een bestand 
 
 \newpage
 \subsection{Code demofunctie}
+\label{sec:demofunctie}
 \begin{lstlisting}[language=python]
 import time
 import gspread
@@ -160,32 +161,32 @@ $ kubectl create secret generic secret-api-credentials \
 De eerste keer dat de gebruiker een functie wilt deployen moeten er enkele stappen worden genomen, de functie moet worden geschreven, een YAML bestand met parameters specifiek voor deployment moet worden gemaakt en de gebruiker moet inloggen op Docker Hub voor het publiceren van Docker images. Wanneer een gebruiker een functie maakt, dan wordt deze op Docker Hub geplaats, vandaar het belang dat de gebruiker inlogt. Standaard zal een functie die wordt gedeployed een container opzetten die continue draait (standaard instelling), hierdoor kan er steeds snel op een request worden gereageerd en worden cold-start vermeden. Volgende stappen worden ondernomen wanneer de demofunctie voor het eerst wordt gedeployed.
 
 \begin{lstlisting}[language=bash]
-# 1. Login op Docker Hub
+# 1. Login op Docker Hub.
 $ docker login
 
-# 2. Maak een nieuwe functie
+# 2. Maak een nieuwe functie.
 $ mkdir demo-functie; cd demo-functie
 
 # serverless-demo is de naam die de functie zal krijgen,
-# prefix is de gebruikersnaam op Docker Hub
+# prefix is de gebruikersnaam op Docker Hub.
 
 $ faas-cli new --lang python serverless-demo --prefix="lennertmertens"
 
 # De inhoud van de map ziet eruit als volgt na uitvoer 
-# van vorig commando
+# van vorig commando.
 $ ls
 serverless-demo     serverless-demo.yml    template
 
 # Vul de template bestanden aan naar eigen wensen en schrijf de functie
-# De inhoud van de bestanden wordt hieronder weergegeven
+# De inhoud van de bestanden wordt hieronder weergegeven.
 
-# 3. Build de functie die werd geschreven
+# 3. Build de functie die werd geschreven.
 $ faas-cli build -f serverless-demo.yml
 
-# 4. Push de Docker image van de functie naar Docker Hub
+# 4. Push de Docker image van de functie naar Docker Hub.
 $ faas-cli push -f serverless-demo.yml
 
-# 5. Deploy de functie op het OpenFaaS framework
+# 5. Deploy de functie op het OpenFaaS framework.
 $ faas-cli deploy -f serverless-demo.yml
 \end{lstlisting}
 
@@ -280,7 +281,7 @@ Fission voorziet net zoals OpenFaaS command line tools voor het beheer van het f
 Prometheus wordt standaard voorzien in de installatie van Fission. Wanneer port forwarding wordt geactiveerd kunnen er queries worden verstuurd om metrics op te vragen via een webinterface. De code die de client voor querying activeert is hieronder beschreven, nadien kan de data worden opgevraagd via http://localhost:9090. Het is handig om via deze client verschillende queries uit te voeren om inzicht te krijgen in functies en hun performantie. Het is jammer dat er geen Grafana dashboard ''Out-of-the-box'' wordt meegeleverd om de prestaties van functies te visualiseren. Het is echter wel mogelijk om achteraf Grafana of een ander dashboard voor monitoring te installeren bovenop Istio (Dit wordt wel standaard met Fission meegeleverd). Omdat in voorgaande sectie omtrent OpenFaaS het Grafana dashboard al werd besproken, bespreken we hier de client voor Prometheus metrics querying.
 
 \begin{lstlisting}[language=bash]
-# Expose de Prometheus client via http://localhost:9090
+# Expose de Prometheus client via http://localhost:9090.
 $ kubectl -n fission port-forward  \ 
 $(kubectl -n fission get pod -l app=prometheus, \
 component=server -o name) 9090
@@ -300,7 +301,7 @@ Het gebruik van een custom Python Docker image stelt gebruikers in staat deze te
 \end{itemize}
 
 \begin{lstlisting}[language=bash]
-# Build the docker image from directory with Dockerfile
+# Build de docker image vanuit de directory met de Dockerfile.
 $ cd custom-docker-image
 $ ls -l
 total 40
@@ -308,8 +309,33 @@ total 40
 -rw-r--r--  1 lennert  staff   2.3K May  6 20:42 credentials.json
 -rw-r--r--  1 lennert  staff   131B May  6 20:43 requirements.txt
 -rw-r--r--  1 lennert  staff   4.0K May  6 17:34 server.py
-# lennertmertens is the Docker Hub repository
+# lennertmertens is de naam van de Docker Hub repository.
 $ docker build -t lennertmertens/python-env . 
 $ docker push lennertmertens/python-env
 \end{lstlisting}
 
+\subsection{2. Deploy functie}
+Er is een verschil in werking in deployment van functies tussen Fission en OpenFaaS, Fission vereist een aantal additionele stappen die hieronder in detail worden doorlopen. Het is van belang dat alle pods die Fission aanmaakt beschikbaar zijn alvorens volgende stappen uit te voeren. Het duurt ongeveer een tweetal minuten, na installatie, tot alle pods beschikbaar zijn voor deployment van functies.
+\\\\
+Fission werkt by-default op een andere manier dan OpenFaaS. Wanneer een functie wordt gedeployed via OpenFaaS dan zal het framework steeds één container met de functie laten draaien, dit zorgt ervoor dat cold-starts niet kunnen voorkomen. Fission daarentegen zet containers die niet in gebruik zijn onmiddellijk af waardoor bij het aanroepen van functies cold-starts kunnen voorkomen en latency optreedt. Om beide frameworks op een gelijkwaardige manier te beoordelen wordt de instelling aangepast zodanig dat Fission ook steeds een container met de functie heeft draaien zodat cold-starts worden vermeden en de gegevens later met elkaar vergelijkbaar zijn. Volgende stappen maken het mogelijk om de Python functie te deployen en beschikbaar te stellen via een URL langs de Fission router.
+
+\begin{lstlisting}[language=bash]
+# 1. Maak een environment aan waarin de Python functie zal 
+# worden uitgevoerd, de environment wordt opgesteld met 
+# de eerder gemaakte Docker image.
+$ fission environment create --name python-env \
+--image lennertmertens/python-env
+
+# 2. Deploy de geschreven Python functie (cd in de 
+# directory met de Python code).
+# Stel eveneens in dat er minimum een pod draait met de functie.
+$ fission function create --name demo-functie \
+--code handler.py --env python-env \
+--minscale 1 --executortype newdeploy
+
+# 3. Voeg een pad toe voor toegang via de Fission router.
+$ fission route create --function demo-functie --url /demo-functie
+\end{lstlisting}
+
+\subsubsection{handler.py}
+Handler.py is het Python script dat geschreven werd in sectie \ref{sec:demofunctie} en werd aangepast specifiek voor Fission. De manier waarop functies in Fission worden aangeroepen is verschillend van OpenFaaS. De functies hebben een main methode nodig om uitvoerbaar te zijn, daarom dat de aanpassingen werden aangebracht. De Fission functie maakt eveneens gebruik van credentials die aanwezig zijn in de Docker container. Het Python script dat wordt gedeployed op het Fission framework is terug te vinden in bijlage \ref{sec:demofunctie-fission}.
