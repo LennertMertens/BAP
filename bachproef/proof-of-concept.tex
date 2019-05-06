@@ -1,6 +1,6 @@
 \chapter{Proof of Concept}
 \label{ch:proof-of-concept}
-Dit hoofdstuk bevat het vergelijkend experiment tussen twee open source serverless (FaaS) frameworks, namelijk Fission, dat werd aangegeven door Nubera, en OpenFaaS. In dit onderdeel worden de twee frameworks opgezet op een Kubernetes cluster die bestaat uit één node. Beide frameworks worden opgezet op een MacBook Pro waarop Minikube draait. Minikube is een ''Out-of-the-box'' Kubernetes cluster die overal kan draaien. Er wordt gekozen om gebruik te maken van Minikube omdat op deze manier beide frameworks op identiek dezelfde hardware kunnen gedraaid worden. Daarnaast biedt Minikube dezelfde functionaliteiten als een volledige Kubernetes cluster die elders is opgezet. Dit hoofdstuk is opgedeeld in twee grote onderdelen waarbinnen telkens dezelfde secties met dezelfde stappen voor elk framework terug te vinden zijn. Daarnaast is er eveneens een sectie in dit hoofdstuk terug te vinden waarin de demofunctie, die serverless gedraaid zal worden op de frameworks, wordt voorgesteld. De demo bestaat uit het deployen van een Python functie die de functionaliteit van beide frameworks demonstreert en de executietijd van de functie meet. Later wordt er in dit onderzoek een vergelijking tussen Fission en OpenFaaS gemaakt waarbij onder meer gekeken zal worden naar het verschil in executietijd tussen de geschreven functie, de tijd die de volledige functie in beslag neemt (vanaf dat het HTTP request wordt verzonden), alsook de gebruiksvriendelijkheid. Deze Proof of Concept moet meer inzicht geven in beide frameworks en geeft een duidelijk beeld van wat deze precies inhouden.
+Dit hoofdstuk bevat het vergelijkend experiment tussen twee open source serverless (FaaS) frameworks, namelijk Fission, dat werd aangegeven door Nubera en OpenFaaS. In dit onderdeel worden de twee frameworks opgezet op een Kubernetes cluster die bestaat uit één node. Beide frameworks worden opgezet op een MacBook Pro waarop Minikube draait. Minikube is een ''Out-of-the-box'' Kubernetes cluster die overal kan draaien. Er wordt gekozen om gebruik te maken van Minikube omdat op deze manier beide frameworks op identiek dezelfde hardware kunnen gedraaid worden. Daarnaast biedt Minikube dezelfde functionaliteiten als een volledige Kubernetes cluster die elders is opgezet. Dit hoofdstuk is opgedeeld in twee grote onderdelen waarbinnen telkens dezelfde secties met dezelfde stappen voor elk framework terug te vinden zijn. Daarnaast is er eveneens een sectie in dit hoofdstuk terug te vinden waarin de demofunctie, die serverless gedraaid zal worden op de frameworks, wordt voorgesteld. De demo bestaat uit het deployen van een Python functie die de functionaliteit van beide frameworks demonstreert en de executietijd van de functie meet. Later wordt er in dit onderzoek een vergelijking tussen Fission en OpenFaaS gemaakt waarbij onder meer gekeken zal worden naar het verschil in executietijd tussen de geschreven functie, de tijd die de volledige functie in beslag neemt (vanaf dat het HTTP request wordt verzonden), alsook de gebruiksvriendelijkheid. Deze Proof of Concept moet meer inzicht geven in beide frameworks en geeft een duidelijk beeld van wat deze precies inhouden. Merk op dat de opstelling van deze PoC enkel voor testing is en dus niet geschikt is voor productie. Indien dit in productie wordt overgenomen dan dienen er enkele additionele veiligheidsmaatregelen getroffen te worden maar daar wordt in dit onderzoek niet op verder gegaan.
 \\\\
 \section{Voorbereiding omgeving}
 \label{sec:voorbereiding-omgeving}
@@ -89,10 +89,10 @@ Het eerste framework dat wordt uitgetest is OpenFaaS. Het experiment wordt opgez
 \label{sec:configuratie-minikube}
 Vooraleer OpenFaaS geïnstalleerd kan worden, wordt er een lokale Kubernetes cluster die bestaat uit één node opgezet met Minikube. Een Minikube cluster biedt dezelfde functionaliteiten als een productieomgeving waarop een Kubernetes cluster is geïnstalleerd. Er wordt gebruik gemaakt van Kubernetes als container orchestrator. Een orchestrator is een tool die instaat voor het management van containers en microservice applicaties. Kubernetes zorgt ervoor dat applicaties schaalbaar kunnen worden opgezet, staat in voor het volledige beheer van de containers en voorziet ''High-availability''.
 \\
-In sectie \ref{sec:voorbereiding-omgeving} werden de benodigde softwarepakketten reeds geïnstalleerd. Indien alle stappen succesvol werden doorlopen dan kan de Minikube cluster probleemloos als volgt worden gestart. Na de installatie wordt eerst ook de status van de cluster nagegaan.
+In sectie \ref{sec:voorbereiding-omgeving} werden de benodigde softwarepakketten reeds geïnstalleerd. Indien alle stappen succesvol werden doorlopen dan kan de Minikube cluster probleemloos als volgt worden gestart. Na de installatie wordt eerst ook de status van de cluster nagegaan. De Minikube cluster wordt opgezet met aangepaste specificaties, zijnde: CPUs=4, Memory=8192MB, Disk=20000MB.
 
 \begin{lstlisting}[language=bash]
-$ minikube start
+$ minikube start --cpus 4 --memory 8192
 $ minikube status
 \end{lstlisting}
 
@@ -131,7 +131,7 @@ $ faas-cli login -g http://$OPENFAAS_URL -u admin -p $PASSWORD
 De command line tools voorzien meer functionaliteiten dan de UI. Het is mogelijk om functies te deployen via de CLI, de omgeving te beheren, confidentiële sleutels en wachtwoorden te beheren etc.
 
 \subsubsection{Prometheus monitoring}
-OpenFaaS voorziet monitoring aan de hand van Prometheus, via een Grafana dashboard kunnen verschillende metrics van functies worden bekeken. De configuratie van het dashboard werd reeds voorzien in installatiescript \ref{sec:installatie-openfaas}. Na de configuratie van Prometheus en Grafana kan het dashboard worden geraadpleegd via de GRAFANA\_URL, bijvoorbeeld http://192.168.99.107:32548/dashboard/db/openfaas. In figuur \ref{fig:grafana-dashboard} is het Grafana dashboard zichtbaar dat wordt weergegeven bij het openen van de link. Alvorens dit scherm kan geraadpleegd worden dient de gebruiker in te loggen met de standaard gebruiker ''admin'' met wachtwoord ''admin''.
+OpenFaaS voorziet monitoring aan de hand van Prometheus, via een Grafana dashboard kunnen verschillende metrics van functies worden bekeken. De configuratie van het dashboard werd reeds voorzien in installatiescript \ref{sec:installatie-openfaas}. Na de configuratie van Prometheus en Grafana kan het dashboard worden geraadpleegd via de GRAFANA\_URL, bijvoorbeeld http://192.168.99.107:32548/dashboard/db/openfaas. In figuur \ref{fig:grafana-dashboard} is het Grafana dashboard zichtbaar dat wordt weergegeven bij het openen van de link. Alvorens dit scherm kan geraadpleegd worden dient de gebruiker in te loggen met de default gebruiker ''admin'' met wachtwoord ''admin''. Grafana is standaard beschikbaar in het installatiepakket van OpenFaaS en dient enkel geactiveerd te worden.
 \begin{figure}
     \includegraphics[width=1\textwidth]{img/grafana-dashboard.png}
     \caption{Grafana dashboard}
@@ -157,7 +157,7 @@ $ kubectl create secret generic secret-api-credentials \
 \end{lstlisting}
 
 \subsubsection{3. Deploy functie}
-De eerste keer dat de gebruiker een functie wilt deployen moeten er enkele stappen worden genomen, de functie moet worden geschreven, een YAML bestand met parameters specifiek voor deployment moet worden gemaakt en de gebruiker moet inloggen op Docker Hub voor het publiceren van Docker images. Wanneer een gebruiker een functie maakt, dan wordt deze op Docker Hub geplaats, vandaar het belang dat de gebruiker inlogt. Volgende stappen worden ondernomen wanneer de demofunctie voor het eerst wordt gedeployed.
+De eerste keer dat de gebruiker een functie wilt deployen moeten er enkele stappen worden genomen, de functie moet worden geschreven, een YAML bestand met parameters specifiek voor deployment moet worden gemaakt en de gebruiker moet inloggen op Docker Hub voor het publiceren van Docker images. Wanneer een gebruiker een functie maakt, dan wordt deze op Docker Hub geplaats, vandaar het belang dat de gebruiker inlogt. Standaard zal een functie die wordt gedeployed een container opzetten die continue draait (standaard instelling), hierdoor kan er steeds snel op een request worden gereageerd en worden cold-start vermeden. Volgende stappen worden ondernomen wanneer de demofunctie voor het eerst wordt gedeployed.
 
 \begin{lstlisting}[language=bash]
 # 1. Login op Docker Hub
@@ -203,7 +203,7 @@ Onder de serverless-demo map is eveneens een requirements.txt bestand terug te v
 \subsection{Deployment bestaande functie}
 Wanneer de functie werd gebuild en in een repository op Docker Hub werd geplaatst dan volstaat het om enkel een template file te hebben zoals \ref{sec:serverless-demo.yml}. De functie wordt vanaf een bestaande image gedeployed dus het is niet meer nodig deze image opnieuw te builden. Images in Docker registries bieden de mogelijkheden dat ze eender waar kunnen worden gebruikt door iedereen of door een afgeschermde groep mensen. Het voordeel van serverless functies is dat er per functie een container wordt gebuild die alle dependencies en runtime voor een specifiek stuk code bevat.
 
-\begin{lstlisting}
+\begin{lstlisting}[language=bash]
 # Deploy bestaande functie op het OpenFaaS framework
 $ faas-cli deploy -f serverless-demo.yml
 \end{lstlisting}
@@ -234,7 +234,7 @@ Een van de requirements waaraan het framework moet voldoen is automatische schaa
     \label{fig:openfaas-scalability-1}  
 \end{figure}
 
-Wanneer de functie zeer veel wordt aangeroepen aan de hand van bijvoorbeeld loop statements, dan zullen we zien dat wanneer we de pods opnieuw opvragen deze opschalen zonder dat hier iets moet voor worden gedaan. In figuur \ref{fig:openfaas-scalability-2} is te zien hoe de functie wordt aangeroepen en hoe de pods automatisch schalen. De functie die dit demonstreert is een eenvoudige functie\footnote{https://github.com/openfaas/faas/tree/master/sample-functions/NodeInfo} die informatie over de node ophaalt en deze teruggeeft aan de gebruiker, dit is een community functie die beschikbaar is in de OpenFaaS store. Hoe meer requests de functie moet verwerken, hoe meer pods er worden opgebracht. Als de requests worden gestopt dan schaalt OpenFaaS weer down zoals in figuur \ref{fig:openfaas-scalability-3} te zien is.
+Wanneer de functie zeer veel wordt aangeroepen aan de hand van bijvoorbeeld loop statements, dan zullen we zien dat wanneer we de pods opnieuw opvragen deze opschalen zonder dat hier iets moet voor worden gedaan. In figuur \ref{fig:openfaas-scalability-2} is te zien hoe de functie wordt aangeroepen en hoe de pods automatisch schalen. De functie die dit demonstreert is een eenvoudige functie\footnote{https://github.com/openfaas/faas/tree/master/sample-functions/NodeInfo} die informatie over de node ophaalt en deze teruggeeft aan de gebruiker, dit is een community functie die beschikbaar is in de OpenFaaS store. Hoe meer requests de functie moet verwerken, hoe meer pods er worden opgebracht. Als de requests worden gestopt dan schaalt OpenFaaS weer down zoals in figuur \ref{fig:openfaas-scalability-3} te zien is. Standaard zal er steeds een container blijven draaien, dit zorgt ervoor dat cold-starts worden vermeden. Er worden dus steeds een klein aantal resources verbruikt maar dit is een bewuste keuze omdat de container ervoor zorgt dat hoge latency wordt vermeden. In OpenFaaS kan de gebruiker zelf bepalen wanneer en hoe de functie moet geschaald worden, zo kan er ook gekozen worden om een container volledig af te zetten wanneer deze voor een bepaalde tijd geen requests ontvangt.
 
 \begin{figure}
     \includegraphics[width=1\textwidth]{img/openfaas-scalability-2.png}
@@ -248,13 +248,68 @@ Wanneer de functie zeer veel wordt aangeroepen aan de hand van bijvoorbeeld loop
     \label{fig:openfaas-scalability-3}  
 \end{figure}
 
+\newpage
 \section{Fission}
 Het tweede framework dat onder de loep wordt genomen is Fission. Nubera gaf aan de start van dit onderzoek aan dat zij reeds geëxperimenteerd hadden met Fission en hier enige interesse voor hebben opgebouwd. Deze PoC bestaat dus enerzijds uit OpenFaaS, dat zelf gekozen werd als alternatief voor Fission, en Fission zelf. Aan het eind van dit onderzoek moet het duidelijk zijn waarin beide frameworks verschillen en welk het meest interessant zou kunnen zijn volgens de opgestelde requirements.
 
 \subsection{Configuratie Minikube}
-De configuratie voor Minikube is analoog aan diegene in sectie \ref{sec:configuratie-minikube}. Dezelfde stappen kunnen worden doorlopen om een werkende Minilube cluster op te zetten.
+De configuratie voor Minikube is analoog aan diegene in sectie \ref{sec:configuratie-minikube}. Dezelfde stappen kunnen worden doorlopen om een werkende Minikube cluster op te zetten. Het is wel van belang dat de vorige Minikube installatie volledig wordt verwijderd eveneens als de Helm bestanden die werden aangemaakt tijdens de configuratie van vorige cluster, volgende commando's bereiken dit.
+
+\begin{lstlisting}[language=bash]
+$ minikube delete
+$ cd ~
+$ rm -rf .helm/ .minikube/
+\end{lstlisting}
 
 \subsection{Installatie Fission}
+Fission kan worden geïnstalleerd als er een nieuwe Minikube cluster draait. De installatie werd geautomatiseerd in een shell script en is terug te vinden in bijlage \ref{sec:installatie-fission} onder de naam Installatiescript Fission. De installatie bestaat uit enkele stappen die rechtstreeks uit de documentatie\footnote{https://docs.fission.io/installation/} van Fission komen. Aan het installatiescript werden eveneens additionele stappen toegevoegd voor het opzetten van een Fission UI\footnote{https://github.com/fission/fission-ui}. Er werd gekozen voor de laatste stabiele versie van Fission, versie 1.2.0.
+
 \subsection{Gebruik Fission}
-\subsection{Deployment nieuwe demofunctie}
-\subsection{Deployment bestaande demofunctie}
+\subsubsection{User Interface}
+De installatie voorziet standaard geen meegeleverde user interface. Achteraf kan een UI worden geïnstalleerd maar deze blijkt echter toch niet echt te voldoen aan de verwachtingen. De GitHub repository\footnote{https://github.com/fission/fission-ui} waarvan deze werd gedownload geeft eveneens aan dat deze zeker niet production ready is en momenteel nog een early alpha versie is. Het installatiescript exporteert een variabele met de link voor toegang tot de UI. De standaardpoort waarop de UI draait is poort 31319. In figuur \ref{fig:fission-ui} is te zien hoe de UI eruitziet. Wanneer de UI wordt geopend wordt er echter een foutboodschap weergegeven die luidt als volgt: ''Fission server supports API v2 only -- v1 is not supported. Please upgrade your Fission client/CLI''. Functies en environments die worden toegevoegd aan Fission worden niet weergegeven in de UI, het is ook niet mogelijk via de UI nieuwe componenten te definiëren. De UI werkt niet en dit is een known-issue op GitHub.
+\begin{figure}
+    \includegraphics[width=1\textwidth]{img/fission-ui.png}
+    \caption{Fission User Interface met foutmelding.}
+    \label{fig:fission-ui}  
+\end{figure}
+
+\subsubsection{Command line tools}
+Fission voorziet net zoals OpenFaaS command line tools voor het beheer van het framework. Via de CLI kunnen functies worden gedefinieerd, routes en environments gecreëerd, en triggers geconfigureerd. Alle taken en opdrachten worden uitgevoerd via de CLI. De CLI tools zijn eenvoudig in gebruik en in de documentatie worden goede voorbeelden voorzien om hiermee aan de slag te gaan. De werking van de CLI en de handelingen in Fission werden bestudeerd aan de hand van een boek over Serverless geschreven door \textcite{McKendrick2018}.
+
+\subsubsection{Prometheus monitoring}
+Prometheus wordt standaard voorzien in de installatie van Fission. Wanneer port forwarding wordt geactiveerd kunnen er queries worden verstuurd om metrics op te vragen via een webinterface. De code die de client voor querying activeert is hieronder beschreven, nadien kan de data worden opgevraagd via http://localhost:9090. Het is handig om via deze client verschillende queries uit te voeren om inzicht te krijgen in functies en hun performantie. Het is jammer dat er geen Grafana dashboard ''Out-of-the-box'' wordt meegeleverd om de prestaties van functies te visualiseren. Het is echter wel mogelijk om achteraf Grafana of een ander dashboard voor monitoring te installeren bovenop Istio (Dit wordt wel standaard met Fission meegeleverd). Omdat in voorgaande sectie omtrent OpenFaaS het Grafana dashboard al werd besproken, bespreken we hier de client voor Prometheus metrics querying.
+
+\begin{lstlisting}[language=bash]
+# Expose de Prometheus client via http://localhost:9090
+$ kubectl -n fission port-forward  \ 
+$(kubectl -n fission get pod -l app=prometheus, \
+component=server -o name) 9090
+\end{lstlisting}
+
+\subsection{Deployment demofunctie}
+De werking hoe functies gedeployed worden is verschillend van OpenFaaS en vereist iets meer aandacht van de gebruiker.Initieel was de bedoeling om gebruik te maken van een Kubernetes secret om de credentials voor de Google API in op te slaan. Fission ondersteunde echter niet dezelfde acties als OpenFaaS en de secrets die werden gecreëerd konden niet op de gewenste manier in de functie worden gebruikt. Er werd geopteerd om daarom te werken met een private Docker image\footnote{https://cloud.docker.com/repository/docker/lennertmertens/python-env} die de nodige componenten zoals credentials en nodige pip packages bevat. De Docker image is gebaseerd op de standaard environment image die Fission aanbiedt.
+
+\subsubsection{1. Aanmaak Docker image}
+Het gebruik van een custom Python Docker image stelt gebruikers in staat deze te configureren naar eigen wensen en noden. De image kan worden gepubliceerd in een private repository voor veiligheidsoverwegingen. De onderdelen waaruit deze image is opgebouwd zijn hieronder opgesomd. De Docker image is gebaseerd op bestaande Docker files die werden ontwikkeld door de contributors van het Fission project, voor dit onderzoek werden de bestaande bestanden bewerkt, de link naar de code is steeds toegevoegd als voetnoot. De image kan eveneens worden gebouwd en worden opgeladen naar een Docker hub (of een andere) repository aan de hand van volgende commando's.
+
+\begin{itemize}
+    \item Dockerfile: in bijlage \ref{sec:dockerfile-fission} is de default Dockerfile\footnote{https://github.com/fission/fission/blob/master/environments/python/Dockerfile-2.7} te vinden die wordt voorzien in het Fission framework. Fission voorziet een aantal standaard images specifiek voor een aantal programmeertalen, deze images bevatten dependencies voor het uitvoeren van functies geschreven in een specifieke taal.
+    \item Requirements.txt: Dit bestand bevat verschillende packets die met pip worden geïnstalleerd in de image. Standaard zijn er een aantal voorzien in de default Fission image. Er werden nog enkele extra packets toegevoegd voor het uitvoeren van de functie die zelf geschreven werd. Het bestand is terug te vinden in bijlage \ref{sec:requirements-fission}.
+    \item Server.py\footnote{https://github.com/fission/fission/blob/master/environments/python/server.py}: Het Python script dat gekopieerd wordt naar de Docker image is een script dat werd geschreven door de medewerkers van het Fission project en zorgt ervoor dat functies die gebruik maken van deze image serverless kunnen worden aangeroepen. 
+    \item Credentials.json: De Docker image bevat eveneens de credentials die werden aangemaakt voor gebruik van de Google API, deze zijn privé en voor elke gebruiker verschillend. Het credentials bestand dient in dezelfde map als de Dockerfile te worden geplaats zodat functies hiervan later gebruik kunnen van maken. 
+\end{itemize}
+
+\begin{lstlisting}[language=bash]
+# Build the docker image from directory with Dockerfile
+$ cd custom-docker-image
+$ ls -l
+total 40
+-rw-r--r--  1 lennert  staff   257B May  6 18:03 Dockerfile
+-rw-r--r--  1 lennert  staff   2.3K May  6 20:42 credentials.json
+-rw-r--r--  1 lennert  staff   131B May  6 20:43 requirements.txt
+-rw-r--r--  1 lennert  staff   4.0K May  6 17:34 server.py
+# lennertmertens is the Docker Hub repository
+$ docker build -t lennertmertens/python-env . 
+$ docker push lennertmertens/python-env
+\end{lstlisting}
+

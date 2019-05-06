@@ -215,4 +215,13 @@
   timestamp = {2019-04-29},
 }
 
+@Electronic{Fission2018,
+  author    = {Fission},
+  editor    = {Ta-Ching Chen},
+  title     = {Basic Concepts},
+  year      = {2018},
+  url       = {https://github.com/fission/docs.fission.io/blob/master/docs/content/concepts/basic-concept.en.md},
+  timestamp = {2019-05-05},
+}
+
 @Comment{jabref-meta: databaseType:biblatex;}
