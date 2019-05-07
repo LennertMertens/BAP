@@ -14,8 +14,10 @@ return str(len(str_list)+1)
 
 def main():   
 # Initialize variables for Google API
-scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-credentials = ServiceAccountCredentials.from_json_keyfile_name('/app/credentials.json', scope)
+scope = ['https://spreadsheets.google.com/feeds',
+        'https://www.googleapis.com/auth/drive']
+credentials = ServiceAccountCredentials
+        .from_json_keyfile_name('/app/credentials.json', scope)
 client = gspread.authorize(credentials)
 worksheet = client.open("executietijd-demofunctie").sheet1
 next_row = next_available_row(worksheet)
@@ -24,7 +26,7 @@ next_row = next_available_row(worksheet)
 start = time.time()
 
 # Print statement
-print "Hello everyone, this is a serverless demo function running on Fission!"
+print "Hello everyone, this is a serverless demo function!"
 
 # Start loop function to measure execution time
 a = range(1000000)
@@ -40,7 +42,7 @@ execution_time= end - start
 
 # Write the execution time to Google spreadsheet
 worksheet.update_acell("C{}".format(next_row), execution_time)
-return "Hello everyone, this is a serverless demo function running on Fission!"
+return "Hello everyone, this is a serverless demo function!"
 
 
 \end{lstlisting}

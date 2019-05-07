@@ -1,6 +1,6 @@
 \chapter{Proof of Concept}
 \label{ch:proof-of-concept}
-Dit hoofdstuk bevat het vergelijkend experiment tussen twee open source serverless (FaaS) frameworks, namelijk Fission, dat werd aangegeven door Nubera en OpenFaaS. In dit onderdeel worden de twee frameworks opgezet op een Kubernetes cluster die bestaat uit één node. Beide frameworks worden opgezet op een MacBook Pro waarop Minikube draait. Minikube is een ''Out-of-the-box'' Kubernetes cluster die overal kan draaien. Er wordt gekozen om gebruik te maken van Minikube omdat op deze manier beide frameworks op identiek dezelfde hardware kunnen gedraaid worden. Daarnaast biedt Minikube dezelfde functionaliteiten als een volledige Kubernetes cluster die elders is opgezet. Dit hoofdstuk is opgedeeld in twee grote onderdelen waarbinnen telkens dezelfde secties met dezelfde stappen voor elk framework terug te vinden zijn. Daarnaast is er eveneens een sectie in dit hoofdstuk terug te vinden waarin de demofunctie, die serverless gedraaid zal worden op de frameworks, wordt voorgesteld. De demo bestaat uit het deployen van een Python functie die de functionaliteit van beide frameworks demonstreert en de executietijd van de functie meet. Later wordt er in dit onderzoek een vergelijking tussen Fission en OpenFaaS gemaakt waarbij onder meer gekeken zal worden naar het verschil in executietijd tussen de geschreven functie, de tijd die de volledige functie in beslag neemt (vanaf dat het HTTP request wordt verzonden), alsook de gebruiksvriendelijkheid. Deze Proof of Concept moet meer inzicht geven in beide frameworks en geeft een duidelijk beeld van wat deze precies inhouden. Merk op dat de opstelling van deze PoC enkel voor testing is en dus niet geschikt is voor productie. Indien dit in productie wordt overgenomen dan dienen er enkele additionele veiligheidsmaatregelen getroffen te worden maar daar wordt in dit onderzoek niet op verder gegaan.
+Dit hoofdstuk bevat een vergelijkend experiment tussen twee open source serverless (FaaS) frameworks, namelijk Fission, dat werd aangegeven door Nubera en OpenFaaS. In dit onderdeel worden de twee frameworks opgezet op een Kubernetes cluster die bestaat uit één node. Beide frameworks worden opgezet op een MacBook Pro waarop Minikube draait. Minikube is een ''Out-of-the-box'' Kubernetes cluster die overal kan draaien. Er wordt gekozen om gebruik te maken van Minikube omdat op deze manier beide frameworks op identiek dezelfde hardware kunnen gedraaid worden. Daarnaast biedt Minikube dezelfde functionaliteiten als een volledige Kubernetes cluster die elders is opgezet. Dit hoofdstuk is opgedeeld in twee grote onderdelen waarbinnen telkens dezelfde secties met dezelfde stappen voor elk framework terug te vinden zijn. Daarnaast is er eveneens een sectie in dit hoofdstuk terug te vinden waarin de demofunctie, die serverless gedraaid zal worden op de frameworks, wordt voorgesteld. De demo bestaat uit het deployen van een Python functie die de functionaliteit van beide frameworks demonstreert en de executietijd van de functie meet. Later wordt er in dit onderzoek een vergelijking tussen Fission en OpenFaaS gemaakt waarbij onder meer gekeken zal worden naar het verschil in executietijd tussen de geschreven functie, de tijd die de volledige functie in beslag neemt (vanaf dat het HTTP request wordt verzonden), alsook de gebruiksvriendelijkheid. Deze Proof of Concept moet meer inzicht geven in beide frameworks en geeft een duidelijk beeld van wat deze precies inhouden. Merk op dat de opstelling van deze PoC enkel voor testing is en dus niet geschikt is voor productie. Indien dit in productie wordt overgenomen dan dienen er enkele additionele veiligheidsmaatregelen getroffen te worden maar daar wordt in dit onderzoek niet op verder gegaan.
 \\\\
 \section{Voorbereiding omgeving}
 \label{sec:voorbereiding-omgeving}
@@ -82,7 +82,7 @@ execution_time= end - start
 worksheet.update_acell("A{}".format(next_row), execution_time)
 \end{lstlisting}
 
-
+\newpage
 \section{OpenFaaS}
 Het eerste framework dat wordt uitgetest is OpenFaaS. Het experiment wordt opgezet op een MacBook Pro die voldoet aan voorgaande specificaties en beschikt over de benodigde softwarepakketten zoals eerder ook beschreven werd. De stappen die doorlopen worden in het opzetten en uitvoeren van het experiment, zijn steeds duidelijk gedocumenteerd en staan chronologisch gerangschikt. De installatieprocedure is eenvoudig te volgen en is reproduceerbaar aan de hand van de gedocumenteerde stappen en bijhorende scripts.
 
@@ -210,15 +210,13 @@ $ faas-cli deploy -f serverless-demo.yml
 \end{lstlisting}
 
 \subsection{Uitvoeren demofunctie}
+\label{sec:openfaas-uitvoeren-functie}
 De demofunctie reageert wanneer het een HTTP GET request ontvangt, deze actie kan worden getriggered op verschillende manieren. Via de UI is het mogelijk de functie aan te roepen door deze te selecteren en dan op de knop ''invoke'' te klikken, wanneer deze actie wordt uitgevoerd, wordt er een boodschap teruggegeven en eveneens werd de uitvoeringstijd van de functie weggeschreven naar het Google spreadsheet bestand. In figuur \ref{fig:openfaas-functie-ui} is de response van de functie zichtbaar, de overeenkomstige uitvoeringstijd van de functie (de tijd dat de code uitvoert en niet de tijd dat het duurt vanaf de request tot de response) werd weggeschreven naar het Google spreadsheet bestand.
-\\\\
-De functie kan eveneens worden aangeroepen via het ''curl'' commando in de terminal, er werd een script geschreven dat tweehonderd keer de functie aanroept. Door de functie vaak aan te roepen kan er een representeerbare hoeveelheid data worden weggeschreven naar de spreadsheet om later dataverwerking op uit te voeren en te vergelijken met Fission. Het script dat werd gebruikt voor het aanroepen van de functie ziet eruit als volgt. De Google spreadsheet lijst met de uitvoeringstijd is beschikbaar in bijlage.
+De functie kan eveneens worden aangeroepen via het ''curl'' commando in de terminal.
 
 \begin{lstlisting}[language=bash]
-for i in {1..200}; 
-do
-    curl http://192.168.99.119:31112/function/serverless-demo
-done
+# Aanroep functie met curl.
+ $ curl http://$OPENFAAS_URL/function/serverless-demo
 \end{lstlisting}
 
 \begin{figure}
@@ -249,9 +247,11 @@ Wanneer de functie zeer veel wordt aangeroepen aan de hand van bijvoorbeeld loop
     \label{fig:openfaas-scalability-3}  
 \end{figure}
 
+\subsection{Verzamelen functie gegevens}
+
 \newpage
 \section{Fission}
-Het tweede framework dat onder de loep wordt genomen is Fission. Nubera gaf aan de start van dit onderzoek aan dat zij reeds geëxperimenteerd hadden met Fission en hier enige interesse voor hebben opgebouwd. Deze PoC bestaat dus enerzijds uit OpenFaaS, dat zelf gekozen werd als alternatief voor Fission, en Fission zelf. Aan het eind van dit onderzoek moet het duidelijk zijn waarin beide frameworks verschillen en welk het meest interessant zou kunnen zijn volgens de opgestelde requirements.
+Het tweede framework dat onder de loep wordt genomen is Fission. Nubera gaf bij de start van dit onderzoek aan dat zij reeds geëxperimenteerd hadden met Fission en hier enige interesse voor hebben opgebouwd. Deze PoC bestaat dus enerzijds uit OpenFaaS, dat zelf gekozen werd als alternatief voor Fission, en Fission zelf. Aan het eind van dit onderzoek moet het duidelijk zijn waarin beide frameworks verschillen en welk het meest interessant zou kunnen zijn volgens de opgestelde requirements.
 
 \subsection{Configuratie Minikube}
 De configuratie voor Minikube is analoog aan diegene in sectie \ref{sec:configuratie-minikube}. Dezelfde stappen kunnen worden doorlopen om een werkende Minikube cluster op te zetten. Het is wel van belang dat de vorige Minikube installatie volledig wordt verwijderd eveneens als de Helm bestanden die werden aangemaakt tijdens de configuratie van vorige cluster, volgende commando's bereiken dit.
@@ -263,11 +263,11 @@ $ rm -rf .helm/ .minikube/
 \end{lstlisting}
 
 \subsection{Installatie Fission}
-Fission kan worden geïnstalleerd als er een nieuwe Minikube cluster draait. De installatie werd geautomatiseerd in een shell script en is terug te vinden in bijlage \ref{sec:installatie-fission} onder de naam Installatiescript Fission. De installatie bestaat uit enkele stappen die rechtstreeks uit de documentatie\footnote{https://docs.fission.io/installation/} van Fission komen. Aan het installatiescript werden eveneens additionele stappen toegevoegd voor het opzetten van een Fission UI\footnote{https://github.com/fission/fission-ui}. Er werd gekozen voor de laatste stabiele versie van Fission, versie 1.2.0.
+Fission kan worden geïnstalleerd als er een nieuwe Minikube cluster draait. De installatie werd geautomatiseerd in een shell script en is terug te vinden in bijlage \ref{sec:installatie-fission} onder de naam Installatiescript Fission. De installatie bestaat uit enkele stappen die rechtstreeks uit de documentatie\footnote{https://docs.fission.io/installation/} van Fission komen. Aan het installatiescript werden eveneens additionele stappen toegevoegd voor het opzetten van een Fission UI. Er werd gekozen voor de laatste stabiele versie van Fission, versie 1.2.0.
 
 \subsection{Gebruik Fission}
 \subsubsection{User Interface}
-De installatie voorziet standaard geen meegeleverde user interface. Achteraf kan een UI worden geïnstalleerd maar deze blijkt echter toch niet echt te voldoen aan de verwachtingen. De GitHub repository\footnote{https://github.com/fission/fission-ui} waarvan deze werd gedownload geeft eveneens aan dat deze zeker niet production ready is en momenteel nog een early alpha versie is. Het installatiescript exporteert een variabele met de link voor toegang tot de UI. De standaardpoort waarop de UI draait is poort 31319. In figuur \ref{fig:fission-ui} is te zien hoe de UI eruitziet. Wanneer de UI wordt geopend wordt er echter een foutboodschap weergegeven die luidt als volgt: ''Fission server supports API v2 only -- v1 is not supported. Please upgrade your Fission client/CLI''. Functies en environments die worden toegevoegd aan Fission worden niet weergegeven in de UI, het is ook niet mogelijk via de UI nieuwe componenten te definiëren. De UI werkt niet en dit is een known-issue op GitHub.
+De installatie voorziet standaard geen meegeleverde user interface. Achteraf kan een UI worden geïnstalleerd maar deze blijkt echter niet te voldoen aan de verwachtingen. De GitHub repository\footnote{https://github.com/fission/fission-ui} waarvan de UI werd gedownload geeft eveneens aan dat deze zeker niet production ready is en momenteel nog een early alpha versie is. Het installatiescript exporteert een variabele met de link voor toegang tot de UI. De standaardpoort waarop de UI draait is poort 31319. In figuur \ref{fig:fission-ui} is te zien hoe de UI eruitziet. Wanneer de UI wordt geopend wordt er echter een foutboodschap weergegeven die luidt als volgt: ''Fission server supports API v2 only -- v1 is not supported. Please upgrade your Fission client/CLI''. Functies en environments die worden toegevoegd aan Fission worden niet weergegeven in de UI, het is ook niet mogelijk via de UI nieuwe componenten te definiëren. De UI werkt niet en dit is een known-issue op GitHub.
 \begin{figure}
     \includegraphics[width=1\textwidth]{img/fission-ui.png}
     \caption{Fission User Interface met foutmelding.}
@@ -314,10 +314,10 @@ $ docker build -t lennertmertens/python-env .
 $ docker push lennertmertens/python-env
 \end{lstlisting}
 
-\subsection{2. Deploy functie}
+\subsubsection{2. Deploy functie}
 Er is een verschil in werking in deployment van functies tussen Fission en OpenFaaS, Fission vereist een aantal additionele stappen die hieronder in detail worden doorlopen. Het is van belang dat alle pods die Fission aanmaakt beschikbaar zijn alvorens volgende stappen uit te voeren. Het duurt ongeveer een tweetal minuten, na installatie, tot alle pods beschikbaar zijn voor deployment van functies.
 \\\\
-Fission werkt by-default op een andere manier dan OpenFaaS. Wanneer een functie wordt gedeployed via OpenFaaS dan zal het framework steeds één container met de functie laten draaien, dit zorgt ervoor dat cold-starts niet kunnen voorkomen. Fission daarentegen zet containers die niet in gebruik zijn onmiddellijk af waardoor bij het aanroepen van functies cold-starts kunnen voorkomen en latency optreedt. Om beide frameworks op een gelijkwaardige manier te beoordelen wordt de instelling aangepast zodanig dat Fission ook steeds een container met de functie heeft draaien zodat cold-starts worden vermeden en de gegevens later met elkaar vergelijkbaar zijn. Volgende stappen maken het mogelijk om de Python functie te deployen en beschikbaar te stellen via een URL langs de Fission router.
+Fission werkt by-default op een andere manier dan OpenFaaS. Wanneer een functie wordt gedeployed via OpenFaaS dan zal het framework steeds één container met de functie laten draaien, dit zorgt ervoor dat cold-starts niet kunnen voorkomen. Fission daarentegen zet containers die niet in gebruik zijn onmiddellijk af waardoor bij het aanroepen van functies cold-starts kunnen voorkomen en latency optreedt. Om beide frameworks op een gelijkwaardige manier te beoordelen wordt de instelling aangepast zodanig dat Fission ook steeds een container met de functie heeft draaien zodat cold-starts worden vermeden en de gegevens later met elkaar vergelijkbaar zijn. Om hetzelfde gedrag als bij OpenFaaS na te bootsen wordt er gebruik gemaakt van een Newdeploy executor zoals eerder besproken werd in sectie \ref{sec:fission-executors}. Volgende stappen maken het mogelijk om de Python demofunctie te deployen en beschikbaar te stellen via een URL langs de Fission router.
 
 \begin{lstlisting}[language=bash]
 # 1. Maak een environment aan waarin de Python functie zal 
@@ -329,13 +329,27 @@ $ fission environment create --name python-env \
 # 2. Deploy de geschreven Python functie (cd in de 
 # directory met de Python code).
 # Stel eveneens in dat er minimum een pod draait met de functie.
-$ fission function create --name demo-functie \
+$ fission function create --name serverless-demo \
 --code handler.py --env python-env \
 --minscale 1 --executortype newdeploy
 
 # 3. Voeg een pad toe voor toegang via de Fission router.
-$ fission route create --function demo-functie --url /demo-functie
+$ fission route create --function demo-functie --url /serverless-demo
 \end{lstlisting}
-
+ 
 \subsubsection{handler.py}
 Handler.py is het Python script dat geschreven werd in sectie \ref{sec:demofunctie} en werd aangepast specifiek voor Fission. De manier waarop functies in Fission worden aangeroepen is verschillend van OpenFaaS. De functies hebben een main methode nodig om uitvoerbaar te zijn, daarom dat de aanpassingen werden aangebracht. De Fission functie maakt eveneens gebruik van credentials die aanwezig zijn in de Docker container. Het Python script dat wordt gedeployed op het Fission framework is terug te vinden in bijlage \ref{sec:demofunctie-fission}.
+
+\subsection{Uitvoeren demofunctie}
+De demofunctie reageert op HTTP GET requests, deze actie kan worden getriggered op verschillende manieren. Fission voorziet in de command line tools een commando voor het testen van functies die gedeployed werden op het framework. De output van het test commando weergeeft logs en kan gebruikt worden voor het troubleshooten van functies. Tijdens het deployen van de demofunctie werd er eveneens een pad voor de functie gedefinieerd, via de Fission router en het aangemaakte pad kan de functie ook worden aangeroepen. Gebruikers kunnen naar het IP adres van de router surfen gevolgd door het pad of kunnen aan de hand van een curl commando de functie opvragen.
+
+\begin{lstlisting}[language=bash]
+# Aanroep functie met test commando.
+$ fission function test --name demo-functie
+# Aanroep functie met curl.
+$ curl http://$FISSION_ROUTER/serverless-demo
+\end{lstlisting}
+
+\subsection{Schaalbaarheid Fission}
+
+\subsection{Verzamelen functie gegevens}

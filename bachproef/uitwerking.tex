@@ -256,19 +256,23 @@ Fission bestaat uit verschillende componenten, met elk hun eigen verantwoordelij
 
 
 \subsubsection{Functie executors}
+\label{sec:fission-executors}
 \begin{description}[style=unboxed, labelwidth=\linewidth, listparindent =0pt]
     \item[Pool-based executor]
-    Een pool-based executor (of Poolmgr) maakt een pool van generieke environment pods vanaf het moment dat een environment wordt aangemaakt. 
+    De documentatie van \textcite{Fission2019} beschrijft een pool-based ewexutor als volgt:
+    Een pool-based executor (of Poolmgr) maakt een pool van generieke environment pods vanaf het moment dat een environment wordt aangemaakt. Op voorhand kan de gebruiker het aantal ''warme'' containers configureren, dit zijn een aantal environment containers die blijven draaien. De environment containers beschikken over functionaliteit die toelaat functies in te laden. Resource instellingen worden geconfigureerd op niveau van environment en worden door de functie pods geërfd. Wanneer een functie wordt aangemaakt en vervolgens aangeroepen, dan wordt een van de pods uit de pool van ''warme containers'' genomen en aangepast zodat deze kan gebruikt worden voor het uitvoeren van de functie. De pod die werd geoptimaliseerd wordt nu gebruikt voor het uitvoeren van de functie. Indien de pod geen requests meer ontvangt na verloop van tijd, dan zal Fission deze pod opruimen. Als er opnieuw reqests worden ontvangen nadat de pod werd opgeruimd dan wordt er weer een nieuwe pod geïnstantieerd en wordt deze gebruikt voor het uitvoeren van de functie. Pool-based executor type is interessant wanneer functies een lage latency verwachten, daarentegen is het wel niet auto-scalable op basis van requests.
     \newline
     
-    \item[Environment]
-    De environment container is specifiek per programmeertaal, deze voert de functie uit als respons op een HTTP request. Wanneer de Fission router een request ontvangt dan zal de environment container de funcite in de runtime container inladen vervolgens wordt de functie uitgevoerd overeenkomstig met de request. \autocite{Fission2018}
+    \item[New-deployment executor]
+    Een new-deployment executor of kortweg Newdeploy maakt een Kubernetes Deployment samen met een Service en HorizontalPodScaler(HPA) voor het uitvoeren van functies. Newdeploy maakt autoscaling en load balancing tussen pods mogelijk. Resource instellingen voor Newdeploys worden geconfigureerd op functie niveau, deze instellingen overschrijven de instellingen die gedefinieerd werden op environment niveau. New-deployment executors kunnen worden gebruikt voor functies die geen lage latenxy requirement hebben. De minscal waarde die definieert hoeveel deployments er van de functie standaard moeten draaien kan op nul worden ingesteld, bij aanroep van de functie zal Kubernetes dus een nieuwe Deployment met bijhorende objecten aanmaken. Requests voor dezelfde functie binnen een bepaalde tijdspanne worden uitgevoerd door dezelfde deployment. Indien de functie voor een bepaalde tijd geen nieuwe requests ontvangt, dan zullen de objecten worden opgeruimd. Het Newdeploy mechanisme zorgt ervoor dat resource verbruik wordt gelimiteerd in overeenstemming met de requests die worden ontvangen.
+    
+    Functies waar er geen latency mag optreden kunnen eveneens gebruikmaken van de Newdeploy executor. Fission stelt gerbuikers in staat om minscale op een waarde in te stellen die hoger dan nul is. het verhogen van de waarde zorgt ervoor dat er een minimum aantal pods draait wanneer er een functie wordt aangemaakt. Wanneer de functie in dit geval wordt aangeroepen dan zal er geen vertraging optreden omdat de pod waarin de functie draait reeds bestaat. Minscal zorgt er eveneens voor dat pods niet worden opgeruimd wanneer de functie voor een lange tijd niet wordt aangeroepen.
+    \autocite{Fission2019}
     \newline
     
-    \item[Trigger]
-    Een Fission object mapt requests aan functies in de backend. Wanneer een trigger een request ontvangt, wordt de doelfunctie gemapt aan de trigger aangeroepen via een HTTP request naar de Fission router, deze vraagt de functie in een pod eveneens op via een HTTP request. \autocite{Fission2018}
+    \item[Autoscaling]
+    De Newdeploy executor voorziet autoscaling voor functies, dit gebaseerd op het verbruik van CPU. Gebruikers kunnen de standaard en maximum CPU voor een functie instellen evenals het CPU verbruik waarbij de autoscaling zal getriggered worden. \autocite{Fission2019}
     \newline
 \end{description}
-
 \subsection{Verschillen en overweging}
 Tijdens de uitwerking van de shortlist werd duidelijk dat er over het ene framework meer terug te vinden is dan over het andere. De meeste documentatie en voorbeelden werden teruggevonden bij het zoeken naar OpenFaaS. In vergelijking met Fission is OpenFaaS op dit moment ook een stuk populairder en naar eigen mening ook duidelijker beschreven. Beide frameworks beschikken over goede documentatie wat de zoektocht naar informatie zeer aangenaam maakte. Het is voor beginners ook makkelijker om in serverless te stappen met het OpenFaaS in vergelijking met OpenFaaS omdat de documentatie hierover iets duidelijker is, aangenamer leest maar ook over relevante ''talks'' beschikt op YouTube en andere blog platformen. OpenFaaS pakt daarnaast ook uit met de eenvoud van installatie en garanderen een installatie die makkelijk uit te voeren is. Op basis van de ervaring opgedaan tijdens het onderzoek in deze short list lijkt OpenFaaS een zeer interessant alternatief voor Fission. In volgend hoofdstuk wordt er een Proof of Concept (PoC) opgezet van beide frameworks, op basis van deze PoC worden de requirements die nog niet gemeten werden vergeleken. Op basis van de Proof of Concept moet het eveneens duidelijk zijn welk framework het meest interessant zou kunnen zijn voor Nubera. De verschillen, gelijkenissen voor- en nadelen tussen Fission en OpenFaaS worden vergeleken.
