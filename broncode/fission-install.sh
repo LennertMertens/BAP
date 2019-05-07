@@ -10,7 +10,7 @@ kubectl create clusterrolebinding tiller --clusterrole \
 cluster-admin --serviceaccount=kube-system:tiller
 
 # 2. Install tiller
-helm init --skip-refresh --upgrade --service-account tiller
+helm init --service-account tiller
 sleep 20
 
 # 2. Install Fission Framework

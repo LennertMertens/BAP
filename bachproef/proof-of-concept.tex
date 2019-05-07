@@ -288,7 +288,7 @@ component=server -o name) 9090
 \end{lstlisting}
 
 \subsection{Deployment demofunctie}
-De werking hoe functies gedeployed worden is verschillend van OpenFaaS en vereist iets meer aandacht van de gebruiker.Initieel was de bedoeling om gebruik te maken van een Kubernetes secret om de credentials voor de Google API in op te slaan. Fission ondersteunde echter niet dezelfde acties als OpenFaaS en de secrets die werden gecreëerd konden niet op de gewenste manier in de functie worden gebruikt. Er werd geopteerd om daarom te werken met een private Docker image\footnote{https://cloud.docker.com/repository/docker/lennertmertens/python-env} die de nodige componenten zoals credentials en nodige pip packages bevat. De Docker image is gebaseerd op de standaard environment image die Fission aanbiedt.
+De werking hoe functies gedeployed worden is verschillend van OpenFaaS en vereist iets meer aandacht van de gebruiker. Initieel was de bedoeling om gebruik te maken van een Kubernetes secret om de credentials voor de Google API in op te slaan. Fission ondersteunde echter niet dezelfde acties als OpenFaaS en de secrets die werden gecreëerd konden niet op de gewenste manier in de functie worden gebruikt. Er werd geopteerd om daarom te werken met een private Docker image\footnote{https://cloud.docker.com/repository/docker/lennertmertens/python-env} die de nodige componenten zoals credentials en nodige pip packages bevat. De Docker image is gebaseerd op de standaard environment image die Fission aanbiedt.
 
 \subsubsection{1. Aanmaak Docker image}
 Het gebruik van een custom Python Docker image stelt gebruikers in staat deze te configureren naar eigen wensen en noden. De image kan worden gepubliceerd in een private repository voor veiligheidsoverwegingen. De onderdelen waaruit deze image is opgebouwd zijn hieronder opgesomd. De Docker image is gebaseerd op bestaande Docker files die werden ontwikkeld door de contributors van het Fission project, voor dit onderzoek werden de bestaande bestanden bewerkt, de link naar de code is steeds toegevoegd als voetnoot. De image kan eveneens worden gebouwd en worden opgeladen naar een Docker hub (of een andere) repository aan de hand van volgende commando's.
@@ -334,7 +334,7 @@ $ fission function create --name serverless-demo \
 --minscale 1 --executortype newdeploy
 
 # 3. Voeg een pad toe voor toegang via de Fission router.
-$ fission route create --function demo-functie --url /serverless-demo
+$ fission route create --function serverless-demo --url /serverless-demo
 \end{lstlisting}
  
 \subsubsection{handler.py}
@@ -351,7 +351,7 @@ $ curl http://$FISSION_ROUTER/serverless-demo
 \end{lstlisting}
 
 \subsection{Schaalbaarheid Fission}
-Om de schaalbaarheid van Fission te demonstreren wordt er gebruik gemaakt van een demofunctie die terug te vinden is in de Fission repository op GitHub, onder de naam hello.js\footnote{https://github.com/fission/fission/blob/master/examples/nodejs/hello.js}. De demofunctie die hier wordt gebruikt is een simpele Hello World applicatie geschreven in Node.js. Alvorens er getest kan worden op schaalbaarheid wordt de functie op analoge manier gedeployed als de demofunctie die in Python geschreven werd. Er moet eerst wel een Node.js environment worden aangemaakt en bij het definiëren wordt gekozen voor een minscale van 1 en een Newdeploy executor om automatische schaalbaarheid te voorzien. De stappen om de omgeving klaar te zetten zijn hieronder beschreven.
+Om de schaalbaarheid van Fission te demonstreren wordt er gebruik gemaakt van een demofunctie die terug te vinden is in de Fission repository op GitHub, onder de naam hello.js\footnote{https://github.com/fission/fission/blob/master/examples/nodejs/hello.js}. De demofunctie die hier wordt gebruikt is een simpele Hello World applicatie geschreven in Node.js. Alvorens er getest kan worden op schaalbaarheid wordt de functie op analoge manier gedeployed als de demofunctie die in Python geschreven werd. Er moet eerst wel een Node.js environment worden aangemaakt en bij het definiëren wordt gekozen voor een minscale van 1 en een Newdeploy executor om automatische schaalbaarheid te voorzien. De stappen om de omgeving klaar te zetten zijn hieronder beschreven. Wanneer de load te zwaar wordt voor één pod om deze te verwerken dan zullen er additionele functie pods worden aangemaakt en wordt er automatisch load balancing tussen de functie pods voorzien.
 
 \begin{lstlisting}[language=bash]
 # 1. Aanmaak Node.js environment.
@@ -364,8 +364,23 @@ $ fission function create --name hello \
 --minscale 1 --executortype newdeploy
 
 # 3. Maak een route voor de functie.
-$ fission route create --function hello --url hello
+$ fission route create --function hello --url /hello
 \end{lstlisting}
 
+----TO BE ADDED -----
 
 \subsection{Verzamelen functie gegevens}
+Om een grondige vergelijking tussen beide frameworks te maken is het interessant inzicht te hebben in de performance verschillen tussen beiden. De Python demofunctie die werd geschreven schrijft de tijd weg die nodig is voor het uitvoeren van de functie naar een bestand in Google spreadsheets. De eerste meting weergeeft enkel de tijd die de functie nodig heeft om de code uit te voeren. De functie die op Fission werd gedeployed, wordt net zoals bij OpenFaaS tweehonderd keer aangeroepen door middel van een loop. De resultaten die worden weggeschreven naar de spreadsheet zullen later met elkaar worden vergeleken. In bijlage \ref{sec:demofunctie-uitvoeringstijd} zijn de resultaten van de uitvoeringstijd van de functie (de code zelf) terug te vinden. 
+\\\\
+In de veronderstelling dat de uitvoeringstijd, van enkel en alleen de code, tussen de twee frameworks niet veel zou verschillen werd er nog een tweede test gemaakt. De tweede test meet de volledige tijd vanaf dat er een HTTP request wordt verzonden met het ''curl'' commando, tot er een response met de overeenkomstige tijd wordt ontvangen. De uitvoeringstijd of de looptijd van de volledige functie wordt weggeschreven naar een lokaal bestand. Voor elk framework wordt er een apart bestand aangemaakt. In het hoofdstuk \ref{ch:vergelijking-frameworks} zullen op basis van de requirements en de uitgevoerde metingen beide frameworks met elkaar worden vergeleken. Het bestand met de volledige looptijd van de functies is terug te vinden in bijlage \ref{sec:demofunctie-volledige-looptijd}.
+
+\begin{lstlisting}[language=bash]
+#!/bin/bash
+touch looptijd-functie-fission.csv
+for i in {1..200};
+do
+  curl -s -w "%{time_total}\n" -o \
+  /dev/null http://$FISSION_ROUTER/serverless  \
+  >> looptijd-functie-fission.csv
+done
+\end{lstlisting}
