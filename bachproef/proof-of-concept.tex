@@ -1,10 +1,11 @@
 \chapter{Proof of Concept}
 \label{ch:proof-of-concept}
-Dit hoofdstuk bevat een vergelijkend experiment tussen twee open source serverless (FaaS) frameworks, namelijk Fission, dat werd aangegeven door Nubera en OpenFaaS. In dit onderdeel worden de twee frameworks opgezet op een Kubernetes cluster die bestaat uit één node. Beide frameworks worden opgezet op een MacBook Pro waarop Minikube draait. Minikube is een ''Out-of-the-box'' Kubernetes cluster die overal kan draaien. Er wordt gekozen om gebruik te maken van Minikube omdat op deze manier beide frameworks op identiek dezelfde hardware kunnen gedraaid worden. Daarnaast biedt Minikube dezelfde functionaliteiten als een volledige Kubernetes cluster die elders is opgezet. Dit hoofdstuk is opgedeeld in twee grote onderdelen waarbinnen telkens dezelfde secties met dezelfde stappen voor elk framework terug te vinden zijn. Daarnaast is er eveneens een sectie in dit hoofdstuk terug te vinden waarin de demofunctie, die serverless gedraaid zal worden op de frameworks, wordt voorgesteld. De demo bestaat uit het deployen van een Python functie die de functionaliteit van beide frameworks demonstreert en de executietijd van de functie meet. Later wordt er in dit onderzoek een vergelijking tussen Fission en OpenFaaS gemaakt waarbij onder meer gekeken zal worden naar het verschil in executietijd tussen de geschreven functie, de tijd die de volledige functie in beslag neemt (vanaf dat het HTTP request wordt verzonden), alsook de gebruiksvriendelijkheid. Deze Proof of Concept moet meer inzicht geven in beide frameworks en geeft een duidelijk beeld van wat deze precies inhouden. Merk op dat de opstelling van deze PoC enkel voor testing is en dus niet geschikt is voor productie. Indien dit in productie wordt overgenomen dan dienen er enkele additionele veiligheidsmaatregelen getroffen te worden maar daar wordt in dit onderzoek niet op verder gegaan.
+De Proof of Concept bestaat uit een vergelijkend experiment tussen twee open source serverless (FaaS) frameworks, namelijk Fission en OpenFaaS. In dit onderdeel worden de twee frameworks opgezet op een Kubernetes cluster die bestaat uit één node. Beide frameworks worden opgezet op een MacBook Pro waarop Minikube draait. Minikube is een ''Out-of-the-box'' Kubernetes cluster. Er wordt gekozen om gebruik te maken van Minikube omdat op deze manier beide frameworks op identiek dezelfde hardware kunnen gedraaid worden. Daarnaast biedt Minikube dezelfde functionaliteiten als een volledige Kubernetes cluster die elders is opgezet. Dit hoofdstuk is opgedeeld in twee grote onderdelen waarbinnen telkens dezelfde secties met dezelfde stappen voor elk framework terug te vinden zijn. Daarnaast is er eveneens een sectie in dit hoofdstuk terug te vinden waarin de demofunctie, die serverless gedraaid zal worden op de frameworks, wordt voorgesteld. De demo bestaat uit het deployen van een Python functie die de functionaliteit van beide frameworks demonstreert, ook wordt de uitvoeringstijd van de functie van request tot response gemeten. Later wordt er in dit onderzoek een vergelijking tussen Fission en OpenFaaS gemaakt waarbij onder meer gekeken zal worden naar het verschil in executietijd tussen de geschreven functie, de gebruiksvriendelijkheid en overige vooropgestelde requirements. Deze Proof of Concept moet meer inzicht geven in beide frameworks en geeft een duidelijk beeld van wat deze precies inhouden. Merk op dat de opstelling van deze PoC enkel een demo van beide frameworks geeft en dus niet geschikt is voor productie. Indien dit in productie wordt overgenomen dan dienen er enkele additionele veiligheidsmaatregelen getroffen te worden maar daar wordt in dit onderzoek niet op verder gegaan.
 \\\\
 \section{Voorbereiding omgeving}
 \label{sec:voorbereiding-omgeving}
 \subsection{Onderliggende hardware}
+\label{sec:specificaties}
 Het experiment zal worden uitgevoerd op een MacBook Pro, model 2018 met volgende specificaties:
 \begin{itemize}
     \item Processor: 2,2 GHz Intel Core i7
@@ -14,7 +15,7 @@ Het experiment zal worden uitgevoerd op een MacBook Pro, model 2018 met volgende
 \end{itemize}
 
 \subsection{Packet manager}
-Om de opstelling van het experiment klaar te zetten is het zinvol gebruik te maken van Homebrew\footnote{https://brew.sh/}, dit is een packetmanager ontwikkeld voor macOS. Homebrew zorgt ervoor dat softwarepakketten kunnen worden gedownload uit bestaande repositories. In de verdere uitwerking van dit onderzoek wordt Homebrew eveneens gebruikt voor het installeren van software.\\\\
+In de opstelling is het zinvol gebruik te maken van Homebrew\footnote{https://brew.sh/}, dit is een packetmanager ontwikkeld voor macOS. Homebrew zorgt ervoor dat softwarepakketten kunnen worden gedownload uit bestaande repositories. In de verdere uitwerking van dit onderzoek wordt Homebrew eveneens gebruikt voor het installeren van software.\\\\
 Homebrew kan worden geïnstalleerd door volgend commando in de Terminal uit te voeren: 
 \begin{lstlisting}[language=bash]
 $ /usr/bin/ruby -e "$(curl -fsSL 
@@ -22,7 +23,8 @@ https://raw.githubusercontent.com/Homebrew/install/master/install)"
 \end{lstlisting}
 
 \subsection{Softwarepakketten}
-Alvorens de frameworks kunnen worden opgezet moeten er reeds enkele softwarepakketten aanwezig zijn. Enerzijds is Docker nodig als container engine, anderzijds Kubernetes als container platform. Daarnaast is er ook een hypervisor nodig die het draaien van een Minikube cluster mogelijk maakt. In dit onderzoek wordt gebruik gemaakt van VirtualBox als hypervisor, deze is open source en gratis. De softwarepakketten kunnen als volgt geïnstalleerd worden met Homebrew:        
+\label{sec:software}
+Alvorens de frameworks kunnen worden opgezet moeten er reeds enkele softwarepakketten aanwezig zijn. Enerzijds is Docker nodig als container engine, anderzijds Kubernetes als container platform. Daarnaast is er ook een hypervisor nodig die het draaien van een Minikube cluster mogelijk maakt. In dit onderzoek wordt gebruik gemaakt van VirtualBox\footnote{https://www.virtualbox.org/} als hypervisor, deze is open source en gratis. De softwarepakketten kunnen als volgt geïnstalleerd worden met Homebrew:        
 \begin{lstlisting}[language=bash]
 $ brew tap caskroom/cask
 $ brew cask install virtualbox
@@ -33,64 +35,74 @@ $ brew install kubernetes-cli
 
 \section{Python demofunctie}
 \label{sec:python-demofunctie}
-Aan de hand van een zelfgeschreven Python functie zal de werking van beide frameworks worden gedemonstreerd. De demofunctie is eenvoudig en bestaat uit een print statement dat de gebruiker verwelkomt, vervolgens wordt er een loop uitgevoerd die ervoor zorgt dat de functie toch even loopt en uiteindelijk wordt deze uitvoeringstijd weggeschreven naar een Google Spreadsheet bestand. De Python functie maakt gebruik van de Google API voor het wegschrijven naar het spreadsheet bestand. De functie wordt verpakt in een Docker image zodat deze naadloos kan worden gedeployed op beide frameworks. De Docker image met de functie is gepubliceerd op de Docker Hub repository van Lennert Mertens (private repository). Om gebruik te kunnen maken van Google spreadsheets moet er een Google project worden aangemaakt via de Google API, deze stappen staan verder beschreven. Er wordt gekozen voor dit soort functie zodat er later in dit onderzoek een besluit kan worden gevormd over welk framework de snelste executie van functies biedt. Het ultieme doel is dat de data in het Google bestand kan worden geanalyseerd en vergeleken. Elke demo start met een leeg werkblad zodat de resultaten die werden weggeschreven toepasbaar zijn op het specifieke framework dat werd getest.
+De werking van beide frameworks zal worden gedemonstreerd aan de hand van een zelfgeschreven Python functie. De demofunctie maakt het mogelijk om via een POST request een string weg te schrijven naar een Google spreadsheet bestand en via een GET request alle weggeschreven strings terug op te halen in de vorm van een lijst. Om gebruik te kunnen maken van Google spreadsheets moet er een Google project worden aangemaakt via de Google API, deze stappen staan verder beschreven. De functie heeft op beide frameworks dezelfde functionaliteit maar de code zal echter aangepast zijn aan het framework waarop de functie draait. In sectie \ref{sec:demofunctie} is de code terug te vinden voor het uitvoeren van de functie lokaal en dus niet via een FaaS framework. De code werd lokaal geschreven en getest alvorens deze werd aangepast aan de frameworks.
 
 \subsection{Google API}
-De Python functie schrijft de executietijd van de functies weg naar een bestand op Google spreadsheets. Om gebruik te maken van een spreadsheet bestand moet eerst de API worden geconfigureerd, daarnaast moeten ook de credentials op de demo machine worden geconfigureerd. Het Goolge project wordt opgezet zodat de functie data kan wegschrijven naar de spreadsheet, in sectie \ref{sec:google-api} is een gedetailleerd stappenplan terug te vinden voor het instellen van de Google API in combinatie met Google spreadsheets. Om gebruik te maken van Google API features moeten oauth2client, gspread en google-api-python-client geïnstalleerd worden. De drie packages die nodig zijn voor de uitvoer van de functie worden gebundeld in een tekstbestand ''requirements.txt'', dit bestand kan vervolgens door ''pip'' worden gebruikt voor de installatie van de softwarepakketten, het bestand is terug te vinden in bijlage \ref{sec:requirements.txt}.
+De Python functie schrijft een string weg naar een bestand op Google spreadsheets indien deze wordt meegegeven, zo niet haalt de functie alle strings die weggeschreven werden naar een kolom op. Om gebruik te maken van een spreadsheet bestand moet eerst de API worden geconfigureerd, daarnaast moeten ook de credentials op de demo machine worden geconfigureerd. Het Goolge project wordt opgezet zodat de functie data kan wegschrijven naar de spreadsheet, in sectie \ref{sec:google-api} is een gedetailleerd stappenplan terug te vinden voor het instellen van de Google API in combinatie met Google spreadsheets. Om gebruik te maken van Google API features moeten oauth2client, gspread en google-api-python-client geïnstalleerd worden. De drie packages die nodig zijn voor de uitvoer van de functie worden gebundeld in een tekstbestand ''requirements.txt'', dit bestand kan vervolgens door ''pip'' worden gebruikt voor de installatie van de softwarepakketten, het bestand is terug te vinden in bijlage \ref{sec:requirements.txt}.
 
 \newpage
 \subsection{Code demofunctie}
 \label{sec:demofunctie}
 \begin{lstlisting}[language=python]
-import time
 import gspread
+import sys
 from oauth2client.service_account import ServiceAccountCredentials
+# Check if a string is provided when calling the function.
+# Sentences should be provided between quotes!
+if len(sys.argv) > 1:
+    req = str(sys.argv[1])
+else:
+    req =""
 
-# Function to get the first empty row in Gooogle Spreadsheet
 def next_available_row(worksheet):
-      str_list = filter(None, worksheet.col_values(1)) 
-      return str(len(str_list)+1)
+    str_list = filter(None, worksheet.col_values(1))
+    return str(len(str_list)+1)
 
+def is_empty_string(string):
+    if len(string) == 0:
+        return True
+    else:
+        return False
+
+def get_values(worksheet):
+    cell_range = 'A1:A'+ next_available_row(worksheet)
+    all_cells = worksheet.range(cell_range)
+    return all_cells
+
+def handle(req):   
 # Initialize variables for Google API
-scope = ['https://spreadsheets.google.com/feeds',
-         'https://www.googleapis.com/auth/drive']
-credentials = ServiceAccountCredentials
-              .from_json_keyfile_name('credentials.json', scope)
-client = gspread.authorize(credentials)
-worksheet = client.open("executietijd-openfaas").sheet1
-next_row = next_available_row(worksheet)
+    scope = ['https://spreadsheets.google.com/feeds',
+    'https://www.googleapis.com/auth/drive']
+    credentials = ServiceAccountCredentials
+    .from_json_keyfile_name('credentials-serverless.json', scope)
+    client = gspread.authorize(credentials)
+    worksheet = client.open("executietijd-demofunctie").sheet1
+    next_row = next_available_row(worksheet)
 
-# Start timer 
-start = time.time()
+    # GET: return all values from column A
+    # POST: Write string to Google spreadsheets in column A
+    if is_empty_string(req):
+        string_list = []
+        for cell in get_values(worksheet):
+            string_list.append(cell.value)
+        print str(string_list)
+    else:
+        worksheet.update_acell("A{}".format(next_row), req)
+        print "This function wrote '",req,"' to Google Spreadsheets!"
 
-# Print message visible by users
-print("Hello everyone, this is a serverless demo function!")
-
-# Start loop function to measure execution time
-a = range(1000000)
-b = []
-for i in a:
-     b.append(i*2)
-
-# Stop timer
-end = time.time()
-
-# Calculate the execution time of the function in seconds
-execution_time= end - start
-
-# Write the execution time to Google spreadsheet
-worksheet.update_acell("A{}".format(next_row), execution_time)
+if __name__ == "__main__":
+handle(req)
 \end{lstlisting}
 
 \newpage
 \section{OpenFaaS}
-Het eerste framework dat wordt uitgetest is OpenFaaS. Het experiment wordt opgezet op een MacBook Pro die voldoet aan voorgaande specificaties en beschikt over de benodigde softwarepakketten zoals eerder ook beschreven werd. De stappen die doorlopen worden in het opzetten en uitvoeren van het experiment, zijn steeds duidelijk gedocumenteerd en staan chronologisch gerangschikt. De installatieprocedure is eenvoudig te volgen en is reproduceerbaar aan de hand van de gedocumenteerde stappen en bijhorende scripts.
+OpenFaaS wordt als eerste framework onder de loep genomen. Het experiment wordt opgezet op een MacBook Pro die voldoet aan specificaties uit sectie \ref{sec:specificaties} en beschikt over de benodigde softwarepakketten zoals vermeld in sectie \ref{sec:software}. De stappen die doorlopen worden in het opzetten en uitvoeren van het experiment, zijn steeds duidelijk gedocumenteerd en staan chronologisch gerangschikt. De installatieprocedure is eenvoudig te volgen en is reproduceerbaar aan de hand van de gedocumenteerde stappen en bijhorende scripts.
 
 \subsection{Configuratie Minikube}
 \label{sec:configuratie-minikube}
-Vooraleer OpenFaaS geïnstalleerd kan worden, wordt er een lokale Kubernetes cluster die bestaat uit één node opgezet met Minikube. Een Minikube cluster biedt dezelfde functionaliteiten als een productieomgeving waarop een Kubernetes cluster is geïnstalleerd. Er wordt gebruik gemaakt van Kubernetes als container orchestrator. Een orchestrator is een tool die instaat voor het management van containers en microservice applicaties. Kubernetes zorgt ervoor dat applicaties schaalbaar kunnen worden opgezet, staat in voor het volledige beheer van de containers en voorziet ''High-availability''.
+Vooraleer OpenFaaS geïnstalleerd kan worden, wordt er een lokale Kubernetes cluster die bestaat uit één node opgezet met Minikube. Een Minikube cluster biedt dezelfde functionaliteiten als een productieomgeving waarop een Kubernetes cluster is geïnstalleerd. Er wordt gebruik gemaakt van Kubernetes als container orkestratie platform. Een orkestrator is een tool die instaat voor het management van containers en microservice applicaties. Kubernetes zorgt ervoor dat applicaties schaalbaar kunnen worden opgezet, staat in voor het volledige beheer van de containers en voorziet ''High-availability''.
 \\
-In sectie \ref{sec:voorbereiding-omgeving} werden de benodigde softwarepakketten reeds geïnstalleerd. Indien alle stappen succesvol werden doorlopen dan kan de Minikube cluster probleemloos als volgt worden gestart. Na de installatie wordt eerst ook de status van de cluster nagegaan. De Minikube cluster wordt opgezet met aangepaste specificaties, zijnde: CPUs=4, Memory=8192MB, Disk=20000MB.
+In sectie \ref{sec:software} werden de benodigde softwarepakketten reeds geïnstalleerd. Indien alle stappen succesvol werden doorlopen dan kan de Minikube cluster probleemloos worden gestart volgens de stappen in onderstaand codevoorbeeld. De Minikube cluster wordt gestart met aangepaste specificaties, zijnde: vier CPUs, 8192MB geheugen en 20000MB opslag. Na de installatie wordt eerst de status van de cluster nagegaan om te kijken of alles draait.
 
 \begin{lstlisting}[language=bash]
 $ minikube start --cpus 4 --memory 8192
@@ -107,7 +119,7 @@ minikube-vm at 192.168.99.107
 \end{lstlisting}
 
 \subsection{Installatie OpenFaaS}
-Indien de installatie van Minikube uit voorgaande sectie succesvol is, dan kan OpenFaaS worden geïnstalleerd. De installatie van OpenFaaS bestaat uit enkele stappen die werden omgevormd tot een shell script. Het is mogelijk dit script vanuit de Terminal uit te voeren, vervolgens start de installatie van OpenFaaS. De volledige installatie van het framework is geautomatiseerd en reproduceerbaar. Het script is terug te vinden als bijlage \ref{sec:installatie-openfaas} onder de naam Installatiescript OpenFaaS. De installatie is gebaseerd op een blogpost van \textcite{Ellis2017}, de founder van OpenFaaS. In de documentatie van OpenFaaS\footnote{https://docs.openfaas.com/} wordt eveneens naar deze blogpost gerefereerd als installatiehandleiding. Na de  uitvoering van het script is OpenFaaS geïnstalleerd bovenop de Minikube cluster. Na de installatie worden enkele artefacten geproduceerd die communicatie met het framework mogelijk maken.
+Indien de installatie van Minikube uit voorgaande sectie succesvol is, dan kan OpenFaaS worden geïnstalleerd. De installatie van OpenFaaS bestaat uit enkele stappen die werden omgevormd tot een shell script. Het is mogelijk dit script vanuit de Terminal uit te voeren, vervolgens start de installatie van OpenFaaS. De volledige installatie van het framework is geautomatiseerd en reproduceerbaar. Het script is terug te vinden in bijlage \ref{sec:installatie-openfaas} onder de naam Installatiescript OpenFaaS. De installatie is gebaseerd op een blogpost van \textcite{Ellis2017}, de founder van OpenFaaS. In de documentatie van OpenFaaS\footnote{https://docs.openfaas.com/} wordt eveneens naar deze blogpost gerefereerd als installatiehandleiding. Na de  uitvoering van het script is OpenFaaS geïnstalleerd bovenop de Minikube cluster. Na de installatie worden enkele artefacten geproduceerd die communicatie met het framework mogelijk maken.
 \\
 \begin{itemize}
     \item OpenFaaS UI standaard poort: 31112
@@ -115,21 +127,20 @@ Indien de installatie van Minikube uit voorgaande sectie succesvol is, dan kan O
 \end{itemize}
  
 \subsection{Gebruik OpenFaaS}
+\subsubsection{Command line tools}
+Faas-cli is de command line tool die beheer van OpenFaaS voorziet aan de hand van de console. Vooraleer van start te kunnen gaan moet de gebruiker inloggen via de Terminal door volgend commando in te voeren. Het paswoord werd tijdens de installatie in de Terminal weggeschreven, net zoals het IP adres waarop OpenFaaS draait. Daarnaast beschikt de shell ook over environment parameters met het wachtwoord en de URL voor OpenFaaS. De command line tools voorzien meer functionaliteiten dan de UI. Het is mogelijk om functies te deployen via de CLI, de omgeving te beheren, confidentiële sleutels en wachtwoorden te beheren.
+\begin{lstlisting}[language=bash]
+$ faas-cli login -g http://$OPENFAAS_URL -u admin -p $PASSWORD
+\end{lstlisting}
+
 \subsubsection{User Interface}
-Na de installatie is het mogelijk naar de OpenFaaS UI te surfen, \\bijvoorbeeld: http://192.168.99.107:31112. 
+Na de installatie is het mogelijk naar de OpenFaaS UI te surfen via het IP adres van de minikube cluster gevolgd door poortnummer 31112.
 De eerste keer dient er aangemeld te worden met gebruiker ''admin'' (Deze gebruiker wordt aangemaakt in het installatiescript) en het wachtwoord dat in de Terminal werd weergegeven door het installatiescript. Na het aanmelden is de interface zoals in figuur \ref{fig:openfaas-ui} te zien. De UI ziet er vrij sober uit na installatie, er is eveneens een mogelijkheid om een nieuwe functie te deployen via de ''Deploy New Function'' knop. Wanneer gebruikers kiezen een nieuwe functie te deployen dan kunnen ze enerzijds kiezen voor een community functie, dit zijn reeds bestaande functies die op het OpenFaaS framework kunnen gedraaid worden. Anderzijds kunnen gebruikers ook manueel zelfgeschreven functies deployen aan de hand van deze interface. In dit onderzoek worden functies gedeployed via de command line met het faas-cli commando. Deployments van functies via de command line biedt een betere reproduceerbaarheid en is vaak sneller en makkelijker te reproduceren. Er wordt ook bewust gekozen voor de command line tools omdat niet alle serverless frameworks over een UI beschikken. De interface is een leuke feature en is makkelijk in gebruik voor mensen die aan de slag willen met serverless, deze wordt eveneens standaard meegeïnstalleerd met OpenFaaS.
 \begin{figure}
     \includegraphics[width=1\textwidth]{img/openfaas-ui.png}
     \caption{OpenFaaS User Interface}
     \label{fig:openfaas-ui}  
 \end{figure}
-
-\subsubsection{Command line tools}
-Faas-cli is de command line tool die beheer van OpenFaaS voorziet aan de hand van de console. Vooraleer van start te kunnen gaan moet de gebruiker inloggen via de Terminal door volgend commando in te voeren. Het paswoord werd tijdens de installatie in de Terminal weggeschreven, net zoals het IP adres waarop OpenFaaS draait. Daarnaast beschikt de shell ook over environment parameters met het wachtwoord en de URL voor OpenFaaS.
-\begin{lstlisting}[language=bash]
-$ faas-cli login -g http://$OPENFAAS_URL -u admin -p $PASSWORD
-\end{lstlisting}
-De command line tools voorzien meer functionaliteiten dan de UI. Het is mogelijk om functies te deployen via de CLI, de omgeving te beheren, confidentiële sleutels en wachtwoorden te beheren etc.
 
 \subsubsection{Prometheus monitoring}
 OpenFaaS voorziet monitoring aan de hand van Prometheus, via een Grafana dashboard kunnen verschillende metrics van functies worden bekeken. De configuratie van het dashboard werd reeds voorzien in installatiescript \ref{sec:installatie-openfaas}. Na de configuratie van Prometheus en Grafana kan het dashboard worden geraadpleegd via de GRAFANA\_URL, bijvoorbeeld http://192.168.99.107:32548/dashboard/db/openfaas. In figuur \ref{fig:grafana-dashboard} is het Grafana dashboard zichtbaar dat wordt weergegeven bij het openen van de link. Alvorens dit scherm kan geraadpleegd worden dient de gebruiker in te loggen met de default gebruiker ''admin'' met wachtwoord ''admin''. Grafana is standaard beschikbaar in het installatiepakket van OpenFaaS en dient enkel geactiveerd te worden.
@@ -177,8 +188,9 @@ $ faas-cli new --lang python serverless-demo --prefix="lennertmertens"
 $ ls
 serverless-demo     serverless-demo.yml    template
 
-# Vul de template bestanden aan naar eigen wensen en schrijf de functie
-# De inhoud van de bestanden wordt hieronder weergegeven.
+# Vul de handler.py en requirements.txt bestanden in de folder 
+# serverless-demo aan naar eigen wensen en schrijf de functie
+# De inhoud van de bestanden wordt onder de code weergegeven.
 
 # 3. Build de functie die werd geschreven.
 $ faas-cli build -f serverless-demo.yml
@@ -191,7 +203,6 @@ $ faas-cli deploy -f serverless-demo.yml
 \end{lstlisting}
 
 De bestanden voor het maken en deployen van de functie zien er als volgt uit.
-
 \subsubsection{serverless-demo.yml}
 Aan de hand van dit bestand wordt de functie gedeployed. Dit bestand is een template waaraan enkele zaken zijn toegevoegd die specifiek zijn voor de demo-omgeving die werd opgezet. In bijlage \ref{sec:serverless-demo.yml} is de inhoud van dit bestand terug te vinden. De gateway is de URL van de OpenFaaS omgeving. De image is de Docker image dat wordt gebruikt voor het deployen van de functie op het framework. De ''secrets'' optie moet eveneens worden toegevoegd indien er gebruik wordt gemaakt van een Kubernetes secret, op die manier kan de functie de inhoud ervan opvragen.
 
@@ -202,7 +213,7 @@ Onder de map serverless-demo is het handler.py bestand terug te vinden, dit is e
 Onder de serverless-demo map is eveneens een requirements.txt bestand terug te vinden. Het bestand bevat de dependencies waar het Python script afhankelijk van is, dit zijn packages nodig om de functie uit te voeren. De packages staan opgelijst in bijlage \ref{sec:requirements.txt}.
 
 \subsection{Deployment bestaande functie}
-Wanneer de functie werd gebuild en in een repository op Docker Hub werd geplaatst dan volstaat het om enkel een template file te hebben zoals \ref{sec:serverless-demo.yml}. De functie wordt vanaf een bestaande image gedeployed dus het is niet meer nodig deze image opnieuw te builden. Images in Docker registries bieden de mogelijkheden dat ze eender waar kunnen worden gebruikt door iedereen of door een afgeschermde groep mensen. Het voordeel van serverless functies is dat er per functie een container wordt gebuild die alle dependencies en runtime voor een specifiek stuk code bevat.
+Wanneer de functie werd gebuild en gepusht naar een Docker Hub repository volstaat het om enkel een template file te gebruiken zoals \ref{sec:serverless-demo.yml}. De functie wordt vanaf een bestaande image gedeployed dus het is niet meer nodig deze image opnieuw te builden. Images in Docker registries bieden de mogelijkheden dat ze eender waar kunnen worden gebruikt door iedereen of door een afgeschermde groep mensen. Het voordeel van serverless functies is dat er per functie een container wordt gebuild die alle dependencies en runtime voor een specifiek stuk code bevat.
 
 \begin{lstlisting}[language=bash]
 # Deploy bestaande functie op het OpenFaaS framework
@@ -212,19 +223,15 @@ $ faas-cli deploy -f serverless-demo.yml
 
 \subsection{Uitvoeren demofunctie}
 \label{sec:openfaas-uitvoeren-functie}
-De demofunctie reageert wanneer het een HTTP GET request ontvangt, deze actie kan worden getriggered op verschillende manieren. Via de UI is het mogelijk de functie aan te roepen door deze te selecteren en dan op de knop ''invoke'' te klikken, wanneer deze actie wordt uitgevoerd, wordt er een boodschap teruggegeven en eveneens werd de uitvoeringstijd van de functie weggeschreven naar het Google spreadsheet bestand. In figuur \ref{fig:openfaas-functie-ui} is de response van de functie zichtbaar, de overeenkomstige uitvoeringstijd van de functie (de tijd dat de code uitvoert en niet de tijd dat het duurt vanaf de request tot de response) werd weggeschreven naar het Google spreadsheet bestand.
-De functie kan eveneens worden aangeroepen via het ''curl'' commando in de terminal.
+De demofunctie reageert wanneer het een HTTP GET of POST request ontvangt, deze actie kan worden getriggered op verschillende manieren. Via de UI is het mogelijk de functie aan te roepen door deze te selecteren, eventueel een ''body'' mee te geven en dan op de knop ''invoke'' te klikken. Anderzijds, en dit wordt toegepast in dit onderzoek, kan er gebruik worden gemaakt van ''curl''. Curl verstuurt een HTTP request naar de opgegeven URL, op deze manier is het mogelijk om HTTP requests te generen.
 
 \begin{lstlisting}[language=bash]
-# Aanroep functie met curl.
- $ curl http://$OPENFAAS_URL/function/serverless-demo
+# GET request met curl
+$ curl http://$OPENFAAS_URL/function/serverless-demo
+# POST request met curl
+$ curl -d 'string om weg te schrijven' 
+   http://$OPENFAAS_URL/function/serverless-demo
 \end{lstlisting}
-
-\begin{figure}
-    \includegraphics[width=1\textwidth]{img/openfaas-demo-ui.png}
-    \caption{Aanroep OpenFaaS functie via UI.}
-    \label{fig:openfaas-functie-ui}  
-\end{figure}
 
 \subsection{Schaalbaarheid OpenFaaS}
 Een van de requirements waaraan het framework moet voldoen is automatische schaalbaarheid. Wanneer het aantal pods (dit is te vergelijken met één container in Kubernetes) van de functie wordt opgevraagd dan is er te zien dat er initieel maar één draait, zie figuur \ref{fig:openfaas-scalability-1}.

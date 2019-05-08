@@ -1,9 +1,6 @@
 import gspread
 import sys
 from oauth2client.service_account import ServiceAccountCredentials
-# Call the function locally as follows: 
-# python demo.py "string to write"
-
 # Check if a string is provided when calling the function.
 # Sentences should be provided between quotes!
 if len(sys.argv) > 1:
@@ -35,7 +32,7 @@ def handle(req):
     next_row = next_available_row(worksheet)
 
     # GET: return all values from column A
-    # POST: Write string to 
+    # POST: Write string to Google spreadsheets in column A
     if is_empty_string(req):
         string_list = []
         for cell in get_values(worksheet):

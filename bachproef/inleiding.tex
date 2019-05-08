@@ -19,7 +19,7 @@ Deze studie behandelt een uiteenzetting van de basis cloud computing principes. 
 
 %%Uit je probleemstelling moet duidelijk zijn dat je onderzoek een meerwaarde heeft voor een concrete doelgroep. De doelgroep moet goed gedefinieerd en afgelijnd zijn. Doelgroepen als ``bedrijven,'' ``KMO's,'' systeembeheerders, enz.~zijn nog te vaag. Als je een lijstje kan maken van de personen/organisaties die een meerwaarde zullen vinden in deze bachelorproef (dit is eigenlijk je steekproefkader), dan is dat een indicatie dat de doelgroep goed gedefinieerd is. Dit kan een enkel bedrijf zijn of zelfs één persoon (je co-promotor/opdrachtgever).%%
 
-Er zijn bedrijven die interesse hebben in het gebruik van serverless omgevingen, maar opteren om deze niet te draaien bij grote cloud providers zoals Google, Amazon of Microsoft Azure. Bedrijven die serverless willen werken in hun eigen datacenter, de private cloud of op locatie hebben nood aan een framework dat hen instaat stelt dit te verwezenlijken. Nubera heeft klanten die argwanend zijn wanneer ze voorstellen een cloud omgeving op te zetten bij een van de grote spelers. Omdat Nubera momenteel nog geen specifieke oplossing gebruikt om serverless te implementeren bij klanten in house, werd mij gevraagd hiernaar onderzoek te doen en een goed alternatief framework voor Fission te zoeken en te vergelijken. Het framework dat wordt gekozen moet voldoen aan een reeks vooropgestelde requirements. Er wordt een reproduceerbare Proof of Concept uitgewerkt die inzicht geeft in de behandelde frameworks.
+Er zijn bedrijven die interesse hebben in het gebruik van serverless omgevingen, maar opteren om deze niet te draaien bij grote cloud providers zoals Google, Amazon of Microsoft Azure. Bedrijven die serverless willen werken in hun eigen datacenter, de private cloud of op locatie hebben nood aan een framework dat hen instaat stelt dit te verwezenlijken. Nubera heeft klanten die argwanend zijn wanneer ze voorstellen een cloud omgeving op te zetten bij een van de grote spelers. Omdat Nubera momenteel nog geen specifieke oplossing gebruikt om serverless te implementeren bij klanten in house, werd mij gevraagd hiernaar onderzoek te doen en een goed alternatief framework voor Fission te zoeken en te vergelijken. Het framework dat wordt gekozen moet voldoen aan een reeks vooropgestelde requirements. Er wordt een reproduceerbare Proof of Concept uitgewerkt die inzicht geeft in de behandelde frameworks. Op basis van de Proof of Concept krijgen medewerkers en klanten van Nubera die interesse hebben in serverless een globaal beeld van de mogelijkheden en beperkingen.
 
 \section{Onderzoeksvraag}
 \label{sec:onderzoeksvraag}
@@ -28,7 +28,7 @@ Er zijn bedrijven die interesse hebben in het gebruik van serverless omgevingen,
 
 Onderzoeksvraag: 
 \begin{itemize}
-    \item Hoe werkt een serverless omgeving in house: vergelijking tussen twee serverless frameworks  voor serverless in house infrastructuur, welk framework neemt de voorkeur en waarom?
+    \item Welk serverless framework leunt het beste aan bij de vereisten van Nubera en hoe kan dit vergeleken worden met een concurrent?
 \end{itemize}
 
 Deelonderzoeksvragen: 
@@ -69,9 +69,9 @@ In Hoofdstuk~\ref{ch:stand-van-zaken} wordt een overzicht gegeven van de stand v
 In Hoofdstuk~\ref{ch:methodologie} wordt de methodologie toegelicht en worden de gebruikte onderzoekstechnieken besproken om een antwoord te kunnen formuleren op de onderzoeksvragen.
 
 % TODO: Vul hier aan voor je eigen hoofstukken, één of twee zinnen per hoofdstuk
-In Hoofdstuk~\ref{ch:uitwerking} worden op basis van enkele requirements, opgelegd door Nubera, twee interessante open source frameworks gekozen voor het draaien van een serverless infrastructuur on-premises of in de private cloud.
+In Hoofdstuk~\ref{ch:uitwerking} worden op basis van vooropgestelde requirements, die in overleg met Nubera gecapteerd werden, twee interessante open source frameworks uitgekozen voor het draaien van een serverless infrastructuur on-premises of in de private cloud.
 
-In Hoofdstuk~\ref{ch:proof-of-concept} worden twee experimenten opgezet. Het Fission framework en OpenFaaS worden opgezet op een Kubernetes cluster. Op beide frameworks wordt een zelfgeschreven Pyhton functie gedeployed die de werking van de tools demonstreert. Op basis van de opstelling worden verschillende requirements gemeten en worden beide frameworks tegen elkaar afgewogen.
+In Hoofdstuk~\ref{ch:proof-of-concept} worden twee experimenten opgezet volgens dezelfde stappen. Het Fission framework en OpenFaaS worden opgezet op een Kubernetes cluster. Op beide frameworks wordt een zelfgeschreven Pyhton functie gedeployed die de werking van de tools demonstreert. Op basis van de opstelling worden verschillende requirements gemeten en worden beide frameworks tegen elkaar afgewogen.
 
 In Hoofdstuk~\ref{ch:conclusie}, tenslotte, wordt de conclusie gegeven en een antwoord geformuleerd op de onderzoeksvragen. Daarbij wordt ook een aanzet gegeven voor toekomstig onderzoek binnen dit domein.
 
