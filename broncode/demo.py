@@ -23,8 +23,9 @@ def get_values(worksheet):
     all_cells = worksheet.range(cell_range)
     return all_cells
 
-def handle(req):   
+def handle(request):   
     # Initialize variables for Google API
+    data = request
     scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
     credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials-serverless.json', scope)
     client = gspread.authorize(credentials)
@@ -33,14 +34,14 @@ def handle(req):
 
     # GET: return all values from column A
     # POST: Write string to Google spreadsheets in column A
-    if is_empty_string(req):
+    if is_empty_string(data):
         string_list = []
         for cell in get_values(worksheet):
             string_list.append(cell.value)
         print str(string_list)
     else:
-        worksheet.update_acell("A{}".format(next_row), req)
-        print "This function wrote '",req,"' to Google Spreadsheets!"
+        worksheet.update_acell("A{}".format(next_row), data)
+        print "This function wrote '",data,"' to Google Spreadsheets!"
 
 if __name__ == "__main__":
-    handle(req)
+    handle(request)

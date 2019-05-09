@@ -50,20 +50,4 @@ sleep 10
 export OPENFAAS_URL=$(minikube ip):31112
 export URL=$(minikube ip)
 echo URL: $OPENFAAS_URL
-
-
-# Configure Prolmetheus Grafana dashboard
-kubectl -n openfaas run \
---image=stefanprodan/faas-grafana:4.6.3 \
---port=3000 \
-grafana
-
-kubectl -n openfaas expose deployment grafana \
---type=NodePort \
---name=grafana
-
-GRAFANA_PORT=$(kubectl -n openfaas get svc grafana -o \
-jsonpath="{.spec.ports[0].nodePort}")
-GRAFANA_URL= \
-$URL: $GRAFANA_PORT/dashboard/db/openfaas
 \end{lstlisting}

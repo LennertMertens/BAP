@@ -5,13 +5,13 @@ sleep 10
 
 # Deploy Fission to Minikube
 # 1. Initialize Helm
-kubectl -n kube-system create sa tiller && \
-kubectl create clusterrolebinding tiller --clusterrole \
-cluster-admin --serviceaccount=kube-system:tiller
+# kubectl -n kube-system create sa tiller && \
+# kubectl create clusterrolebinding tiller --clusterrole \
+# cluster-admin --serviceaccount=kube-system:tiller
 
-# 2. Install tiller
-helm init --service-account tiller
-sleep 20
+# # 2. Install tiller
+# helm init --service-account tiller
+# sleep 20
 
 # 2. Install Fission Framework
 helm repo update && \

@@ -125,30 +125,6 @@ Indien de installatie van Minikube uit voorgaande sectie succesvol is, dan kan O
     \item OpenFaaS UI standaard poort: 31112
     \item OpenFaaS UI URL: http://MINIKUBE-IP:31112/ui/
 \end{itemize}
- 
-\subsection{Gebruik OpenFaaS}
-\subsubsection{Command line tools}
-Faas-cli is de command line tool die beheer van OpenFaaS voorziet aan de hand van de console. Vooraleer van start te kunnen gaan moet de gebruiker inloggen via de Terminal door volgend commando in te voeren. Het paswoord werd tijdens de installatie in de Terminal weggeschreven, net zoals het IP adres waarop OpenFaaS draait. Daarnaast beschikt de shell ook over environment parameters met het wachtwoord en de URL voor OpenFaaS. De command line tools voorzien meer functionaliteiten dan de UI. Het is mogelijk om functies te deployen via de CLI, de omgeving te beheren, confidentiële sleutels en wachtwoorden te beheren.
-\begin{lstlisting}[language=bash]
-$ faas-cli login -g http://$OPENFAAS_URL -u admin -p $PASSWORD
-\end{lstlisting}
-
-\subsubsection{User Interface}
-Na de installatie is het mogelijk naar de OpenFaaS UI te surfen via het IP adres van de minikube cluster gevolgd door poortnummer 31112.
-De eerste keer dient er aangemeld te worden met gebruiker ''admin'' (Deze gebruiker wordt aangemaakt in het installatiescript) en het wachtwoord dat in de Terminal werd weergegeven door het installatiescript. Na het aanmelden is de interface zoals in figuur \ref{fig:openfaas-ui} te zien. De UI ziet er vrij sober uit na installatie, er is eveneens een mogelijkheid om een nieuwe functie te deployen via de ''Deploy New Function'' knop. Wanneer gebruikers kiezen een nieuwe functie te deployen dan kunnen ze enerzijds kiezen voor een community functie, dit zijn reeds bestaande functies die op het OpenFaaS framework kunnen gedraaid worden. Anderzijds kunnen gebruikers ook manueel zelfgeschreven functies deployen aan de hand van deze interface. In dit onderzoek worden functies gedeployed via de command line met het faas-cli commando. Deployments van functies via de command line biedt een betere reproduceerbaarheid en is vaak sneller en makkelijker te reproduceren. Er wordt ook bewust gekozen voor de command line tools omdat niet alle serverless frameworks over een UI beschikken. De interface is een leuke feature en is makkelijk in gebruik voor mensen die aan de slag willen met serverless, deze wordt eveneens standaard meegeïnstalleerd met OpenFaaS.
-\begin{figure}
-    \includegraphics[width=1\textwidth]{img/openfaas-ui.png}
-    \caption{OpenFaaS User Interface}
-    \label{fig:openfaas-ui}  
-\end{figure}
-
-\subsubsection{Prometheus monitoring}
-OpenFaaS voorziet monitoring aan de hand van Prometheus, via een Grafana dashboard kunnen verschillende metrics van functies worden bekeken. De configuratie van het dashboard werd reeds voorzien in installatiescript \ref{sec:installatie-openfaas}. Na de configuratie van Prometheus en Grafana kan het dashboard worden geraadpleegd via de GRAFANA\_URL, bijvoorbeeld http://192.168.99.107:32548/dashboard/db/openfaas. In figuur \ref{fig:grafana-dashboard} is het Grafana dashboard zichtbaar dat wordt weergegeven bij het openen van de link. Alvorens dit scherm kan geraadpleegd worden dient de gebruiker in te loggen met de default gebruiker ''admin'' met wachtwoord ''admin''. Grafana is standaard beschikbaar in het installatiepakket van OpenFaaS en dient enkel geactiveerd te worden.
-\begin{figure}
-    \includegraphics[width=1\textwidth]{img/grafana-dashboard.png}
-    \caption{Grafana dashboard}
-    \label{fig:grafana-dashboard}  
-\end{figure}
 
 \subsection{Deployment nieuwe demofunctie}
 Het OpenFaaS framework wordt getest aan de hand van de zelfgeschreven functie die reeds beschreven is in sectie \ref{sec:python-demofunctie}. De functie wordt gedeployed aan de hand van de faas-cli tool. De code die werd geschreven wordt eveneens aangepast zodanig dat er gebruik kan worden gemaakt van Kubernetes secrets\footnote{https://docs.openfaas.com/reference/secrets/} voor het beheer van credentials die nodig zijn voor de Google API. Het deployen van een functie is slechts mogelijk indien alle voorgaande stappen succesvol werden uitgevoerd. Het deployen van de functie is onderverdeeld in verschillende stappen die hieronder uitgebreid worden beschreven.
@@ -164,8 +140,8 @@ Eerder werd er een credential account aangemaakt via Google Cloud API. De creden
 
 \begin{lstlisting}[language=bash]
 $ kubectl create secret generic secret-api-credentials \
- --from-file=secret-api-credentials=credentials-serverless.json \
- --namespace openfaas-fn
+--from-file=secret-api-credentials=credentials-serverless.json \
+--namespace openfaas-fn
 \end{lstlisting}
 
 \subsubsection{3. Deploy functie}
@@ -230,8 +206,36 @@ De demofunctie reageert wanneer het een HTTP GET of POST request ontvangt, deze 
 $ curl http://$OPENFAAS_URL/function/serverless-demo
 # POST request met curl
 $ curl -d 'string om weg te schrijven' 
-   http://$OPENFAAS_URL/function/serverless-demo
+http://$OPENFAAS_URL/function/serverless-demo
 \end{lstlisting}
+
+\subsection{Gebruik OpenFaaS}
+\subsubsection{Command line tools}
+Faas-cli is de command line tool die beheer van OpenFaaS voorziet aan de hand van de console. Vooraleer van start te kunnen gaan moet de gebruiker inloggen via de Terminal door volgend commando in te voeren. Het paswoord werd tijdens de installatie in de Terminal weggeschreven, net zoals het IP adres waarop OpenFaaS draait. Daarnaast beschikt de shell ook over environment parameters met het wachtwoord en de URL voor OpenFaaS. De command line tools voorzien meer functionaliteiten dan de UI. Het is mogelijk om functies te deployen via de CLI, de omgeving te beheren, confidentiële sleutels en wachtwoorden te beheren.
+\begin{lstlisting}[language=bash]
+$ faas-cli login -g http://$OPENFAAS_URL -u admin -p $PASSWORD
+\end{lstlisting}
+
+\subsubsection{User Interface}
+Na de installatie is het mogelijk naar de OpenFaaS UI te surfen via het IP adres van de minikube cluster gevolgd door poortnummer 31112.
+De eerste keer dient er aangemeld te worden met gebruiker ''admin'' (Deze gebruiker wordt aangemaakt in het installatiescript) en het wachtwoord dat in de Terminal werd weergegeven door het installatiescript. Na het aanmelden is de interface zoals in figuur \ref{fig:openfaas-ui} te zien. De UI ziet er vrij sober uit na installatie, er is eveneens een mogelijkheid om een nieuwe functie te deployen via de ''Deploy New Function'' knop. Wanneer gebruikers kiezen een nieuwe functie te deployen dan kunnen ze enerzijds kiezen voor een community functie, dit zijn reeds bestaande functies die op het OpenFaaS framework kunnen gedraaid worden. Anderzijds kunnen gebruikers ook manueel zelfgeschreven functies deployen aan de hand van deze interface. In dit onderzoek worden functies gedeployed via de command line met het faas-cli commando. Deployments van functies via de command line biedt een betere reproduceerbaarheid en is vaak sneller en makkelijker te reproduceren. Er wordt ook bewust gekozen voor de command line tools omdat niet alle serverless frameworks over een UI beschikken. De interface is een leuke feature en is makkelijk in gebruik voor mensen die aan de slag willen met serverless, deze wordt eveneens standaard meegeïnstalleerd met OpenFaaS.
+\begin{figure}
+    \includegraphics[width=1\textwidth]{img/openfaas-ui.png}
+    \caption{OpenFaaS User Interface}
+    \label{fig:openfaas-ui}  
+\end{figure}
+
+\subsubsection{Prometheus monitoring}
+OpenFaaS voorziet standaard monitoring aan de hand van Prometheus, verschillende metrics kunnen via het Prometheus dashboard worden opgevraagd. Om gebruik te maken van Prometheus moet dit eerst beschikbaar worden gesteld aan de hand van port-forwarding. Om port-forwarding te activeren en het Prometheus dashboard raad te plegen moeten de stappen hieronder ondernomen worden. Gebruikers kunnen  vervolgens interageren met Prometheus via http://localhost:9090. In figuur \ref{fig:openfaas-prometheus} is het dashboard zichtbaar, via deze weg kunnen queries worden uitgevoerd om metrics op te vragen.
+\begin{lstlisting}[language=bash]
+# Configureer port-forwarding.
+$ kubectl port-forward deployment/prometheus 9090:9090 -n openfaas
+\end{lstlisting}
+\begin{figure}
+    \includegraphics[width=1\textwidth]{img/openfaas-prometheus}
+    \caption{OpenFaaS Prometheus dashboard.}
+    \label{fig:openfaas-prometheus}  
+\end{figure}
 
 \subsection{Schaalbaarheid OpenFaaS}
 Een van de requirements waaraan het framework moet voldoen is automatische schaalbaarheid. Wanneer het aantal pods (dit is te vergelijken met één container in Kubernetes) van de functie wordt opgevraagd dan is er te zien dat er initieel maar één draait, zie figuur \ref{fig:openfaas-scalability-1}.
@@ -256,6 +260,23 @@ Wanneer de functie zeer veel wordt aangeroepen aan de hand van bijvoorbeeld loop
 \end{figure}
 
 \subsection{Verzamelen functie gegevens}
+Om beide frameworks met elkaar te vergelijken wordt de uitvoeringstijd van de Python functie die werd geschreven onder de loep genomen. De tijd die nodig is voor het uitvoeren van de functie, vanaf dat de HTTP request wordt verzonden t.e.m. het moment dat er een response volgt en de functie eindigt, wordt weggeschreven naar een csv bestand. Het csv bestand zal in een later stadium van dit onderzoek gebruikt worden om enkele operaties op uit te voeren die inzicht geven in de uitvoeringstijd van de functie. De demofunctie wordt tweehonderd keer aangeroepen via een HTTP POST request dat de string ''Test'' wegschrijft naar een Google spreadsheet bestand, na afloop wordt de uitvoeringstijd weggeschreven naar het bestand uitvoeringstijd-openfaas.csv dat terug te vinden is in bijlage \ref{sec:uitvoeringstijd-demofunctie}. Onderstaande code voorziet de loop waarmee de functie wordt aangeroepen en de uitvoeringstijd wordt weggeschreven.
+
+\begin{lstlisting}[language=bash]
+$ cat openfaas-loop.sh
+#!/bin/bash
+touch uitvoeringstijd-openfaas.csv
+for i in {1..200};
+do
+curl -s -w -d 'Test' "%{time_total}\n" -o \
+/dev/null http://$OPENFAAS_URL/function/serverless-demo  \
+>> uitvoeringstijd-openfaas.csv
+done
+
+# Voer uit vanuit zelfde shell als installatie, deze kent de environment vars.
+$ OPENFAAS_URL=$OPENFAAS_URL ./openfaas-loop.sh
+\end{lstlisting}
+
 
 \newpage
 \section{Fission}
