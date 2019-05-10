@@ -136,12 +136,12 @@ $ source install.sh
 \end{lstlisting}
 
 \subsection{Deployment nieuwe demofunctie}
-Het OpenFaaS framework wordt getest aan de hand van de zelfgeschreven functie die reeds beschreven is in sectie \ref{sec:python-demofunctie}. De functie wordt gedeployed aan de hand van de faas-cli tool. De code die werd geschreven wordt eveneens aangepast zodanig dat er gebruik kan worden gemaakt van Kubernetes secrets\footnote{https://docs.openfaas.com/reference/secrets/} voor het beheer van credentials die nodig zijn voor de Google API. Het deployen van een functie is slechts mogelijk indien alle voorgaande stappen succesvol werden uitgevoerd. Het deployen van de functie is onderverdeeld in verschillende stappen die hieronder uitgebreid worden beschreven. 
+Het OpenFaaS framework wordt getest aan de hand van een Pyhton functie die reeds beschreven is in sectie \ref{sec:python-demofunctie}. De functie wordt gedeployed aan de hand van de faas-cli tool. De code die werd geschreven wordt eveneens aangepast zodanig dat er gebruik kan worden gemaakt van Kubernetes secrets\footnote{https://docs.openfaas.com/reference/secrets/} voor het beheer van credentials die nodig zijn voor de Google API. Het deployen van een functie is slechts mogelijk indien alle voorgaande stappen succesvol werden uitgevoerd. Het deployen van de functie is onderverdeeld in verschillende stappen die hieronder uitgebreid worden beschreven. 
 
 \subsubsection{1. Aanmelden via faas-cli}
 Indien er eerder nog niet werd ingelogd via de faas-cli dan moet dit gebeuren alvorens verder te gaan. Met behulp van volgend commando kan worden ingelogd, indien dit vanuit dezelfde shell als diegene waarin het installatiescript werd uitgevoerd gebeurt. Als de omgevingsvariabelen niet ingesteld zijn dan kunnen deze worden aangepast naar het IP adres en wachtwoord van het Tiller service account.
 \begin{lstlisting}[language=bash]
-$ faas-cli login -g http://$OPENFAAS_URL -u admin -p $PASSWORD
+$ faas-cli login -g $OPENFAAS_URL -u admin -p $PASSWORD
 \end{lstlisting}
 
 \subsubsection{2. Aanmaken Kubernetes secret}
@@ -154,7 +154,7 @@ $ kubectl create secret generic secret-api-credentials \
 \end{lstlisting}
 
 \subsubsection{3. Deploy functie}
-De eerste keer dat de gebruiker een functie wilt deployen moeten er enkele stappen worden genomen, de functie moet worden geschreven, een YAML bestand met parameters specifiek voor deployment moet worden gemaakt en de gebruiker moet inloggen op Docker Hub voor het publiceren van Docker images. Wanneer een gebruiker een functie maakt, dan wordt deze op Docker Hub geplaats, vandaar het belang dat de gebruiker inlogt. Standaard zal een functie die wordt gedeployed een container opzetten die continue draait (standaard instelling), hierdoor kan er steeds snel op een request worden gereageerd en worden cold-start vermeden. Volgende stappen worden ondernomen wanneer de demofunctie voor het eerst wordt gedeployed.
+De eerste keer dat de gebruiker een functie wilt deployen moeten er enkele stappen worden genomen, de functie moet worden geschreven, een YAML bestand met parameters specifiek voor deployment moet worden gemaakt en de gebruiker moet inloggen op Docker Hub voor het publiceren van Docker images. Wanneer een gebruiker een functie maakt, dan wordt deze op Docker Hub geplaatst, vandaar het belang dat de gebruiker inlogt. Standaard zal een functie die wordt gedeployed een container opzetten die continue draait (standaard instelling), hierdoor kan er steeds snel op een request worden gereageerd en worden cold-start vermeden. Volgende stappen worden ondernomen wanneer de demofunctie voor het eerst wordt gedeployed.
 
 \begin{lstlisting}[language=bash]
 # 1. Login op Docker Hub.
@@ -165,7 +165,6 @@ $ mkdir demo-functie; cd demo-functie
 
 # serverless-demo is de naam die de functie zal krijgen,
 # prefix is de gebruikersnaam op Docker Hub.
-
 $ faas-cli new --lang python serverless-demo --prefix="lennertmertens"
 
 # De inhoud van de map ziet eruit als volgt na uitvoer 
@@ -192,13 +191,13 @@ De bestanden voor het maken en deployen van de functie zien er als volgt uit.
 Aan de hand van dit bestand wordt de functie gedeployed. Dit bestand is een template waaraan enkele zaken zijn toegevoegd die specifiek zijn voor de demo-omgeving die werd opgezet. In bijlage \ref{sec:serverless-demo.yml} is de inhoud van dit bestand terug te vinden. De gateway is de URL van de OpenFaaS omgeving. De image is de Docker image dat wordt gebruikt voor het deployen van de functie op het framework. De ''secrets'' optie moet eveneens worden toegevoegd indien er gebruik wordt gemaakt van een Kubernetes secret, op die manier kan de functie de inhoud ervan opvragen.
 
 \subsubsection{severless-demo/handler.py}
-Onder de map serverless-demo is het handler.py bestand terug te vinden, dit is een Python script dat de functionaliteit bevat. Het Python bestand is de code die de functie vormt. In bijlage \ref{sec:demofunctie-openfaas} is de code te zien die specifiek voor deze opstelling wordt gebruikt. De oorspronkelijke code werd omgevormd zodanig dat deze voldoet aan de vereisten van OpenFaaS. OpenFaaS maakt gebruik van een handle methode die moet worden opgesteld volgens een vast stramien, zoals eerder aangehaald is deze code terug te vinden in bijlage.
+Onder de map serverless-demo is het handler.py bestand terug te vinden, dit is een Python script dat de functionaliteit bevat. In bijlage \ref{sec:demofunctie-openfaas} is de code te zien die specifiek voor deze opstelling wordt gebruikt. De oorspronkelijke code werd omgevormd zodanig dat deze voldoet aan de vereisten van OpenFaaS, zo verwacht het OpenFaaS framework dat functies gebruik maken van ene handle methode die wordt opgesteld gebaseerd op een template die wordt aangeboden bij het maken van een nieuwe functie.
 
 \subsubsection{serverless-demo/requirements.txt}
-Onder de serverless-demo map is eveneens een requirements.txt bestand terug te vinden. Het bestand bevat de dependencies waar het Python script afhankelijk van is, dit zijn packages nodig om de functie uit te voeren. De packages staan opgelijst in bijlage \ref{sec:requirements.txt}.
+Onder de serverless-demo map is eveneens een requirements.txt bestand terug te vinden. Het bestand bevat de dependencies waar het Python script afhankelijk van is, dit zijn packages nodig om de functie uit te voeren. De packages  nodig voor het uitvoeren van de demofunctie zijn opgelijst in bijlage \ref{sec:requirements.txt}.
 
 \subsection{Deployment bestaande functie}
-Wanneer de functie werd gebuild en gepusht naar een Docker Hub repository volstaat het om enkel een template file te gebruiken zoals \ref{sec:serverless-demo.yml}. De functie wordt vanaf een bestaande image gedeployed dus het is niet meer nodig deze image opnieuw te builden. Images in Docker registries bieden de mogelijkheden dat ze eender waar kunnen worden gebruikt door iedereen of door een afgeschermde groep mensen. Het voordeel van serverless functies is dat er per functie een container wordt gebuild die alle dependencies en runtime voor een specifiek stuk code bevat.
+Wanneer gebruikers reeds eerder een functie op OpenFaaS hebben gemaakt die werd gepusht naar een Docker Hub repository, dan volstaat het om enkel een template file te gebruiken zoals \ref{sec:serverless-demo.yml}. De functie wordt vanaf een bestaande image gedeployed dus het is niet meer nodig deze image opnieuw te builden. Images in Docker registries bieden de mogelijkheden dat ze eender waar kunnen worden gebruikt door iedereen of door een afgeschermde groep mensen. Het voordeel van serverless functies is dat er per functie een container wordt gebuild die alle dependencies en runtime voor een specifiek stuk code bevat. Ongeacht van de onderliggende setup kan deze functie werken wanneer ze op een OpenFaaS framework wordt gedeployed.
 
 \begin{lstlisting}[language=bash]
 # Deploy bestaande functie op het OpenFaaS framework
@@ -211,9 +210,9 @@ $ faas-cli deploy -f serverless-demo.yml
 De demofunctie reageert wanneer er een HTTP GET request wordt ontvangen, deze actie kan worden getriggered op verschillende manieren. Via de UI is het mogelijk de functie aan te roepen door deze te selecteren, eventueel een ''body'' mee te geven en dan op de knop ''invoke'' te klikken. Anderzijds, en dit wordt toegepast in dit onderzoek, kan er gebruik worden gemaakt van ''curl''. Curl verstuurt een HTTP request naar de opgegeven URL, op deze manier is het mogelijk om HTTP requests te generen. Wanneer de optie -d wordt meegegeven met het curl commando dan wordt de string die wordt meegegeven eveneens weggeschreven naar het Google spreadsheets bestand.
 
 \begin{lstlisting}[language=bash]
-# GET request met curl
+# Request voor opvragen van lijst
 $ curl -X GET http://$OPENFAAS_URL/function/serverless-demo
-# POST request met curl
+# Request voor wegschrijven van een string
 $ curl -X GET -d 'string om weg te schrijven' 
 http://$OPENFAAS_URL/function/serverless-demo
 \end{lstlisting}
@@ -226,11 +225,11 @@ $ faas-cli login -g $OPENFAAS_URL -u admin -p $PASSWORD
 \end{lstlisting}
 
 \subsubsection{User Interface}
-Na de installatie is het mogelijk naar de OpenFaaS UI te surfen via het IP adres van de minikube cluster gevolgd door poortnummer 31112.
-De eerste keer dient er aangemeld te worden met gebruiker ''admin'' (Deze gebruiker wordt aangemaakt in het installatiescript) en het wachtwoord dat in de Terminal werd weergegeven door het installatiescript. Na het aanmelden is de interface zoals in figuur \ref{fig:openfaas-ui} te zien. De UI ziet er vrij sober uit na installatie, er is eveneens een mogelijkheid om een nieuwe functie te deployen via de ''Deploy New Function'' knop. Wanneer gebruikers kiezen een nieuwe functie te deployen dan kunnen ze enerzijds kiezen voor een community functie, dit zijn reeds bestaande functies die op het OpenFaaS framework kunnen gedraaid worden. Anderzijds kunnen gebruikers ook manueel zelfgeschreven functies deployen aan de hand van deze interface. In dit onderzoek worden functies gedeployed via de command line met het faas-cli commando. Deployments van functies via de command line biedt een betere reproduceerbaarheid en is vaak sneller en makkelijker te reproduceren. Er wordt ook bewust gekozen voor de command line tools omdat niet alle serverless frameworks over een UI beschikken. De interface is een leuke feature en is makkelijk in gebruik voor mensen die aan de slag willen met serverless, deze wordt eveneens standaard meegeïnstalleerd met OpenFaaS.
+Na de installatie is het mogelijk naar de OpenFaaS UI te surfen via het IP adres van de Minikube cluster gevolgd door poortnummer 31112.
+De eerste keer dient er aangemeld te worden met gebruiker ''admin'' (Deze gebruiker wordt aangemaakt in het installatiescript) en het wachtwoord dat in de Terminal werd weergegeven door het installatiescript. Na het aanmelden is de interface zoals in figuur \ref{fig:openfaas-ui} te zien. De UI ziet er vrij sober maar heel intuïtief uit, er is eveneens een mogelijkheid om een nieuwe functie te deployen via de ''Deploy New Function'' knop. Wanneer gebruikers kiezen een nieuwe functie te deployen dan kunnen ze enerzijds kiezen voor een community functie, dit zijn reeds bestaande functies die op het OpenFaaS framework kunnen gedraaid worden. Anderzijds kunnen gebruikers ook manueel zelfgeschreven functies deployen aan de hand van deze interface. In dit onderzoek worden functies gedeployed via de command line met het faas-cli commando. Deployments van functies via de command line biedt een betere reproduceerbaarheid en is vaak sneller en makkelijker te reproduceren. Er wordt ook bewust gekozen voor de command line tools omdat niet alle serverless frameworks over een UI beschikken. De interface is een leuke nice-to-have feature en is makkelijk in gebruik voor mensen die aan de slag willen met serverless, deze wordt eveneens standaard meegeïnstalleerd met OpenFaaS.
 \begin{figure}
     \includegraphics[width=1\textwidth]{img/openfaas-ui.png}
-    \caption{OpenFaaS User Interface}
+    \caption{OpenFaaS User Interface.}
     \label{fig:openfaas-ui}  
 \end{figure}
 
@@ -240,6 +239,7 @@ OpenFaaS voorziet standaard monitoring aan de hand van Prometheus, verschillende
 # Configureer port-forwarding.
 $ kubectl port-forward deployment/prometheus 9090:9090 -n openfaas
 \end{lstlisting}
+
 \begin{figure}
     \includegraphics[width=1\textwidth]{img/openfaas-prometheus}
     \caption{OpenFaaS Prometheus dashboard.}
@@ -247,14 +247,14 @@ $ kubectl port-forward deployment/prometheus 9090:9090 -n openfaas
 \end{figure}
 
 \subsection{Schaalbaarheid OpenFaaS}
-Een van de requirements waaraan het framework moet voldoen is automatische schaalbaarheid. Wanneer het aantal pods (dit is te vergelijken met één container in Kubernetes) van de functie wordt opgevraagd dan is er te zien dat er initieel maar één draait, zie figuur \ref{fig:openfaas-scalability-1}.
+Een van de requirements waaraan het framework moet voldoen is automatische schaalbaarheid. Wanneer het aantal pods van de functie wordt opgevraagd dan is er te zien dat er initieel maar één draait, zie figuur \ref{fig:openfaas-scalability-1}.
 \begin{figure}
     \includegraphics[width=1\textwidth]{img/openfaas-scalability-1.png}
-    \caption{OpenFaaS standaard pods}
+    \caption{OpenFaaS standaard pods.}
     \label{fig:openfaas-scalability-1}  
 \end{figure}
 
-Wanneer de functie zeer veel wordt aangeroepen aan de hand van bijvoorbeeld loop statements, dan zullen we zien dat wanneer we de pods opnieuw opvragen deze opschalen zonder dat hier iets moet voor worden gedaan. In figuur \ref{fig:openfaas-scalability-2} is te zien hoe de functie wordt aangeroepen en hoe de pods automatisch schalen. De functie die dit demonstreert is een eenvoudige functie\footnote{https://github.com/openfaas/faas/tree/master/sample-functions/NodeInfo} die informatie over de node ophaalt en deze teruggeeft aan de gebruiker, dit is een community functie die beschikbaar is in de OpenFaaS store en via de UI kan worden gedeployed. Hoe meer requests de functie moet verwerken, hoe meer pods er worden opgebracht. Als de requests worden gestopt dan schaalt OpenFaaS weer down zoals in figuur \ref{fig:openfaas-scalability-3} te zien is. Standaard zal er steeds een container blijven draaien, dit zorgt ervoor dat cold-starts worden vermeden. Er worden dus steeds een klein aantal resources verbruikt maar dit is een bewuste keuze omdat de container ervoor zorgt dat hoge latency wordt vermeden. In OpenFaaS kan de gebruiker zelf bepalen wanneer en hoe de functie moet geschaald worden, zo kan er ook gekozen worden om een container volledig af te zetten wanneer deze voor een bepaalde tijd geen requests ontvangt.
+Wanneer de functie zeer veel wordt aangeroepen aan de hand van bijvoorbeeld loop statements, m.a.w indien de HTTP load verhoogt, dan zullen we zien dat wanneer we de pods opnieuw opvragen deze opschalen zonder dat hier iets moet voor worden gedaan. In figuur \ref{fig:openfaas-scalability-2} is te zien hoe de functie wordt aangeroepen en hoe de pods automatisch schalen. De functie die dit demonstreert is een eenvoudige functie\footnote{https://github.com/openfaas/faas/tree/master/sample-functions/NodeInfo} die informatie over de node ophaalt en deze teruggeeft aan de gebruiker, dit is een community functie die beschikbaar is in de OpenFaaS store en via de UI kan worden gedeployed. Hoe meer requests de functie moet verwerken, hoe meer pods er worden opgebracht. Als de requests worden gestopt dan schaalt OpenFaaS weer down zoals in figuur \ref{fig:openfaas-scalability-3} te zien is. Standaard zal er steeds een container blijven draaien, dit zorgt ervoor dat cold-starts worden vermeden. Er worden dus steeds een klein aantal resources verbruikt maar dit is een bewuste keuze omdat de container ervoor zorgt dat hoge latency wordt vermeden. In OpenFaaS kan de gebruiker zelf bepalen wanneer en hoe de functie moet geschaald worden, zo kan er ook gekozen worden om een container volledig af te zetten wanneer deze voor een bepaalde tijd geen requests ontvangt.
 
 \begin{figure}
     \includegraphics[width=1\textwidth]{img/openfaas-scalability-2.png}
@@ -282,7 +282,8 @@ curl -X GET -s -w -d 'Test' "%{time_total}\n" -o \
 >> uitvoeringstijd-openfaas.csv
 done
 
-# Voer uit vanuit zelfde shell als installatie, deze kent de environment vars.
+# Voer uit vanuit zelfde shell als installatie, deze kent de 
+# omgevings variabelen.
 $ OPENFAAS_URL=$OPENFAAS_URL ./openfaas-loop.sh
 \end{lstlisting}
 
