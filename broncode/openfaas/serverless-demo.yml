@@ -1,6 +1,6 @@
 provider:
   name: openfaas
-  gateway: http://192.168.99.151:31112
+  gateway: http://192.168.99.154:31112
 functions:
   serverless-demo:
     lang: python

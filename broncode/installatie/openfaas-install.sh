@@ -1,47 +1,46 @@
 #!/bin/bash
-# Install OpenFaaS
-brew install faas-cli
+echo > artifacts.txt
+## Minikube enable metrics-server
+minikube addons enable metrics-server
 
-# Install Kubernetes Helm
+## Install brew packages
+brew install faas-cli
 brew install kubernetes-helm
 
-# Deploy OpenFaaS to Minikube
-# 1. Create a service account for tiller
+## Set up Kubernetes cluster
+# 1. Create a tiller service account 
 kubectl -n kube-system create sa tiller && \
 kubectl create clusterrolebinding tiller --clusterrole \
 cluster-admin --serviceaccount=kube-system:tiller
-sleep 10
 
-# 2. Install tiller
+# 2. Initialize tiller service account
 helm init --skip-refresh --upgrade --service-account tiller
-sleep 10
 
-# 3. Create namespaces for OpenFaaS core components and OpenFaaS Functions
+## Install OpenFaaS
+# 1. Create namespaces for OpenFaaS 
 kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
 sleep 10
 
-# 4. Add the OpenFaaS helm repository
+# 2. Add the OpenFaaS helm repository
 helm repo add openfaas https://openfaas.github.io/faas-netes/
 sleep 20
-# 5. Generate a random password
-export PASSWORD=$(head -c 12 /dev/urandom | shasum| cut -d' ' -f1)
 
-# 6. Log the password value to the user
-echo Password: $PASSWORD
+# 3. Generate a password
+export PASSWORD="Serverless123"
+echo PASSWORD=$PASSWORD >> artifacts.txt
 
-# 7. Create a secret for the generated password and write it to gateway-password.txt
+# 4. Add authentication user admin with password
 kubectl -n openfaas create secret generic basic-auth \
 --from-literal=basic-auth-user=admin --from-literal=basic-auth-password="$PASSWORD"
-
-echo $PASSWORD > gateway-password.txt
 sleep 10
 
-# 8. Install OpenFaaS using chart
+# 5. Install OpenFaaS using Helm chart
 helm repo update \
 && helm upgrade openfaas --install openfaas/openfaas \
 --namespace openfaas --set functionNamespace=openfaas-fn --set basic_auth=true
+sleep 30
 
 # 9. Set an environment variable for the OpenFaaS URL: OPENFAAS_URL
-export OPENFAAS_URL=$(minikube ip):31112
-export URL=$(minikube ip)
-echo URL: $OPENFAAS_URL
+export OPENFAAS_URL=http://$(minikube ip):31112
+echo OPENFAAS_URL=$OPENFAAS_URL >> artifacts.txt
+echo OPENFAAS_UI=$OPENFAAS_URL/ui >> artifacts.txt

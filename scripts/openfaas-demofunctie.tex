@@ -2,7 +2,6 @@
 \section{Demofunctie OpenFaaS}
 \subsection{handler.py}
 \label{sec:demofunctie-openfaas}
-
 \begin{lstlisting}[language=python]
 import gspread
 import sys
@@ -23,28 +22,25 @@ def get_values(worksheet):
     all_cells = worksheet.range(cell_range)
     return all_cells
 
-def handle(req):   
+def handle(request):   
     # Initialize variables for Google API
-    scope = ['https://spreadsheets.google.com/feeds',
-    'https://www.googleapis.com/auth/drive']
-    credentials = ServiceAccountCredentials
-    .from_json_keyfile_name
-    ('/var/openfaas/secrets/secret-api-credentials', scope)
+    data = request
+    scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
+    credentials = ServiceAccountCredentials.from_json_keyfile_name('/var/openfaas/secrets/secret-api-credentials', scope)
     client = gspread.authorize(credentials)
     worksheet = client.open("executietijd-demofunctie").sheet1
     next_row = next_available_row(worksheet)
 
-    if is_empty_string(req):
+    # Print message visible by users
+    if is_empty_string(data):
         string_list = []
         for cell in get_values(worksheet):
             string_list.append(cell.value)
-        print str(string_list)
+        return str(string_list)
     else:
-        worksheet.update_acell("A{}".format(next_row), req)
-        print "This function wrote '",req,"' to Google Spreadsheets!"
-
-if __name__ == "__main__":
-handle(req)
+        worksheet.update_acell("A{}".format(next_row), data)
+        string_output = "This function wrote " + data + " to Google Spreadsheets!"
+        return string_output
 \end{lstlisting}
 
 \newpage
@@ -58,7 +54,7 @@ functions:
   serverless-demo:
     lang: python
     handler: ./serverless-demo
-    image: lennertmertens/serverless-demo:openfaas
+    image: lennertmertens/serverless-demo:latest
     secrets:
       - secret-api-credentials
 \end{lstlisting}
