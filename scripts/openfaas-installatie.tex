@@ -2,52 +2,53 @@
 \label{sec:installatie-openfaas}
 \begin{lstlisting}[language=bash]
 #!/bin/bash
-# Install OpenFaaS
-brew install faas-cli
+echo > artifacts.txt
+## Minikube enable metrics-server
+minikube addons enable metrics-server
 
-# Install Kubernetes Helm
+## Installeer brew packages
+brew install faas-cli
 brew install kubernetes-helm
 
-# Deploy OpenFaaS to Minikube
-# 1. Create a service account for tiller
+## Configureer Kubernetes cluster
+# 1. Maak tiller service account
 kubectl -n kube-system create sa tiller && \
 kubectl create clusterrolebinding tiller --clusterrole \
 cluster-admin --serviceaccount=kube-system:tiller
-sleep 10
 
-# 2. Install tiller
+# 2. Initialiseer tiller service account
 helm init --skip-refresh --upgrade --service-account tiller
+
+## Installeer OpenFaaS
+# 1. Maak namespaces voor OpenFaaS 
+kubectl apply -f https://raw.githubusercontent.com/\
+openfaas/faas-netes/master/namespaces.yml
 sleep 10
 
-# 3. Create namespaces for OpenFaaS core components and OpenFaaS Functions
-kubectl apply -f https://raw.githubusercontent.com/openfaas/faas-netes/master/namespaces.yml
-sleep 10
+# 2. Voeg OpenFaaS Helm repository toe
+helm repo add openfaas \
+https://openfaas.github.io/faas-netes/
+sleep 20
 
-# 4. Add the OpenFaaS helm repository
-helm repo add openfaas https://openfaas.github.io/faas-netes/
-sleep 10
+# 3. Stel een paswoord in
+export PASSWORD="Serverless123"
+echo PASSWORD=$PASSWORD >> artifacts.txt
 
-
-# 5. Generate a random password
-export PASSWORD=$(head -c 12 /dev/urandom | shasum| cut -d' ' -f1)
-
-# 6. Log the password value to the user
-echo Password: $PASSWORD
-
-# 7. Create a secret for the generated password and write it to gateway-password.txt
+# 4. Maak admin account en configureer met paswoord
 kubectl -n openfaas create secret generic basic-auth \
---from-literal=basic-auth-user=admin --from-literal=basic-auth-password="$PASSWORD"
+--from-literal=basic-auth-user=admin \
+--from-literal=basic-auth-password="$PASSWORD"
+sleep 10
 
-echo $PASSWORD > gateway-password.txt
-
-# 8. Install OpenFaaS using chart
+# 5. Installeer OpenFaaS met Helm chart
 helm repo update \
 && helm upgrade openfaas --install openfaas/openfaas \
---namespace openfaas --set functionNamespace=openfaas-fn --set basic_auth=true
-sleep 10
+--namespace openfaas \
+--set functionNamespace=openfaas-fn --set basic_auth=true
+sleep 30
 
-# 9. Set an environment variable for the OpenFaaS URL: OPENFAAS_URL
-export OPENFAAS_URL=$(minikube ip):31112
-export URL=$(minikube ip)
-echo URL: $OPENFAAS_URL
+# 6. Stel OPENFAAS_URL omgevingsvariabele in
+export OPENFAAS_URL=http://$(minikube ip):31112
+echo OPENFAAS_URL=$OPENFAAS_URL >> artifacts.txt
+echo OPENFAAS_UI=$OPENFAAS_URL/ui >> artifacts.txt
 \end{lstlisting}

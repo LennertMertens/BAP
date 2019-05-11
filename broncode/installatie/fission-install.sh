@@ -3,28 +3,27 @@ echo > artifacts.txt
 ## Minikube enable metrics-server
 minikube addons enable metrics-server
 
-## Install brew packages
-brew install faas-cli
+## Installeer brew packages
 brew install kubernetes-helm
 
-## Set up Kubernetes cluster
-# 1. Create tiller service account
+## Configureer Kubernetes cluster
+# 1. Maak tiller service account
 kubectl -n kube-system create sa tiller && \
 kubectl create clusterrolebinding tiller --clusterrole \
 cluster-admin --serviceaccount=kube-system:tiller
 
-# 2. Initialize tiller service account
+# 2. Initialiseer tiller service account
 helm init --skip-refresh --upgrade --service-account tiller
 
-## Install Fission
-# 1. Update Helm repo and add Fission namespaces
+## Installeer Fission
+# 1. Update Helm repo en voeg Fission namespaces toe
 helm repo update && \
 helm install --name fission --namespace fission \
 --set serviceType=NodePort,routerServiceType=NodePort \
 https://github.com/fission/fission/releases/download/1.2.0/fission-all-1.2.0.tgz
 sleep 20
 
-# 2. Install Fission CLI tools
+# 2. Installeer Fission CLI tools
 if ! ls -f /usr/local/bin/fission;
 then
 curl -Lo fission \
@@ -34,13 +33,13 @@ else
 echo "Fission CLI tools zijn reeds geïnstallleerd!"
 fi
 
-# Expose the Fission IP addresses
+# Stel Fission omgevingsvariabelen in
 export FISSION_URL=http://$(minikube ip):31313
 echo FISSION_URL=$FISSION_URL >> artifacts.txt
 export FISSION_ROUTER=http://$(minikube ip):31314
 echo FISSION_ROUTER=${FISSION_ROUTER} >> artifacts.txt
 
-## Install Fission UI
+## Installer Fission UI (optioneel)
 MINIKUBE_IP=$(minikube ip)
 echo -n "Wilt u de Fission UI installeren? [y/n] "
 read answer
@@ -57,8 +56,6 @@ if [ "$answer" != "${answer#[Yy]}" ]; then
   # Schrijf IP adres naar artifacts
   export FISSION_UI=http://$MINIKUBE_IP:31319
   echo FISSION_UI=$FISSION_UI >> artifacts.txt
-  # Print het artifacts bestand met gegevens
-  cat artifacts.txt
 else
   echo Fission UI wordt niet geïnstalleerd!
 fi

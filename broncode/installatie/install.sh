@@ -40,7 +40,7 @@ helm repo update \
 --namespace openfaas --set functionNamespace=openfaas-fn --set basic_auth=true
 sleep 30
 
-# 9. Stel OPENFAAS_URL omgevingsvariabele in
+# 6. Stel OPENFAAS_URL omgevingsvariabele in
 export OPENFAAS_URL=http://$(minikube ip):31112
 echo OPENFAAS_URL=$OPENFAAS_URL >> artifacts.txt
 echo OPENFAAS_UI=$OPENFAAS_URL/ui >> artifacts.txt
@@ -86,8 +86,6 @@ if [ "$answer" != "${answer#[Yy]}" ]; then
   # Schrijf IP adres naar artifacts
   export FISSION_UI=http://$MINIKUBE_IP:31319
   echo FISSION_UI=$FISSION_UI >> artifacts.txt
-  # Print het artifacts bestand met gegevens
-  cat artifacts.txt
 else
   echo Fission UI wordt niet geïnstalleerd!
 fi

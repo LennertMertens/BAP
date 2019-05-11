@@ -131,7 +131,7 @@ $ cd BAP/broncode/installatie
 # Indien u enkel OpenFaaS wenst te installeren voer dan volgende uit:
 $ source openfaas-install.sh
 
-# Als u OpenFaaS en Fission (zie later) wilt installeren:
+# Als u alle frameworks wilt installeren op Minikube:
 $ source install.sh
 \end{lstlisting}
 
@@ -269,17 +269,18 @@ Wanneer de functie zeer veel wordt aangeroepen aan de hand van bijvoorbeeld loop
 \end{figure}
 
 \subsection{Verzamelen functie gegevens}
-Om beide frameworks met elkaar te vergelijken wordt de uitvoeringstijd van de Python functie die werd geschreven onder de loep genomen. De tijd die nodig is voor het uitvoeren van de functie, vanaf dat de HTTP request wordt verzonden t.e.m. het moment dat er een response volgt en de functie eindigt, wordt weggeschreven naar een csv bestand. Het csv bestand zal in een later stadium van dit onderzoek gebruikt worden om enkele operaties op uit te voeren die inzicht geven in de uitvoeringstijd van de functie. De demofunctie wordt tweehonderd keer aangeroepen via een HTTP request dat de string ''Test'' wegschrijft naar een Google spreadsheet bestand, na afloop wordt de uitvoeringstijd weggeschreven naar het bestand uitvoeringstijd-openfaas.csv dat terug te vinden is in bijlage \ref{sec:uitvoeringstijd-demofunctie}. Onderstaande code voorziet de loop waarmee de functie wordt aangeroepen en de uitvoeringstijd wordt weggeschreven.
+Om de frameworks met elkaar te vergelijken wordt de uitvoeringstijd van de Python functie die werd geschreven onder de loep genomen. De tijd die nodig is voor het uitvoeren van de functie, vanaf dat de HTTP request wordt verzonden t.e.m. het moment dat er een response volgt en de functie eindigt, wordt weggeschreven naar een csv bestand. Het csv bestand zal in een later stadium van dit onderzoek gebruikt worden om enkele operaties op uit te voeren die inzicht geven in de uitvoeringstijd van de functie. De demofunctie wordt tweehonderd keer aangeroepen via een HTTP request dat de string ''Test'' wegschrijft naar een Google spreadsheet bestand, na afloop wordt de uitvoeringstijd weggeschreven naar het bestand uitvoeringstijd-openfaas.csv dat terug te vinden is in bijlage \ref{sec:uitvoeringstijd-demofunctie}. Onderstaande code voorziet de loop waarmee de functie wordt aangeroepen en de uitvoeringstijd wordt weggeschreven.
 
 \begin{lstlisting}[language=bash]
 $ cat openfaas-loop.sh
 #!/bin/bash
 touch uitvoeringstijd-openfaas.csv
+echo Uitvoeringstijd OpenFaaS >> uitvoeringstijd-openfaas.csv
 for i in {1..200};
 do
-curl -X GET -s -w -d 'Test' "%{time_total}\n" -o \
-/dev/null http://$OPENFAAS_URL/function/serverless-demo  \
->> uitvoeringstijd-openfaas.csv
+    curl -s -w "%{time_total}\n" -d "Test" -X GET -o /dev/null
+    $OPENFAAS_URL/function/serverless-demo  \
+    >> uitvoeringstijd-openfaas.csv
 done
 
 # Voer uit vanuit zelfde shell als installatie, deze kent de 
@@ -290,31 +291,20 @@ $ OPENFAAS_URL=$OPENFAAS_URL ./openfaas-loop.sh
 
 \newpage
 \section{Fission}
-Het tweede framework dat onder de loep wordt genomen is Fission. Nubera gaf bij de start van dit onderzoek aan dat zij reeds geëxperimenteerd hadden met Fission en hier enige interesse voor hebben opgebouwd. Deze PoC bestaat dus enerzijds uit OpenFaaS, dat zelf gekozen werd als alternatief voor Fission, en Fission zelf. Aan het eind van dit onderzoek moet het duidelijk zijn waarin beide frameworks verschillen en welk het meest interessant zou kunnen zijn volgens de opgestelde requirements.
+Het tweede framework dat onder de loep wordt genomen is Fission. Nubera gaf bij de start van dit onderzoek aan dat zij reeds geëxperimenteerd hadden met Fission en hier enige interesse voor hebben opgebouwd. Aan het eind van dit onderzoek moet het duidelijk zijn waarin beide frameworks verschillen en welk het meest interessant zou kunnen zijn volgens de opgestelde requirements.
 
 \subsection{Installatie Fission}
-Fission kan worden geïnstalleerd als er een nieuwe Minikube cluster draait. De installatie werd geautomatiseerd in een shell script en is terug te vinden in bijlage \ref{sec:installatie-fission} onder de naam Installatiescript Fission. De installatie bestaat uit enkele stappen die rechtstreeks uit de documentatie\footnote{https://docs.fission.io/installation/} van Fission komen. Aan het installatiescript werden eveneens additionele stappen toegevoegd voor het opzetten van een Fission UI, dit als vergelijking met de UI die OpenFaaS aanbiedt. Er werd gekozen voor de laatste stabiele versie van Fission, versie 1.2.0.
+Fission kan worden geïnstalleerd bovenop de Minikube cluster die eerder werd geïnstalleerd. De Fission installatie werd geautomatiseerd in een shell script en is terug te vinden in bijlage \ref{sec:installatie-fission} onder de naam Installatiescript Fission. De installatie bestaat uit enkele stappen die rechtstreeks uit de documentatie\footnote{https://docs.fission.io/installation/} van Fission komen. Aan het installatiescript werden eveneens additionele stappen toegevoegd voor het opzetten van een Fission UI, indien de gebruiker instemt, dit als vergelijking met de UI die OpenFaaS aanbiedt. Er werd gekozen voor de laatste stabiele versie van Fission, versie 1.2.0.
 
-\subsection{Gebruik Fission}
-\subsubsection{User Interface}
-De installatie voorziet standaard geen meegeleverde user interface. Achteraf kan een UI worden geïnstalleerd maar deze blijkt echter niet te voldoen aan de verwachtingen. De GitHub repository\footnote{https://github.com/fission/fission-ui} waarvan de UI werd gedownload geeft eveneens aan dat deze zeker niet production ready is en momenteel nog een early alpha versie is. Het installatiescript exporteert een variabele met de link voor toegang tot de UI. De standaardpoort waarop de UI draait is poort 31319. In figuur \ref{fig:fission-ui} is te zien hoe de UI eruitziet. Wanneer de UI wordt geopend wordt er echter een foutboodschap weergegeven die luidt als volgt: ''Fission server supports API v2 only -- v1 is not supported. Please upgrade your Fission client/CLI''. Functies en environments die worden toegevoegd aan Fission worden niet weergegeven in de UI, het is ook niet mogelijk via de UI nieuwe componenten te definiëren. De UI werkt niet en dit is een known-issue op GitHub.
-\begin{figure}
-    \includegraphics[width=1\textwidth]{img/fission-ui.png}
-    \caption{Fission User Interface met foutmelding.}
-    \label{fig:fission-ui}  
-\end{figure}
+\begin{lstlisting}
+# Clone de repository van dit onderzoek.
+$ git clone git@github.com:LennertMertens/BAP.git
+$ cd BAP/broncode/installatie
+# Indien u enkel Fission wenst te installeren voer dan volgende uit:
+$ source fission-install.sh
 
-\subsubsection{Command line tools}
-Fission voorziet net zoals OpenFaaS command line tools voor het beheer van het framework. Via de CLI kunnen functies worden gedefinieerd, routes en environments gecreëerd, en triggers geconfigureerd. Alle taken en opdrachten worden uitgevoerd via de CLI. De CLI tools zijn eenvoudig in gebruik en in de documentatie worden goede voorbeelden voorzien om hiermee aan de slag te gaan. De werking van de CLI en de handelingen in Fission werden bestudeerd aan de hand van een boek over serverless frameworks geschreven door \textcite{McKendrick2018}.
-
-\subsubsection{Prometheus monitoring}
-Prometheus wordt standaard voorzien in de installatie van Fission. Wanneer port forwarding wordt geactiveerd kunnen er queries worden verstuurd om metrics op te vragen via een webinterface. De code die de client voor querying activeert is hieronder beschreven, nadien kan de data worden opgevraagd via http://localhost:9090. Het is handig om via deze client verschillende queries uit te voeren om inzicht te krijgen in functies en hun performantie. Het is jammer dat er geen Grafana dashboard ''Out-of-the-box'' wordt meegeleverd om de prestaties van functies te visualiseren. Het is echter wel mogelijk om achteraf Grafana of een ander dashboard voor monitoring te installeren bovenop Istio (Dit wordt wel standaard met Fission meegeleverd). Omdat in voorgaande sectie omtrent OpenFaaS het Grafana dashboard al werd besproken, bespreken we hier de client voor Prometheus metrics querying.
-
-\begin{lstlisting}[language=bash]
-# Expose de Prometheus client via http://localhost:9090.
-$ kubectl -n fission port-forward  \ 
-$(kubectl -n fission get pod -l app=prometheus, \
-component=server -o name) 9090
+# Als u alle frameworks wilt installeren op Minikube:
+$ source install.sh
 \end{lstlisting}
 
 \subsection{Deployment demofunctie}
@@ -364,7 +354,8 @@ $ fission function create --name serverless-demo \
 --minscale 1 --executortype newdeploy
 
 # 3. Voeg een pad toe voor toegang via de Fission router.
-$ fission route create --function serverless-demo --url /serverless-demo
+$ fission route create --function serverless-demo \
+--url /serverless-demo
 \end{lstlisting}
  
 \subsubsection{handler.py}
@@ -381,8 +372,30 @@ $ curl -X GET $FISSION_ROUTER/serverless-demo
 $ curl -X GET -d `Test string` $FISSION_ROUTER/serverless-demo
 \end{lstlisting}
 
+\subsection{Gebruik Fission}
+\subsubsection{User Interface}
+De installatie voorziet standaard geen meegeleverde user interface. Achteraf kan een UI worden geïnstalleerd maar deze blijkt echter niet te voldoen aan de verwachtingen. De GitHub repository\footnote{https://github.com/fission/fission-ui} waarvan de UI werd gedownload geeft eveneens aan dat deze zeker niet production ready is en momenteel nog een early alpha versie is. Het installatiescript exporteert een variabele met de link voor toegang tot de UI. De standaardpoort waarop de UI draait is poort 31319. In figuur \ref{fig:fission-ui} is te zien hoe de UI eruitziet. Wanneer de UI wordt geopend wordt er echter een foutboodschap weergegeven die luidt als volgt: ''Fission server supports API v2 only -- v1 is not supported. Please upgrade your Fission client/CLI''. Functies en environments die worden toegevoegd aan Fission worden niet weergegeven in de UI, het is ook niet mogelijk via de UI nieuwe componenten te definiëren. De UI werkt niet en dit is een known-issue op GitHub.
+\begin{figure}
+    \includegraphics[width=1\textwidth]{img/fission-ui.png}
+    \caption{Fission User Interface met foutmelding.}
+    \label{fig:fission-ui}  
+\end{figure}
+
+\subsubsection{Command line tools}
+Fission voorziet net zoals OpenFaaS command line tools voor het beheer van het framework. Via de CLI kunnen functies worden gedefinieerd, routes en environments gecreëerd, en triggers geconfigureerd. Alle taken en opdrachten worden uitgevoerd via de CLI. De CLI tools zijn eenvoudig in gebruik en in de documentatie worden goede voorbeelden voorzien om hiermee aan de slag te gaan. De werking van de CLI en de handelingen in Fission werden bestudeerd aan de hand van een boek over serverless frameworks geschreven door \textcite{McKendrick2018}.
+
+\subsubsection{Prometheus monitoring}
+Prometheus wordt standaard voorzien in de installatie van Fission. Wanneer port forwarding wordt geactiveerd kunnen er queries worden verstuurd om metrics op te vragen via een webinterface. De code die de client voor querying activeert is hieronder beschreven, nadien kan de data worden opgevraagd via http://localhost:9090. Het is handig om via deze client verschillende queries uit te voeren om inzicht te krijgen in functies en hun performantie. Achteraf kunnen er additionele dashboards die gebruik maken van Prometheus metrics worden geïnstalleerd. Zo kan achteraf Grafana of een ander dashboard voor monitoring te installeren bovenop Istio (Dit wordt standaard met Fission meegeleverd). De verschillende mogelijke monitoringsdashboard worden niet in dit onderzoek besproken.
+
+\begin{lstlisting}[language=bash]
+# Expose de Prometheus client via http://localhost:9090.
+$ kubectl -n fission port-forward  \ 
+$(kubectl -n fission get pod -l app=prometheus, \
+component=server -o name) 9090
+\end{lstlisting}
+
 \subsection{Schaalbaarheid Fission}
-Om de schaalbaarheid van Fission te demonstreren wordt er gebruik gemaakt van een demofunctie die terug te vinden is in de Fission repository op GitHub, onder de naam hello.js\footnote{https://github.com/fission/fission/blob/master/examples/nodejs/hello.js}. De demofunctie die hier wordt gebruikt is een simpele Hello World applicatie geschreven in Node.js. Alvorens er getest kan worden op schaalbaarheid wordt de functie op analoge manier gedeployed als de demofunctie die in Python geschreven werd. Er moet eerst wel een Node.js environment worden aangemaakt en bij het definiëren wordt gekozen voor een minscale van 1 en een Newdeploy executor om automatische schaalbaarheid te voorzien. De stappen om de omgeving klaar te zetten zijn hieronder beschreven. Wanneer de load te zwaar wordt voor één pod om deze te verwerken dan zullen er additionele functie pods worden aangemaakt en wordt er automatisch load balancing tussen de functie pods voorzien.
+Om de schaalbaarheid van Fission te demonstreren wordt er gebruik gemaakt van een demofunctie die terug te vinden is in de Fission repository op GitHub, onder de naam hello.js\footnote{https://github.com/fission/fission/blob/master/examples/nodejs/hello.js}. De demofunctie die hier wordt gebruikt is een simpele ''Hello World'' applicatie geschreven in Node.js. Alvorens er getest kan worden op schaalbaarheid wordt de functie op analoge manier gedeployed als de demofunctie die in Python geschreven werd. Er moet eerst wel een Node.js environment worden aangemaakt en bij het definiëren wordt gekozen voor een minscale van 1 en een Newdeploy executor om automatische schaalbaarheid te voorzien. De stappen om de omgeving klaar te zetten zijn hieronder beschreven. Wanneer de load te zwaar wordt voor één pod om deze te verwerken dan zullen er additionele functie pods worden aangemaakt en wordt er automatisch load balancing tussen de functie pods voorzien.
 
 \begin{lstlisting}[language=bash]
 # 1. Aanmaak Node.js environment.
@@ -398,20 +411,31 @@ $ fission function create --name hello \
 $ fission route create --function hello --url /hello
 \end{lstlisting}
 
-----TO BE ADDED -----
+Om de schaalbaarheid te testen werd vanuit de functie  aangeroepen via een oneindige loop in meer dan 10 verschillende Terminal vensters. Echter bleek de functie niet te schalen en werden er geen metrics opgehaald uit de function pods. De metrics zijn nodig om te beslissen of een functie moet op- of neerschalen, in figuur \ref{fig:fission-scalability-issue} is te zien dat ''Target'' unkown is en dus erop wijst dat metrics niet worden opgehaald, desondanks dat Fission op aanbevolen wijze werd geïnstalleerd en Metrics-server werd aangezet op de Minikube cluster.
+\begin{figure}
+    \includegraphics[width=1\textwidth]{img/fission-scalability-issue.png}
+    \caption{Fission functie target unknown.}
+    \label{fig:fission-scalability-issue}  
+\end{figure}
+
+Er werd tot de collaborators van het Fission project gericht via hun Slack kanaal, hier werd hebben een aantal medewerkers naar het probleem gekeken maar konden dit ook niet meteen thuisbrengen. Het is mogelijk dat de issue veroorzaakt wordt door de Minikube setup hoewel autoscaling via OpenFaaS wel lukt en na verder onderzoek ook blijkt dat Metrics-server uit andere pods wel metrics kan ophalen. Bijgevolg heb werd er een issue aangemaakt in het Fission Github project om de medewerkers formeel op de hoogte te stellen van de problemen waarmee ik te kampen heb gekregen. Het is jammer dat door deze issue de autoscaling niet kon worden gedemonstreerd maar dit is dus wel degelijk beschikbaar in Fission en werkt in normale omstandigheden analoog aan de autoscaling via OpenFaaS. In bijlage \ref{sec:fission-slack-issue} is de communicatie via Slack terug te vinden en bijlage \ref{sec:fission-github-issue} is de bijhorende GitHub issue present.
 
 \subsection{Verzamelen functie gegevens}
-Om een grondige vergelijking tussen beide frameworks te maken is het interessant inzicht te hebben in de performance verschillen tussen beiden. De Python demofunctie die werd geschreven schrijft de tijd weg die nodig is voor het uitvoeren van de functie naar een bestand in Google spreadsheets. De eerste meting weergeeft enkel de tijd die de functie nodig heeft om de code uit te voeren. De functie die op Fission werd gedeployed, wordt net zoals bij OpenFaaS tweehonderd keer aangeroepen door middel van een loop. De resultaten die worden weggeschreven naar de spreadsheet zullen later met elkaar worden vergeleken. In bijlage \ref{sec:demofunctie-uitvoeringstijd} zijn de resultaten van de uitvoeringstijd van de functie (de code zelf) terug te vinden. 
-\\\\
-In de veronderstelling dat de uitvoeringstijd, van enkel en alleen de code, tussen de twee frameworks niet veel zou verschillen werd er nog een tweede test gemaakt. De tweede test meet de volledige tijd vanaf dat er een HTTP request wordt verzonden met het ''curl'' commando, tot er een response met de overeenkomstige tijd wordt ontvangen. De uitvoeringstijd of de looptijd van de volledige functie wordt weggeschreven naar een lokaal bestand. Voor elk framework wordt er een apart bestand aangemaakt. In het hoofdstuk \ref{ch:vergelijking-frameworks} zullen op basis van de requirements en de uitgevoerde metingen beide frameworks met elkaar worden vergeleken. Het bestand met de volledige looptijd van de functies is terug te vinden in bijlage \ref{sec:demofunctie-volledige-looptijd}.
+Zoals eerder beschreven zal er een vergelijking tussen de frameworks worden gemaakt onder andere op basis van uitvoeringstijd van de functie. De tijd die wordt gemeten voor het uitvoeren van de Python demofunctie is diegene vanaf dat de HTTP request wordt verzonden t.e.m. het moment dat er een response volgt en de functie eindigt. De uitvoeringstijd wordt weggeschreven naar een csv bestand dat later zal gebundeld worden tot één bestand dat terug te vinden is in  bijlage \ref{sec:uitvoeringstijd-demofunctie}. Onderstaande code voorziet de loop waarmee de functie wordt aangeroepen en de uitvoeringstijd wordt weggeschreven. De loop wordt net zoals bij het OpenFaaS framework tweehonderd keer aangeroepen.
 
 \begin{lstlisting}[language=bash]
+$ cat fission-loop.sh
 #!/bin/bash
-touch looptijd-functie-fission.csv
+touch uitvoeringstijd-fission.csv
+echo Uitvoeringstijd Fission >> uitvoeringstijd-fission.csv
 for i in {1..200};
 do
-  curl -s -w "%{time_total}\n" -o \
-  /dev/null http://$FISSION_ROUTER/serverless  \
-  >> looptijd-functie-fission.csv
+    curl -X GET -s -w "%{time_total}\n" -o /dev/null  \
+    -d "Test" $FISSION_ROUTER/serverless-demo  \
+    >> uitvoeringstijd-fission.csv
 done
+
+# Voer uit vanuit zelfde shell als installatie, deze kent de 
+# omgevings variabelen.
+$ FISSION_ROUTE=$FISSION_ROUTER ./fission-loop.sh
 \end{lstlisting}

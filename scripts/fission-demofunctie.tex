@@ -42,6 +42,7 @@ def main():
         return str(string_list)
     else:
         worksheet.update_acell("C{}".format(next_row), data)
-        string_output = "This function wrote " + data + " to Google Spreadsheets!"
+        string_output = "This function wrote " + data + 
+                        " to Google Spreadsheets!"
         return string_output
 \end{lstlisting}
