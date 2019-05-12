@@ -73,7 +73,6 @@ import gspread
 import sys
 from oauth2client.service_account import ServiceAccountCredentials
 # Check if a string is provided when calling the function.
-# Sentences should be provided between quotes!
 if len(sys.argv) > 1:
     req = str(sys.argv[1])
 else:
@@ -268,7 +267,7 @@ Wanneer de functie zeer veel wordt aangeroepen aan de hand van bijvoorbeeld loop
     \label{fig:openfaas-scalability-3}  
 \end{figure}
 
-\subsection{Verzamelen functie gegevens}
+\subsection{Verzamelen functie data}
 Om de frameworks met elkaar te vergelijken wordt de uitvoeringstijd van de Python functie die werd geschreven onder de loep genomen. De tijd die nodig is voor het uitvoeren van de functie, vanaf dat de HTTP request wordt verzonden t.e.m. het moment dat er een response volgt en de functie eindigt, wordt weggeschreven naar een csv bestand. Het csv bestand zal in een later stadium van dit onderzoek gebruikt worden om enkele operaties op uit te voeren die inzicht geven in de uitvoeringstijd van de functie. De demofunctie wordt tweehonderd keer aangeroepen via een HTTP request dat de string ''Test'' wegschrijft naar een Google spreadsheet bestand, na afloop wordt de uitvoeringstijd weggeschreven naar het bestand uitvoeringstijd-openfaas.csv dat terug te vinden is in bijlage \ref{sec:uitvoeringstijd-demofunctie}. Onderstaande code voorziet de loop waarmee de functie wordt aangeroepen en de uitvoeringstijd wordt weggeschreven.
 
 \begin{lstlisting}[language=bash]
@@ -288,6 +287,7 @@ done
 $ OPENFAAS_URL=$OPENFAAS_URL ./openfaas-loop.sh
 \end{lstlisting}
 
+Omdat de Python functie gebruik maakt van de Google API en per request moet authenticeren, wordt ook de uitvoeringstijd van een eenvoudige ''Hello World'' functie, geschreven in Python, gemeten en weggeschreven naar een csv bestand met de naam uitvoeringstijd-openfaas-hello.csv. Beide frameworks zullen dus ook getest worden via een functie die enkel afhankelijk is van het framework zelf. De functie die hiervoor geschreven werd is terug te vinden in bijlage \ref{sec:openfaas-hello-world-functie}. De Python ''Hello World'' functie kan op een gelijkaardige manier als de andere demofunctie worden gedeployed. De bijhorende loop die de data wegschrijft naar een bestand is eveneens in de bijlage terug te vinden. De weggeschreven data is toegevoegd in bijlage \ref{sec:uitvoeringstijd-hello-world}. Analoog aan de Python demofunctie wordt de tijd vanaf dat het request wordt verstuurd tot de tijd dat er een response wordt ontvangen gemeten in seconden.
 
 \newpage
 \section{Fission}
@@ -420,8 +420,8 @@ Om de schaalbaarheid te testen werd vanuit de functie  aangeroepen via een onein
 
 Er werd tot de collaborators van het Fission project gericht via hun Slack kanaal, hier werd hebben een aantal medewerkers naar het probleem gekeken maar konden dit ook niet meteen thuisbrengen. Het is mogelijk dat de issue veroorzaakt wordt door de Minikube setup hoewel autoscaling via OpenFaaS wel lukt en na verder onderzoek ook blijkt dat Metrics-server uit andere pods wel metrics kan ophalen. Bijgevolg heb werd er een issue aangemaakt in het Fission Github project om de medewerkers formeel op de hoogte te stellen van de problemen waarmee ik te kampen heb gekregen. Het is jammer dat door deze issue de autoscaling niet kon worden gedemonstreerd maar dit is dus wel degelijk beschikbaar in Fission en werkt in normale omstandigheden analoog aan de autoscaling via OpenFaaS. In bijlage \ref{sec:fission-slack-issue} is de communicatie via Slack terug te vinden en bijlage \ref{sec:fission-github-issue} is de bijhorende GitHub issue present.
 
-\subsection{Verzamelen functie gegevens}
-Zoals eerder beschreven zal er een vergelijking tussen de frameworks worden gemaakt onder andere op basis van uitvoeringstijd van de functie. De tijd die wordt gemeten voor het uitvoeren van de Python demofunctie is diegene vanaf dat de HTTP request wordt verzonden t.e.m. het moment dat er een response volgt en de functie eindigt. De uitvoeringstijd wordt weggeschreven naar een csv bestand dat later zal gebundeld worden tot één bestand dat terug te vinden is in  bijlage \ref{sec:uitvoeringstijd-demofunctie}. Onderstaande code voorziet de loop waarmee de functie wordt aangeroepen en de uitvoeringstijd wordt weggeschreven. De loop wordt net zoals bij het OpenFaaS framework tweehonderd keer aangeroepen.
+\subsection{Verzamelen functie data}
+Zoals eerder beschreven zal er een vergelijking tussen de frameworks worden gemaakt onder andere op basis van uitvoeringstijd van de functie. De tijd die wordt gemeten voor het uitvoeren van de Python demofunctie is diegene vanaf dat de HTTP request wordt verzonden t.e.m. het moment dat er een response volgt en de functie eindigt. De uitvoeringstijd wordt weggeschreven naar een csv bestand dat later zal gebundeld worden tot één bestand dat terug te vinden is in bijlage \ref{sec:uitvoeringstijd-demofunctie}. De metingen voor beide frameworks werden achtereenvolgens uitgevoerd op identiek dezelfde omgeving. Onderstaande code voorziet de loop waarmee de functie wordt aangeroepen en de uitvoeringstijd wordt weggeschreven. De loop wordt net zoals bij het OpenFaaS framework tweehonderd keer aangeroepen.
 
 \begin{lstlisting}[language=bash]
 $ cat fission-loop.sh
@@ -439,3 +439,6 @@ done
 # omgevings variabelen.
 $ FISSION_ROUTE=$FISSION_ROUTER ./fission-loop.sh
 \end{lstlisting}
+
+Zoals eerder aangehaald maakt de demofunctie gebruik van de Google API en moet deze bij uitvoer steeds authenticeren. Daarom worden beide frameworks ook getest aan de hand van een eenvoudige ''Hello World'' functie, geschreven in Python. De uitvoeringstijd van de functie wordt gemeten (in seconden) en wordt weggeschreven naar een csv bestand met de naam uitvoeringstijd-fission-hello.csv. Beide frameworks zullen dus ook getest worden via een functie die enkel afhankelijk is van het framework zelf. De functie die hiervoor geschreven werd is terug te vinden in bijlage \ref{sec:fission-hello-world-functie}. De Python ''Hello World'' functie kan op een gelijkaardige manier als de andere demofunctie worden gedeployed. De bijhorende loop die de data wegschrijft naar een bestand is eveneens in de bijlage terug te vinden. De weggeschreven data is toegevoegd in bijlage \ref{sec:uitvoeringstijd-hello-world}.
+

@@ -46,3 +46,25 @@ def main():
                         " to Google Spreadsheets!"
         return string_output
 \end{lstlisting}
+
+\section{Hello World demofunctie}
+\label{sec:fission-hello-world-functie}
+\subsection{handler.py}
+\begin{lstlisting}[language=python]
+def main():
+return "Hello everyone, thanks for attending my presentation!\n"
+\end{lstlisting}
+
+\subsection{Hello World functie loop Fission}
+\begin{lstlisting}[language=python]
+#!/bin/bash
+touch uitvoeringstijd-fission-hello.csv
+echo Uitvoeringstijd Hello functie Fission \
+>> uitvoeringstijd-fission-hello.csv
+for i in {1..200};
+do
+    curl -X GET -s -w "%{time_total}\n" -o /dev/null \
+    $FISSION_ROUTER/hello-fission  \
+    >> uitvoeringstijd-fission-hello.csv
+done
+\end{lstlisting}

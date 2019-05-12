@@ -11,13 +11,10 @@ Cloud computing technologie is alomtegenwoordig, er bestaan verschillende benade
 
 De jongste jaren is er een nieuwe trend in Cloud computing geëvolueerd, namelijk serverless of vaak gerefereerd als Function-as-a-Service. Serverless technologie biedt heel wat voordelen op basis van verschillende aspecten. Het voornaamste voordeel van serverless computig is dat het overhead wegneemt bij softwareontwikkelaars en hun instaat stelt enkel te focussen op wat er voor hen het meest toedoet, namelijk de software zelf.
 \\\\
-
 Deze studie behandelt een uiteenzetting van de basis cloud computing principes. Er wordt ook onderzoek gedaan naar wat serverless concreet inhoudt, wat de voor- en nadelen zijn en welke componenten serverless mogelijk maken. De theoretische omschrijving van dit concept wordt geïllustreerd met voorbeelden om zo de architectuur op een eenvoudige manier over te brengen. Daarnaast wordt op basis van verschillende requirements een overweging gemaakt voor het kiezen van een open source framework dat de mogelijkheden aanbiedt om serverless te draaien in house. Het onderzoek wordt gestaafd met een Proof of Concept die twee frameworks vergelijkt, enerzijds Fission, dit werd aangerijkt door Nubera, anderzijds een alternatief dat op basis van requirements wordt gekozen.
 
 \section{Probleemstelling}
 \label{sec:probleemstelling}
-
-%%Uit je probleemstelling moet duidelijk zijn dat je onderzoek een meerwaarde heeft voor een concrete doelgroep. De doelgroep moet goed gedefinieerd en afgelijnd zijn. Doelgroepen als ``bedrijven,'' ``KMO's,'' systeembeheerders, enz.~zijn nog te vaag. Als je een lijstje kan maken van de personen/organisaties die een meerwaarde zullen vinden in deze bachelorproef (dit is eigenlijk je steekproefkader), dan is dat een indicatie dat de doelgroep goed gedefinieerd is. Dit kan een enkel bedrijf zijn of zelfs één persoon (je co-promotor/opdrachtgever).%%
 
 Er zijn bedrijven die interesse hebben in het gebruik van serverless omgevingen, maar opteren om deze niet te draaien bij grote cloud providers zoals Google, Amazon of Microsoft Azure. Bedrijven die serverless willen werken in hun eigen datacenter, de private cloud of op locatie hebben nood aan een framework dat hen instaat stelt dit te verwezenlijken. Nubera heeft klanten die argwanend zijn wanneer ze voorstellen een cloud omgeving op te zetten bij een van de grote spelers. Omdat Nubera momenteel nog geen specifieke oplossing gebruikt om serverless te implementeren bij klanten in house, werd mij gevraagd hiernaar onderzoek te doen en een goed alternatief framework voor Fission te zoeken en te vergelijken. Het framework dat wordt gekozen moet voldoen aan een reeks vooropgestelde requirements. Er wordt een reproduceerbare Proof of Concept uitgewerkt die inzicht geeft in de behandelde frameworks. Op basis van de Proof of Concept krijgen medewerkers en klanten van Nubera die interesse hebben in serverless een globaal beeld van de mogelijkheden en beperkingen.
 
@@ -28,7 +25,7 @@ Er zijn bedrijven die interesse hebben in het gebruik van serverless omgevingen,
 
 Onderzoeksvraag: 
 \begin{itemize}
-    \item Welk serverless framework leunt het beste aan bij de vereisten van Nubera en hoe kan dit vergeleken worden met een concurrent?
+    \item Welk serverless framework leunt het beste aan bij de vereisten van Nubera en hoe kan dit vergeleken worden met een concurrent, specifiek Fission aangereikt door Nubera?
 \end{itemize}
 
 Deelonderzoeksvragen: 
@@ -42,7 +39,8 @@ Deelonderzoeksvragen:
 Voorwaarden: 
 \begin{itemize}
     \item Het onderdeel stand van zaken vormt een begrijpbare uiteenzetting van enkele basisconcepten en geeft een breed beeld over serverless en alle bijkomstigheden.
-    \item Onderzoek wordt gestaafd door een Proof of Concept van  twee interessante open source frameworks die  Nubera zou kunnen gebruiken in serverless oplossingen in house.
+    \item Het onderzoek vormt een handleiding voor medewerkers van Nubera als inleiding tot serverless en stelt de mogelijkheden bloot.
+    \item Onderzoek wordt gestaafd door een Proof of Concept van twee interessante open source frameworks die Nubera zou kunnen gebruiken in serverless oplossingen in house.
     \item Het opzetten van de omgeving is reproduceerbaar en is duidelijk gedocumenteerd.
 \end{itemize}
 
@@ -52,7 +50,7 @@ Voorwaarden:
 \label{sec:onderzoeksdoelstelling}
 
 %%Wat is het beoogde resultaat van je bachelorproef? Wat zijn de criteria voor succes? Beschrijf die zo concreet mogelijk.%%
-Deze bachelorproef moet kunnen fungeren als een rode draad voor het evolueren naar serverless infrastructuur. Het onderzoek biedt inzicht in open source serverless oplossingen voor bedrijven die opteren om gebruik te maken van eigen infrastructuur of de private cloud. Deze gids heeft een meerwaarde voor Nubera omdat het op basis van verschillende requirements een overweging kunnen maken welk framework het interessantste is. Het onderzoek moet voldoende inzichten geven zodat de volledige bachelorproef voor iedereen begrijpbaar is, ook voor mensen met weinig cloud computing ervaring.
+Deze bachelorproef moet kunnen fungeren als een rode draad voor het evolueren naar serverless infrastructuur. Het onderzoek biedt inzicht in open source serverless oplossingen voor bedrijven die opteren om gebruik te maken van eigen infrastructuur of de private cloud. Deze gids biedt een meerwaarde voor Nubera omdat het op basis van verschillende requirements een overweging kunnen maken welk framework het interessantste is om aan te bevelen aan klanten op basis van een gestructureerde uiteenzetting. Het onderzoek moet voldoende inzichten geven zodat de volledige bachelorproef voor iedereen in de IT wereld begrijpbaar is, ook voor mensen met weinig cloud computing ervaring. Daarnaast vormt dit een gids voor medewerkers van Nubera alsook voor klanten om hun warm te maken voor serverless computing.
 
 
 \section{Opzet van deze bachelorproef}
@@ -69,9 +67,11 @@ In Hoofdstuk~\ref{ch:stand-van-zaken} wordt een overzicht gegeven van de stand v
 In Hoofdstuk~\ref{ch:methodologie} wordt de methodologie toegelicht en worden de gebruikte onderzoekstechnieken besproken om een antwoord te kunnen formuleren op de onderzoeksvragen.
 
 % TODO: Vul hier aan voor je eigen hoofstukken, één of twee zinnen per hoofdstuk
-In Hoofdstuk~\ref{ch:uitwerking} worden op basis van vooropgestelde requirements, die in overleg met Nubera gecapteerd werden, twee interessante open source frameworks uitgekozen voor het draaien van een serverless infrastructuur on-premises of in de private cloud.
+In Hoofdstuk~\ref{ch:uitwerking} worden op basis van vooropgestelde requirements, die in overleg met Nubera gecapteerd werden, een interessant open source frameworks uitgekozen, als alternatief voor Fission, voor het draaien van een serverless infrastructuur on-premises of in de private cloud (in house).
 
 In Hoofdstuk~\ref{ch:proof-of-concept} worden twee experimenten opgezet volgens dezelfde stappen. Het Fission framework en OpenFaaS worden opgezet op een Kubernetes cluster. Op beide frameworks wordt een zelfgeschreven Pyhton functie gedeployed die de werking van de tools demonstreert. Op basis van de opstelling worden verschillende requirements gemeten en worden beide frameworks tegen elkaar afgewogen.
+
+In Hoofdstuk~\ref{ch:vergelijking-frameworks} worden opgezette frameworks met elkaar vergeleken, dit op basis van verzamelde resultaten zoals data omtrent uitvoeringstijd van functies maar ook op basis van de gecapteerde requirements.
 
 In Hoofdstuk~\ref{ch:conclusie}, tenslotte, wordt de conclusie gegeven en een antwoord geformuleerd op de onderzoeksvragen. Daarbij wordt ook een aanzet gegeven voor toekomstig onderzoek binnen dit domein.
 

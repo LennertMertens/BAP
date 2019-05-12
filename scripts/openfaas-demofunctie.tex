@@ -66,3 +66,24 @@ oauth2client
 gspread
 google-api-python-client
 \end{lstlisting}
+
+\section{Hello World demofunctie}
+\label{sec:openfaas-hello-world-functie}
+\subsection{handler.py}
+\begin{lstlisting}[language=python]
+def handle(req):
+return "Hello everyone, thanks for attending my presentation!\n"
+\end{lstlisting}
+
+\subsection{Hello World functie loop OpenFaaS}
+\begin{lstlisting}[language=python]
+#!/bin/bash
+touch uitvoeringstijd-openfaas-hello.csv
+echo Uitvoeringstijd Hello functie OpenFaaS >> uitvoeringstijd-openfaas-hello.csv
+for i in {1..200};
+do
+    curl -s -w "%{time_total}\n" -d "Test" -X GET -o /dev/null \
+    $OPENFAAS_URL/function/serverless-demo  \
+    >> uitvoeringstijd-openfaas-hello.csv
+done
+\end{lstlisting}
