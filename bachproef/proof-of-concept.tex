@@ -268,7 +268,7 @@ Wanneer de functie zeer veel wordt aangeroepen aan de hand van bijvoorbeeld loop
 \end{figure}
 
 \subsection{Verzamelen functie data}
-Om de frameworks met elkaar te vergelijken wordt de uitvoeringstijd van de Python functie die werd geschreven onder de loep genomen. De tijd die nodig is voor het uitvoeren van de functie, vanaf dat de HTTP request wordt verzonden t.e.m. het moment dat er een response volgt en de functie eindigt, wordt weggeschreven naar een csv bestand. Het csv bestand zal in een later stadium van dit onderzoek gebruikt worden om enkele operaties op uit te voeren die inzicht geven in de uitvoeringstijd van de functie. De demofunctie wordt tweehonderd keer aangeroepen via een HTTP request dat de string ''Test'' wegschrijft naar een Google spreadsheet bestand, na afloop wordt de uitvoeringstijd weggeschreven naar het bestand uitvoeringstijd-openfaas.csv dat terug te vinden is in bijlage \ref{sec:uitvoeringstijd-demofunctie}. Onderstaande code voorziet de loop waarmee de functie wordt aangeroepen en de uitvoeringstijd wordt weggeschreven.
+Om de frameworks met elkaar te vergelijken wordt de uitvoeringstijd van de Python functie die werd geschreven onder de loep genomen. De tijd die nodig is voor het uitvoeren van de functie, vanaf dat de HTTP request wordt verzonden t.e.m. het moment dat er een response volgt en de functie eindigt, wordt weggeschreven naar een csv bestand. Het csv bestand zal in een later stadium van dit onderzoek gebruikt worden om enkele operaties op uit te voeren die inzicht geven in de uitvoeringstijd van de functie. De demofunctie wordt tweehonderd keer aangeroepen via een HTTP request dat de string ''Test'' wegschrijft naar een Google spreadsheet bestand, na afloop wordt de uitvoeringstijd weggeschreven naar het bestand uitvoeringstijd-openfaas.csv dat terug te vinden is in bijlage \ref{sec:uitvoeringstijd-demofunctie}. Onderstaande code voorziet de loop waarmee de functie wordt aangeroepen en de uitvoeringstijd wordt weggeschreven. 
 
 \begin{lstlisting}[language=bash]
 $ cat openfaas-loop.sh
@@ -308,10 +308,10 @@ $ source install.sh
 \end{lstlisting}
 
 \subsection{Deployment demofunctie}
-De werking hoe functies gedeployed worden is verschillend van OpenFaaS en vereist iets meer aandacht van de gebruiker. Initieel was de bedoeling om gebruik te maken van een Kubernetes secret om de credentials voor de Google API in op te slaan. Fission ondersteunde echter niet dezelfde acties als OpenFaaS en de secrets die werden gecreëerd konden niet op de gewenste manier in de functie worden gebruikt. Er werd geopteerd om daarom te werken met een private Docker image\footnote{https://cloud.docker.com/repository/docker/lennertmertens/python-env} die de nodige componenten zoals credentials en nodige pip packages bevat. De Docker image is gebaseerd op de standaard environment image die Fission aanbiedt.
+De werking hoe functies gedeployed worden is verschillend van OpenFaaS en vereist iets meer aandacht van de gebruiker. Initieel was de bedoeling om gebruik te maken van een Kubernetes secret om de credentials voor de Google API in op te slaan. Fission ondersteund echter niet dezelfde acties als OpenFaaS en de secrets die worden gecreëerd kunnen  niet op de gewenste manier in de functie worden gebruikt. Er wordt geopteerd om daarom te werken met een Docker image\footnote{https://cloud.docker.com/repository/docker/lennertmertens/python-env} die de nodige componenten zoals credentials, voor authenticatie met de Google API, en nodige pip packages bevat. De Docker image is gebaseerd op de standaard environment image die Fission aanbiedt, nl. fission/python-env\footnote{https://hub.docker.com/r/fission/python-env/}.
 
 \subsubsection{1. Aanmaak Docker image}
-Het gebruik van een custom Python Docker image stelt gebruikers in staat deze te configureren naar eigen wensen en noden. De image kan worden gepubliceerd in een private repository voor veiligheidsoverwegingen. De onderdelen waaruit deze image is opgebouwd zijn hieronder opgesomd. De Docker image is gebaseerd op bestaande Docker files die werden ontwikkeld door de contributors van het Fission project, voor dit onderzoek werden de bestaande bestanden bewerkt, de link naar de code is steeds toegevoegd als voetnoot. De image kan eveneens worden gebouwd en worden opgeladen naar een Docker hub (of een andere) repository aan de hand van volgende commando's.
+Het gebruik van een custom Python Docker image stelt gebruikers in staat deze te configureren naar eigen wensen en noden. De image kan worden gepubliceerd in een Docker registrie op Docker hub. De onderdelen waaruit deze image is opgebouwd zijn hieronder opgesomd. De Docker image is gebaseerd op bestaande Docker files die werden ontwikkeld door de medewerkers van het Fission project, voor dit onderzoek werden de bestaande bestanden bewerkt, de link naar de code is steeds toegevoegd als voetnoot. De image kan worden gebouwd en worden opgeladen naar een Docker hub (of een andere) repository aan de hand van de commando's in het codeblok.
 
 \begin{itemize}
     \item Dockerfile: in bijlage \ref{sec:dockerfile-fission} is de default Dockerfile\footnote{https://github.com/fission/fission/blob/master/environments/python/Dockerfile-2.7} te vinden die wordt voorzien in het Fission framework. Fission voorziet een aantal standaard images specifiek voor een aantal programmeertalen, deze images bevatten dependencies voor het uitvoeren van functies geschreven in een specifieke taal.
@@ -329,6 +329,7 @@ total 40
 -rw-r--r--  1 lennert  staff   2.3K May  6 20:42 credentials.json
 -rw-r--r--  1 lennert  staff   131B May  6 20:43 requirements.txt
 -rw-r--r--  1 lennert  staff   4.0K May  6 17:34 server.py
+
 # lennertmertens is de naam van de Docker Hub repository.
 $ docker build -t lennertmertens/python-env . 
 $ docker push lennertmertens/python-env
@@ -390,8 +391,8 @@ Prometheus wordt standaard voorzien in de installatie van Fission. Wanneer port 
 \begin{lstlisting}[language=bash]
 # Expose de Prometheus client via http://localhost:9090.
 $ kubectl -n fission port-forward  \ 
-$(kubectl -n fission get pod -l app=prometheus, \
-component=server -o name) 9090
+  $(kubectl -n fission get pod -l app=prometheus,\
+  component=server -o name) 9090
 \end{lstlisting}
 
 \subsection{Schaalbaarheid Fission}
