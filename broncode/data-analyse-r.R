@@ -45,11 +45,7 @@ openfaas_summary_tijd <- summary(data$OpenFaaS)
 fission_summary_tijd <- summary(data$Fission)
 
 
-#t test
-openfaas_t_tijd <- t.test(openfaas_vector_tijd)
-print(openfaas_t_tijd)
-fission_t_tijd <- t.test(fission_vector_tijd)
-
+# Boxplot
 boxplot(data$OpenFaaS,data$Fission,
         names = c("OpenFaaS", "Fission"),
         xlab = "Framework",
@@ -70,8 +66,6 @@ print("variantie openfaas_var_tijd")
 print(openfaas_var_tijd)
 print("kwartielen openfaas_kwartiel_tijd")
 print(openfaas_kwartiel_tijd)
-print("t-test openfaas_t_tijd")
-print(openfaas_t_tijd)
 print("----------------------------------------------------------------------------------------------")
 print("Fission resultaten")
 print("summary fission_summary_tijd")
@@ -82,8 +76,6 @@ print("variantie fission_var_tijd")
 print(fission_var_tijd)
 print("kwartielen fission_kwartiel_tijd")
 print(fission_kwartiel_tijd)
-print("t-test fission_t_tijd")
-print(fission_t_tijd)
 sink()
 
 
