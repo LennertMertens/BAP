@@ -54,19 +54,19 @@ De requirements waaraan de FaaS frameworks moeten voldoen werden in overleg met 
 De long list bevat alle mogelijke frameworks die in aanmerking komen overeenstemmend met de gecapteerde requirements. Elk framework wordt in het kort toegelicht. Na de oplijsting van de verschillende frameworks die in aanmerking komen worden er tabellen opgemaakt waarin terug te vinden is of de frameworks al dan niet aan de requirements voldoen, er is één tabel voor de functionele en één voor de niet-functionele requirements. Op basis van de tabellen wordt het meest veelbelovende framework gekozen dat zal worden vergeleken met Fission. De functionele en niet-functionele requirements worden per framework tegen elkaar afgewogen, executietijd van functies, gebruiksvriendelijkheid en eenvoud in installatie zijn niet meetbaar zonder Proof of Concept en zullen maar later in dit onderzoek worden gemeten. Deze requirements worden daarom ook niet in de tabellen opgenomen. De tabellen worden opgesteld aan de hand van research, er wordt op basis van gevonden resultaten een besluit gevormd, later kan dit echter wijzigen tijdens de Proof of Concept. Het is mogelijk dat ervan uitgegaan wordt tijdens het opstellen van de long list dat een framework voldoet aan een bepaalde requirement maar dat dit tijdens de opstelling in de Proof of Concept echter niet het geval blijkt.
 
 \subsection{Fission}
-Fission\footnote{https://fission.io/} is een Kubernetes native serverless framework voor functies. Het stelt ontwikkelaars in staat functies te schrijven, die een korte levensduur hebben, in verschillende talen. De functies kunnen worden gemapt aan HTTP triggers.
+Fission\footnote{https://fission.io/} is een serverless framework dat bovenop Kubernetes draait. Het stelt ontwikkelaars in staat functies te schrijven in verschillende programmeertalentalen. De functies kunnen eveneens worden gemapt aan HTTP triggers voor het aanroepen ervan.
 
 \subsection{Kubeless}
-Kubeless\footnote{https://kubeless.io/} beschrijft zichzelf als een Kubernetes native serverless framework dat ontwikkelaars in staat stelt kleine stukken code of functies op te laden zonder zorg over de onderliggende infrastructuur. Kubeless is de ideale tool voor ieder die op zoek is naar een open source alternatief voor wat AWS Lambda, Google Cloud Functions en Azure Functions aanbieden.
+Kubeless\footnote{https://kubeless.io/} is eveneens een Kubernetes native serverless framework dat ontwikkelaars in staat stelt kleine stukken code of functies op te laden zonder zorg over de onderliggende infrastructuur. Kubeless is de ideale tool voor ieder die op zoek is naar een open source alternatief voor wat AWS Lambda, Google Cloud Functions en Azure Functions aanbieden.
 
 \subsection{OpenFaaS}
 \textcite{OpenFaaS2019} beschrijft zichzelf ook als een framework voor het bouwen van serverless functies met Kubernetes en Docker, het voorziet ook support voor metrics. Tools als Prometheus kunnen makkelijk worden geïmplementeerd voor monitoring.
 
 \subsection{Apache OpenWhisk}
-OpenWhisk\footnote{https://openwhisk.apache.org/} is een open source serverless platform dat als respons op events en triggers functies uitvoert. OpenWhisk staat in voor het beheer van de hardware en schaalbaarheid van applicaties met behulp van Docker containers zodat ontwikkelaars zich kunnen focussen op het bouwen van applicaties.
+OpenWhisk\footnote{https://openwhisk.apache.org/} is een open source serverless platform waar functies op gedeployed kunnen worden, gemapt aan events en triggers. OpenWhisk staat in voor het beheer van de hardware en schaalbaarheid van applicaties met behulp van Docker containers zodat ontwikkelaars zich kunnen focussen op het bouwen van applicaties.
 
 \subsection{Fn}
-De beschrijving waarmee \textcite{FnProject2019} zichzelf voorstelt luidt als volgt: Het Fn Project is een open source container-native serverless platform dat overal kan draaien, in elk type van cloud maar ook op locatie. Het is makkelijk in gebruik, ondersteund elke programmeertaal, is uitbreidbaar en performant. 
+De beschrijving waarmee \textcite{FnProject2019} zichzelf voorstelt luidt als volgt: ''Het Fn Project is een open source container-native serverless platform dat overal kan draaien, in elk type van cloud maar ook op locatie. Het is makkelijk in gebruik, ondersteund elke programmeertaal, is uitbreidbaar en performant.''
 
 \subsection{IronFunctions}
 Iron belooft met hun IronFunctions\footnote{https://open.iron.io/} serverless framework dat taken die veel CPU vragen onmerkbaar in de achtergrond draaien. Het laat ontwikkelaars toe functies te implementeren in applicaties en de focus te leggen op het schrijven van de software. Het voorziet ook snelle en eenvoudige configuratie van de onderliggende infrastructuur en job processing.
@@ -75,10 +75,10 @@ Iron belooft met hun IronFunctions\footnote{https://open.iron.io/} serverless fr
 OpenLambda\footnote{https://open-lambda.org/index.htm} is in tegenstelling tot de eerder besproken alternatieven minder ver ontwikkeld. OpenLambda is een framework dat interessant is voor iedereen die wil wil testen en serverless wilt leren kennen. OpenLambda is niet production ready, de eerder besproken tools zijn dit vaak wel al.
 
 \subsection{Nuclio}
-Nuclio\footnote{https://nuclio.io} wordt vaak gebruikt als alternatief voor AWS Lambda. Nuclio is een serverless framework voor functies in real-time en data gedreven applicaties. Nuclio ondersteund ook Kubernetes als platform. \autocite{Nuclio2019}
+Nuclio\footnote{https://nuclio.io} wordt vaak gebruikt als alternatief voor AWS Lambda. Het is een serverless framework voor functies in real-time en data gedreven applicaties. Nuclio draait eveneens bovenop Kubernetes. \autocite{Nuclio2019}
 
 \subsection{Knative}
-Pivotal beschrijft Knative\footnote{https://pivotal.io/knative} als een uitbreiding van Kubernetes die helpt bij het bouwen van moderne, container-gebaseerde applicaties. Knative voorziet een eenvoudige manier voor ontwikkelaars om applicaties bovenop Kubernetes te draaien. Knative is een open source project in samenwerking met Google.
+Knative\footnote{https://pivotal.io/knative} is een uitbreiding van Kubernetes die helpt bij het bouwen van moderne, container-gebaseerde applicaties. Het is een open source project in samenwerking met Google. Knative voorziet ontwikkelaars dat ze op een eenvoudige manier applicaties bovenop een Kuberneteslaag kunnen draaien.
 
 \subsection{Vergelijking}
 In tabel \ref{tab:frameworks-fr} worden de verschillende frameworks vergeleken op basis van hun functionele requirements die vooropgesteld  werden.  De tabel duidt de requirements waaraan de frameworks voldoen aan met een ''X'', indien ze niet voldoen volgt er een ''-'' of aangepaste omschrijving. Tabel \ref{tab:frameworks-nfr} geeft een overzicht van de frameworks ten opzichte van de vooropgestelde niet-functionele requirements. In deze tabel geldt hetzelfde: een ''X'' wilt zeggen dat er aan de requirement is voldaan, een ''-'' betekent dat er een requirement niet voldaan is en een aangepaste beschrijving werd gekozen wanneer deze meer zegt dan een ''X'' of ''-''.
