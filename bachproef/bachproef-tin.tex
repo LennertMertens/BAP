@@ -1,86 +1,105 @@
-%%=============================================================================
-%% LaTeX sjabloon voor bachelorproef, HoGent Bedrijf en Organisatie
-%% Opleiding Toegepaste Informatica
-%%=============================================================================
+%===============================================================================
+% LaTeX sjabloon voor de bachelorproef toegepaste informatica aan HOGENT
+% Meer info op https://github.com/HoGentTIN/bachproef-latex-sjabloon
+%===============================================================================
 
-\documentclass[fleqn,a4paper,12pt]{book}
+\documentclass{bachproef-tin}
 
-\input{structure}
+\usepackage{hogent-thesis-titlepage} % Titelpagina conform aan HOGENT huisstijl
+\setlist{nolistsep}                 % Reduce spacing between list items
+\usepackage{listings}           % Broncode mooi opmaken
+\usepackage{multirow}         % Tekst over verschillende cellen in tabellen
+\usepackage{rotating}          % Tabellen en figuren roteren
+\usepackage{listings}           % Listings for using code
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{longtable}
+\usepackage{booktabs}       % Required for nicer horizontal rules in tables
+\usepackage{xcolor}            % Required for specifying colors by name
 
-%%---------- Documenteigenschappen --------------------------------------------
+
+%%---------- Documenteigenschappen ---------------------------------------------
+% TODO: Vul dit aan met je eigen info:
+
+% De titel van het rapport/bachelorproef
+\title{Onderzoek naar serverless computing en open source serverless infrastructuur: vergelijkende studie en Proof of Concept}
 
 % Je eigen naam
-\newcommand{\student}{Lennert Mertens}
+\author{Lennert Mertens}
 
 % De naam van je promotor (lector van de opleiding)
-\newcommand{\promotor}{Steven Van Impe}
+\promotor{Steven Van Impe}
 
 % De naam van je co-promotor. Als je promotor ook je opdrachtgever is en je
 % dus ook inhoudelijk begeleidt (en enkel dan!), mag je dit leeg laten.
-\newcommand{\copromotor}{Pieter-Jan Saveyn}
+\copromotor{Pieter-Jan Saveyn}
 
 % Indien je bachelorproef in opdracht van/in samenwerking met een bedrijf of
 % externe organisatie geschreven is, geef je hier de naam. Zoniet laat je dit
 % zoals het is.
-\newcommand{\instelling}{Nubera}
-
-% De titel van het rapport/bachelorproef
-\newcommand{\titel}{Onderzoek naar serverless computing en open source serverless infrastructuur: vergelijkende studie en Proof of Concept}
-
-% Datum van indienen (gebruik telkens de deadline, ook al geef je eerder af)
-\newcommand{\datum}{31 mei 2019}
+\instelling{Nubera}
 
 % Academiejaar
-\newcommand{\academiejaar}{2018-2019}
+\academiejaar{2018-2019}
 
 % Examenperiode
 %  - 1e semester = 1e examenperiode => 1
 %  - 2e semester = 2e examenperiode => 2
 %  - tweede zit  = 3e examenperiode => 3
-\newcommand{\examenperiode}{2}
+\examenperiode{2}
 
-%%=============================================================================
-%% Inhoud document
-%%=============================================================================
+%===============================================================================
+% Inhoud document
+%===============================================================================
 
 \begin{document}
-
-%---------- Taalselectie ------------------------------------------------------
+    
+%---------- Taalselectie -------------------------------------------------------
 % Als je je bachelorproef in het Engels schrijft, haal dan onderstaande regel
 % uit commentaar. Let op: de tekst op de voorkaft blijft in het Nederlands, en
 % dat is ook de bedoeling!
 
 %\selectlanguage{english}
 
-%---------- Titelblad ---------------------------------------------------------
+%---------- Titelblad ----------------------------------------------------------
 \inserttitlepage
 
-%---------- Samenvatting, voorwoord -------------------------------------------
+%---------- Samenvatting, voorwoord --------------------------------------------
 \usechapterimagefalse
 \input{voorwoord}
 \input{samenvatting}
 
-%---------- Inhoudstafel ------------------------------------------------------
-\pagestyle{empty} % No headers
-\tableofcontents % Print the table of contents itself
-\cleardoublepage % Forces the first chapter to start on an odd page so it's on the right
-\pagestyle{fancy} % Print headers again
+%---------- Inhoudstafel -------------------------------------------------------
+\pagestyle{empty} % Geen hoofding
+\tableofcontents  % Voeg de inhoudstafel toe
+\cleardoublepage  % Zorg dat volgende hoofstuk op een oneven pagina begint
+\pagestyle{fancy} % Zet hoofding opnieuw aan
 
-%---------- Lijst figuren, afkortingen, ... -----------------------------------
+%---------- Lijst figuren, afkortingen, ... ------------------------------------
 
 % Indien gewenst kan je hier een lijst van figuren/tabellen opgeven. Geef in
 % dat geval je figuren/tabellen altijd een korte beschrijving:
 %
 %  \caption[korte beschrijving]{uitgebreide beschrijving}
+%
+% De korte beschrijving wordt gebruikt voor deze lijst, de uitgebreide staat bij
+% de figuur of tabel zelf.
 
 \listoffigures
 \listoftables
 
 % Als je een lijst van afkortingen of termen wil toevoegen, dan hoort die
 % hier thuis. Gebruik bijvoorbeeld de ``glossaries'' package.
-% https://www.sharelatex.com/learn/Glossaries
+% https://www.overleaf.com/learn/latex/Glossaries
 
-%%---------- Kern -------------------------------------------------------------
+%---------- Kern ---------------------------------------------------------------
+
+% De eerste hoofdstukken van een bachelorproef zijn meestal een inleiding op
+% het onderwerp, literatuurstudie en verantwoording methodologie.
+% Aarzel niet om een meer beschrijvende titel aan deze hoofstukken te geven of
+% om bijvoorbeeld de inleiding en/of stand van zaken over meerdere hoofdstukken
+% te verspreiden!
 
 \input{inleiding}
 \input{standvanzaken}
@@ -88,7 +107,6 @@
 \input{uitwerking}
 \input{proof-of-concept}
 \input{vergelijking}
-
 \input{conclusie}
 
 %%=============================================================================
@@ -96,6 +114,7 @@
 %%=============================================================================
 
 \appendix
+\renewcommand{\chaptername}{Appendix}
 
 %%---------- Onderzoeksvoorstel -----------------------------------------------
 
@@ -107,8 +126,6 @@ Het onderwerp van deze bachelorproef is gebaseerd op een onderzoeksvoorstel dat 
 \input{../voorstel/voorstel-inhoud}
 
 %%---------- Andere bijlagen --------------------------------------------------
-% TODO: Voeg hier eventuele andere bijlagen toe
-%\input{...}
 \chapter{Broncode}
 \input{../scripts/openfaas-installatie.tex}
 \input{../scripts/openfaas-demofunctie.tex}
@@ -123,6 +140,7 @@ Het onderwerp van deze bachelorproef is gebaseerd op een onderzoeksvoorstel dat 
 \input{issues.tex}
 \chapter{Datasets}
 \input{datasets.tex}
+
 %%---------- Referentielijst --------------------------------------------------
 
 \printbibliography[heading=bibintoc]

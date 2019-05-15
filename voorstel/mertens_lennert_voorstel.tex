@@ -3,15 +3,28 @@
 %==============================================================================
 % Gebaseerd op LaTeX-sjabloon ‘Stylish Article’ (zie voorstel.cls)
 % Auteur: Jens Buysse, Bert Van Vreckem
-\documentclass[fleqn,10pt]{voorstel}
+%
+% Compileren in TeXstudio:
+%
+% - Zorg dat Biber de bibliografie compileert (en niet Biblatex)
+%   Options > Configure > Build > Default Bibliography Tool: "txs:///biber"
+% - F5 om te compileren en het resultaat te bekijken.
+% - Als de bibliografie niet zichtbaar is, probeer dan F5 - F8 - F5
+%   Met F8 compileer je de bibliografie apart.
+%
+% Als je JabRef gebruikt voor het bijhouden van de bibliografie, zorg dan
+% dat je in ``biblatex''-modus opslaat: File > Switch to BibLaTeX mode.
+
+\documentclass{voorstel}
+
+
 %------------------------------------------------------------------------------
 % Metadata over het voorstel
 %------------------------------------------------------------------------------
-\JournalInfo{HoGent Bedrijf en Organisatie}
-\Archive{Bachelorproef 2018 - 2019} 
 
 %---------- Titel & auteur ----------------------------------------------------
 
+% TODO: geef werktitel van je eigen voorstel op
 % TODO: geef werktitel van je eigen voorstel op
 \PaperTitle{Onderzoek naar Serverless infrastructuur voor next-gen apps: opbouw van een serverless infrastructuur Proof-of-Concept}
 \PaperType{Onderzoeksvoorstel Bachelorproef} % Type document
@@ -20,41 +33,24 @@
 \Authors{Lennert Mertens\textsuperscript{1}} % Authors
 \CoPromotor{Pieter-Jan Saveyn\textsuperscript{2} (Nubera)}
 \affiliation{\textbf{Contact:}
-  \textsuperscript{1} \href{mailto:lennert.mertens.y2422@student.hogent.be}{lennert.mertens.y2422@student.hogent.be};
-  \textsuperscript{2} \href{mailto:pieter-jan@nubera.be}{pieter-jan@nubera.be};
+    \textsuperscript{1} \href{mailto:lennert.mertens.y2422@student.hogent.be}{lennert.mertens.y2422@student.hogent.be};
+    \textsuperscript{2} \href{mailto:pieter-jan@nubera.be}{pieter-jan@nubera.be};
 }
-
 %---------- Abstract ----------------------------------------------------------
 
 \Abstract{Deze bachelorproef behandelt het onderzoek naar Serverless infrastructuur of FaaS (Function as a Service).  \textbf{Context} FaaS is een opkomende trend in Cloud  Computing. Vele bedrijven die bezig zijn met voortdurende deployment van software applicaties hebben baat bij onderzoek naar de mogelijkheden van een serverless infrastructuur. \textbf{Nood} De technologie dateert van nog niet zo lang geleden en zit momenteel in de lift. Voor bedrijven kan het onderzoek en vergelijking tussen serverless services helpen hebben bij het kiezen van een tool die het beste bij hun manier van werken past. Omdat dit een recent onderwerp is bestaan er nog niet veel documenten die de mogelijkheden in kaart brengen samen met een duidelijke omschrijving omtrent serverless en next-gen applicaties. \textbf{Taak} Het experiment bestaat uit onderzoek naar een alternatief (open-source) voor reeds bekende serverless infrastructuur providers zoals AWS, Google Cloud Functions en Microsoft Azure. De voorgaande providers stellen allemaal hun infrastructuur ter beschikking in de publieke cloud. In dit onderzoek trachten we een alternatief te vinden voor bedrijven die een serverless infrastructuur willen opzetten in hun eigen omgeving of in een private cloud omgeving. Er wordt onderzoek gedaan naar mogelijke alternatieve frameworks die bedrijven in staat stellen serverless te werken. Daarnaast wordt er een Proof-of-Concept uitgewerkt om dit onderzoek te staven.\textbf{Object} In dit document staat een volledig onderzoek naar serverless en bijhorende begrippen, tools en alternatieve technologieën beschreven samen met de uitwerking van een Proof-of-Concept. \textbf{Resultaat} Het resultaat van dit onderzoek zal een duidelijke uiteenzetting van wat serverless is, de mogelijkheden en de benodigdheden er rond weergeven. Het onderzoek zou een oplossing moeten kunnen bieden voor bedrijven die interesse hebben in een serverless omgeving en wat de mogelijkheden zijn. \textbf{Conclusie} Het onderzoek moet kunnen aantonen dat er open-source alternatieven bestaan voor de reeds bekende serverless infrastructuur providers.  Het is mogelijk een open-source alternatief te demonstreren aan de hand van een proof-of-concept \textbf{Perspectief} In de toekomst zal dit onderwerp aan veel populariteit winnen, dit is onder meer te danken aan de agile manier van werken. Serverless biedt een grote meerwaarde binnen softwareontwikkeling en neemt heel wat overhead weg bij oa. applicatieontwikkeling.
 }
 
-%---------- Onderzoeksdomein en sleutelwoorden --------------------------------
-% TODO: Sleutelwoorden:
-%
-% Het eerste sleutelwoord beschrijft het onderzoeksdomein. Je kan kiezen uit
-% deze lijst:
-%
-% - Mobiele applicatieontwikkeling
-% - Webapplicatieontwikkeling
-% - Applicatieontwikkeling (andere)
-% - Systeembeheer
-% - Netwerkbeheer
-% - Mainframe
-% - E-business
-% - Databanken en big data
-% - Machineleertechnieken en kunstmatige intelligentie
-% - Andere (specifieer)
-%
-% De andere sleutelwoorden zijn vrij te kiezen
 
+%---------- Onderzoeksdomein en sleutelwoorden --------------------------------
 \Keywords{Systeembeheer: Cloud computing --- Serverless --- FaaS} % Keywords
 \newcommand{\keywordname}{Sleutelwoorden} % Defines the keywords heading name
+
 
 %---------- Titel, inhoud -----------------------------------------------------
 
 \begin{document}
-
+    
 \flushbottom % Makes all text pages the same height
 \maketitle % Print the title and abstract box
 \tableofcontents % Print the contents section
