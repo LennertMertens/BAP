@@ -34,6 +34,7 @@ $ brew cask install minikube
 $ brew install kubernetes-cli
 \end{lstlisting}
 
+\newpage
 \subsection{Softwareversies gebruikt tijdens Proof of Concept}
 \begin{itemize}
     \item VirtualBox: 6.0.4 
@@ -59,6 +60,7 @@ minikube-vm at 192.168.99.107
 $ minikube addons enable metrics-server
 \end{lstlisting}
 
+\newpage
 \section{Python demofunctie}
 \label{sec:python-demofunctie}
 De werking van beide frameworks zal worden gedemonstreerd met een zelfgeschreven Python functie. De demofunctie maakt het mogelijk om via een HTTP GET request waaraan een string wordt meegegeven, de string weg te schrijven naar een Google spreadsheet bestand. Wanneer de functie wordt aangeroepen zonder een toegevoegde string dan wordt er een GET request verstuurd naar de API die via de spreadsheet een lijst teruggeeft van weggeschreven woorden uit een vastgelegde kolom. Om gebruik te kunnen maken van Google spreadsheets moet er een Google project worden aangemaakt via de Google API, deze stappen staan verder beschreven. De functie heeft op beide frameworks dezelfde functionaliteit maar de code zal echter aangepast worden aan het framework waarop de functie draait. Beide frameworks verwachten een bepaalde vorm hoe functies geschreven worden. In sectie \ref{sec:demofunctie} is de code terug te vinden voor het uitvoeren van de functie lokaal en dus niet via een FaaS framework. De code werd lokaal geschreven en getest alvorens deze werd aangepast aan de frameworks. De code in sectie \ref{sec:demofunctie} werd gebruikt als uitgangspunt voor het omvormen naar functies die voldoen aan de specifieke vereisten van beide frameworks.
@@ -229,7 +231,8 @@ $ faas-cli login -g $OPENFAAS_URL -u admin -p $PASSWORD
 Na de installatie is het mogelijk naar de OpenFaaS UI te surfen via het IP adres van de Minikube cluster gevolgd door poortnummer 31112.
 De eerste keer dient er aangemeld te worden met gebruiker ''admin'' (Deze gebruiker wordt aangemaakt in het installatiescript) en het wachtwoord dat in de Terminal werd weergegeven door het installatiescript. Na het aanmelden is de interface zoals in figuur \ref{fig:openfaas-ui} te zien. De UI ziet er vrij sober maar heel intuïtief uit, er is eveneens een mogelijkheid om een nieuwe functie te deployen via de ''Deploy New Function'' knop. Wanneer gebruikers kiezen een nieuwe functie te deployen dan kunnen ze enerzijds kiezen voor een community functie, dit zijn reeds bestaande functies die op het OpenFaaS framework kunnen gedraaid worden. Anderzijds kunnen gebruikers ook zelfgeschreven functies deployen aan de hand van deze interface. In dit onderzoek worden functies gedeployed via de command line met het faas-cli commando. Deployments van functies via de command line bieden een betere reproduceerbaarheid en is vaak sneller en makkelijker te reproduceren. Er wordt ook bewust gekozen voor de command line tools omdat niet alle serverless frameworks over een UI beschikken. De interface is een leuke nice-to-have feature en is makkelijk in gebruik voor mensen die aan de slag willen met serverless. De UI wordt eveneens standaard meegeïnstalleerd met OpenFaaS.
 \begin{figure}
-    \includegraphics[width=1\textwidth]{img/openfaas-ui.png}
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/openfaas-ui.png}
     \caption{OpenFaaS User Interface.}
     \label{fig:openfaas-ui}  
 \end{figure}
@@ -242,7 +245,8 @@ $ kubectl port-forward deployment/prometheus 9090:9090 -n openfaas
 \end{lstlisting}
 
 \begin{figure}
-    \includegraphics[width=1\textwidth]{img/openfaas-prometheus}
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/openfaas-prometheus}
     \caption{OpenFaaS Prometheus dashboard.}
     \label{fig:openfaas-prometheus}  
 \end{figure}
@@ -250,7 +254,8 @@ $ kubectl port-forward deployment/prometheus 9090:9090 -n openfaas
 \subsection{Schaalbaarheid OpenFaaS}
 Een van de requirements waaraan het framework moet voldoen is automatische schaalbaarheid. Wanneer het aantal pods van de functie wordt opgevraagd dan is er te zien dat er initieel maar één draait, zie figuur \ref{fig:openfaas-scalability-1}.
 \begin{figure}
-    \includegraphics[width=1\textwidth]{img/openfaas-scalability-1.png}
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/openfaas-scalability-1.png}
     \caption{OpenFaaS standaard pods.}
     \label{fig:openfaas-scalability-1}  
 \end{figure}
@@ -269,6 +274,7 @@ Wanneer de functie zeer veel wordt aangeroepen met bijvoorbeeld loop statements,
     \label{fig:openfaas-scalability-3}  
 \end{figure}
 
+\newpage
 \subsection{Verzamelen functie data}
 Om de frameworks met elkaar te vergelijken wordt de uitvoeringstijd van de geschreven Python functie onder de loep genomen. De tijd die nodig is voor het uitvoeren van de functie, vanaf dat de HTTP request wordt verzonden t.e.m. het moment dat er een response volgt en de functie eindigt, wordt weggeschreven naar een csv bestand. Het csv bestand zal in een later stadium van dit onderzoek gebruikt worden om enkele operaties op uit te voeren die inzicht geven in de uitvoeringstijd van de functie. De demofunctie wordt tweehonderd keer aangeroepen via een HTTP request dat de string ''Test'' wegschrijft naar een Google spreadsheet bestand. Na afloop van wordt de uitvoeringstijd weggeschreven naar het bestand uitvoeringstijd-openfaas.csv dat terug te vinden is in bijlage \ref{sec:uitvoeringstijd-demofunctie}. Onderstaande code voorziet de loop waarmee de functie wordt aangeroepen en de uitvoeringstijd wordt weggeschreven. 
 
@@ -379,7 +385,8 @@ $ curl -X GET -d `Test string` $FISSION_ROUTER/serverless-demo
 \subsubsection{User Interface}
 De installatie voorziet standaard geen user interface. Achteraf kan een UI worden geïnstalleerd maar deze blijkt echter niet te voldoen aan de verwachtingen. De GitHub repository\footnote{https://github.com/fission/fission-ui} waarvan de UI werd gedownload geeft eveneens aan dat deze zeker niet production ready is en momenteel nog een early alpha versie is. Het installatiescript exporteert een variabele met de link voor toegang tot de UI. De standaardpoort waarop de UI draait is poort 31319. In figuur \ref{fig:fission-ui} is te zien hoe de UI eruitziet. Wanneer de UI wordt, geopend wordt er echter een foutboodschap weergegeven die luidt als volgt: ''Fission server supports API v2 only -- v1 is not supported. Please upgrade your Fission client/CLI''. Functies en environments die worden toegevoegd aan Fission worden niet weergegeven in de UI, het is ook niet mogelijk via de UI nieuwe componenten te definiëren. De UI werkt niet en dit is een gekend probleem op GitHub.
 \begin{figure}
-    \includegraphics[width=1\textwidth]{img/fission-ui.png}
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/fission-ui.png}
     \caption{Fission User Interface met foutmelding.}
     \label{fig:fission-ui}  
 \end{figure}
