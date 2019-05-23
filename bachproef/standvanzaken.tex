@@ -21,33 +21,29 @@
  
 Cloud computing is alomtegenwoordig en een basiskennis van het begrip is interessant voor iedereen actief binnen de IT wereld. In dit hoofdstuk worden allerhande begrippen over cloud computing geïntroduceerd. Na het lezen van dit hoofdstuk zal de lezer instaat zijn mee te praten over de basiscomponenten en workflows binnen cloud computing. De begrippen in dit hoofdstuk zijn van belang voor het vervolg van dit onderzoek naar serverless of FaaS.
 
-\subsection{Definitie}
+\subsection{Definitie cloud computing}
 
-Cloud computing is:
-\newline
 On-demand computing services die worden aangeboden via het internet. Deze services omvatten onder andere servers, databanken, netwerkfuncties, opslag en nog veel meer. Werken in de cloud volgt het uitgangspunt: je betaalt voor wat je gebruikt. De cloud biedt flexibiliteit, schaalbaarheid en snelle provisioning tijd. Het stelt bedrijven in staat benodigde IT infrastructuur uit te besteden en zo dus ook geld te besparen. In de cloud is het mogelijk om op- en neer te schalen naargelang de nood, de cloud is met andere woorden elastisch. \autocite{Davis2017}
-\\\\
+
 De definitie vormt een algemene omschrijving van wat cloud computing allemaal kan inhouden. Het is zinvol om deze definitie te gebruiken als uitgangspunt om cloud computing verder in detail te bespreken.
 
 \subsection{Inleiding}
 Het internet en de IT-wereld veranderen en evolueren enorm snel. Klassieke IT infrastructuur die werkt volgens het client-server principe maakt de transitie naar een cloudgebaseerde benadering. In een klassieke infrastructuur benadering koopt een bedrijf zelf servers aan, installeert en onderhoudt deze. Een bedrijf moet in dit opzicht alles voorzien: datacenter, netwerk, elektriciteit, beveiliging, ... . Een eigen infrastructuur onderhouden in een opgezet datacenter brengt een grote kost met zich mee. Voor de huidige datacenter infrastructuren, werden er vaak voor alle applicaties aparte servers voorzien. Er draaide toen één applicatie op één fysieke machine. De traditionele architectuur bracht grote kosten met zich mee en resulteerde vaak ook dat er op sommige momenten te veel resources waren in vergelijking met hoeveel men er maar nodig had. De klassieke benadering heeft dus heel wat beperkingen. 
-\newline
-\newline
+
 Later, in 1999 introduceerde VMware als eerste een nieuw product: VMware Virtual Platform, virtualisatie was geboren. Virtualisatie zorgt ervoor dat bovenop de hardware van de server een "hypervisor" kan worden geïnstalleerd. Een hypervisor is een programma dat toelaat een server onder te verdelen in meerdere servers met elk hun eigen besturingssysteem. In de traditionele benadering werd er voor elke legacy-applicatie één server met één OS voorzien. Met gebruik van virtualisatie is het dus mogelijk om meerdere aparte servers te migreren naar één fysieke machine waarop een hypervisor draait. Dankzij de hypersvisor draaien meerdere servers nog steeds onafhankelijk van elkaar op hun eigen besturingssysteem op dezelfde fysieke hardware. Virtualisatie zorgt ervoor dat er minder fysieke servers moeten worden aangekocht, wat de kost dus aanzienlijk vermindert. Binnen virtualisatie kunnen ook complexe netwerken worden gebouwd zodat gevirtualiseerde servers met elkaar en de buitenwereld kunnen communiceren. \autocite{RedHat2019}. In 
 figuur ~\ref{fig:klassiek-vs-virtualisatie} wordt het verschil tussen een klassieke server met één OS en één applicatie vergeleken met een server waarop gevirtualiseerde servers draaien. Virtualisatie is een van de grondslagen van cloud computing, deze technologie maakt het vandaag de dag mogelijk om infrastructuur te draaien in de cloud.
-\newline
-\newline
+
 \begin{figure}
     \centering
     \includegraphics[width=0.9\textwidth]{img/klassiek_virtualisatie}
     \caption{Traditionele server architectuur vs. gevirtualiseerde server architectuur.} 
     \label{fig:klassiek-vs-virtualisatie}  
 \end{figure}
-\newline
+
 
 Wanneer er naar de cloud gerefereerd wordt, dan bedoelt men meestal de cloud services die grote providers als een Google, Amazon en Microsoft aanbieden. Laten we de conventie maken dat wanneer er in de inleiding gerefereerd wordt naar de cloud, dit wijst op de cloud services die door cloud providers worden aangeboden. Later maken we de distinctie tussen welke verschillende soorten cloud er zijn, met elk hun eigenschappen. De afgelopen jaren hebben steeds meer bedrijven gekozen om hun applicaties en infrastructuur naar de cloud te migreren. Migratie naar de cloud is interessant in verschillende opzichten, er zijn heel wat voordelen aan verbonden die in sectie \ref{voor-en-nadelen} worden uitgelegd. De grootste motivatie waarom bedrijven naar de cloud migreren is enerzijds het feit dat er enkel betaald wordt voor wat men verbruikt en anderzijds neemt het heel wat overhead zoals het onderhouden van infrastructuur weg. Cloud computing zorgt ervoor dat gebruikers een gedeelde bron van resources en opslag kunnen gebruiken bij een cloud provider. Een poel of bron van resources kan worden gezien als duizenden servers waarop virtuele machines of applicaties draaien. Deze services worden verschaft via het internet. Gebruikers betalen enkel voor de resources die ze verbruiken, zo worden de kosten meestal berekend op de tijd die een server draait en welke gespecificeerde resources deze verbruikt. Een model waarin enkel betaald wordt voor het het verbruik wordt ook wel het "Pay as you go model" genoemd. De cloud is veelzijdig en biedt mogelijkheden op verschillende niveaus, deze worden in volgende onderdelen besproken. \autocite{Seghal2018} 
 
-
+\newpage
 \subsection{Cloud types op deployment niveau}
 \label{cloud-deployment-level}
 De Cloud kan worden onderverdeeld in verschillende types op niveau van deployment. De onderverdeling op niveau van deployment slaat op de locatie waar de cloud infrastructuur draait, bijvoorbeeld in een datacenter van een grote cloud provider of bij een bedrijf op locatie in een eigen datacenter. Volgens \textcite{Goyal2014} kan de cloud worden opgedeeld in vier verschillende soorten met elk hun specifieke eigenschappen. Vooreerst wordt uitgelegd wat men bedoelt met on-premises infrastructuur.
@@ -85,7 +81,7 @@ In het Software-as-a-Service model wordt de gehele infrastructuur, inclusief app
     \caption{Schematische voorstelling van de verschillende cloud service niveaus. De groene kleur duidt alle onderdelen aan die zelf te managen zijn. De oranje kleur geeft aan welke onderdelen de cloud provider beheert.} 
     \label{fig:cloud-service-levels}  
 \end{figure}
-\newline
+
 
 \subsection{Voor-en nadelen}
 \label{voor-en-nadelen}
@@ -107,7 +103,7 @@ Cloud computing kent voordelen die heel wat mogelijkheden bieden ten opzichte va
 
     \item [Schaalbaarheid en flexibiliteit]
     Cloud computing stelt in staat om op- en neer te schalen volgens de noden. Dit wil zeggen dat een bedrijf eender wanneer kan opteren om meer of minder middelen te huren naargelang wat nodig is. Cloud computing is met andere woorden elastisch. Een bedrijf zoals Tomorrowland kan bijvoorbeeld doorheen het jaar, wanneer er geen ticketverkoop aan de gang is, de requests naar hun webservers bolwerken met 10 operationele servers. Indien er een ticketverkoop start kan het bedrijf kiezen om op te schalen naar 300 webservers zodat alle requests kunnen worden behandeld zonder dat dit veel moeite kost. De nood voor 30 keer meer servers is, wanneer deze manueel worden geïnstalleerd en opgezet op locatie, een taak die heel veel tijd en werk in beslag neemt maar die in de cloud zo is verwerkt. Dit voorbeeld toont aan dat de cloud mogelijkheden biedt om op een eenvoudige manier te schalen zonder dat dit handenvol geld kost (infrastructuur, tijd).
-    \\ 
+    \\
 \end{description}
 
 \subsubsection{Nadelen}
@@ -143,7 +139,7 @@ De termen serverless en FaaS worden vaak door elkaar gebruikt en deze verwijzen 
 
 \subsubsection{Backend-as-a-Service (BaaS)}
 Backend-as-a-Service stelt ontwikkelaars in staat om gebruik te maken van kant en klare oplossingen zodat ze zelf geen server-side of backend componenten meer hoeven te managen. BaaS is een cloud service model dat verantwoordelijk is voor het volledige management van de backend van een applicatie. Ontwikkelaars kunnen het beheer van backend servers outsourcen aan aanbieders van Backend-as-a-Service diensten. Dit stelt ontwikkelaars in staat te focussen op hetgeen dat er voor hen wel toe doet, namelijk de applicatie code, de frontend. Waar het op neerkomt is dat BaaS applicaties opsplitst in meerdere kleine onderdelen, deze opsplitsing zorgt ervoor dat verschillende ontwikkelaars gebruik kunnen maken van dezelfde delen software die reeds eerder zijn geschreven en worden aangeboden door een Backend-as-a-Service vendor. Wat dit betekent, is dat ontwikkelaars dus gebruik kunnen maken van bestaande modules en deze implementeren in de backend van hun applicatie, denk bijvoorbeeld aan een database achterliggend aan een applicatie, integratie met sociale media of een module voor gebruikersauthenticatie zoals Auth0. BaaS providers zoals Google's Firebase biedt bijvoorbeeld een database aan die in de backend wordt onderhouden en aangeboden door de BaaS providers zonder dat de ontwikkelaar zich moet focussen op dit backend component. Daarnaast bieden BaaS providers nog een waaier van andere diensten aan om het leven van een ontwikkelaar zo aangenaam mogelijk te maken.
-\\
+
 De server-side mogelijkheden die de meeste Backend-as-a-Service providers aanbieden zijn:
 \begin{itemize}
     \item Hosting van de applicatie, het beheer van de servers waarop de applicatie draait.
@@ -157,7 +153,7 @@ BaaS is vooral terug te vinden in de ontwikkeling van mobiele applicaties, er wo
 
 \subsubsection{Function as a Service (FaaS)}
 Wanneer er gesproken wordt over serverless dan bedoelt men meestal de Function-as-a-Service cloud service en niet de Backend-as-a-Service benadering.  Function-as-a-Service is een trend in softwareontwikkeling die gebaseerd is op het schrijven en deployen van verschillende individuele functies.
-\\
+
 In het deployment van klassieke applicaties wordt een applicatie traditioneel gedraaid in een virtuele machine (VM) of in een container. Wanneer de host een container of een VM is, dan draait de applicatie als proces bovenop het besturingssysteem. De achterliggende code van een applicatie bevat vaak verschillende, aan elkaar gerelateerde, methoden met elk hun eigen functionaliteit. Figuur \ref{fig:traditional-software-deployment} geeft een visualisatie van klassieke software deployment benadering, er is duidelijk te zien dat binnen een host de applicatie draait als een proces met daarbinnen de individuele methoden die elkaar aanspreken om de functionaliteit van de applicatie te garanderen.
 \begin{figure}
     \centering
@@ -165,16 +161,19 @@ In het deployment van klassieke applicaties wordt een applicatie traditioneel ge
     \caption{Klassieke monoliet applicaties draaien als één proces op een besturingssysteem binnen een container of virtuele machine. Een klassieke applicatie is opgebouwd uit verschillende methoden met elk hun eigen functionaliteit gescheiden door softwareklassen.} 
     \label{fig:traditional-software-deployment}  
 \end{figure}
-\\
+
+
 De FaaS benadering verandert het klassieke model van applicatie deployment. Ontwikkelaars schrijven volgens het FaaS model individuele functies die losstaan van elkaar en elk een specifieke taak hebben. Een applicatie draait nu niet meer voortdurend in een VM of container maar de functionaliteit werkt event-driven. De functies die de ontwikkelaar schrijft, worden opgeladen naar een FaaS platform. Omdat de applicatie niet meer voortdurend draait is het FaaS platform zo geconfigureerd dat het luistert naar events die gekoppeld zijn aan een specifieke functie. Wanneer er een event optreedt dat een functie aanroept dan zorgt het FaaS platform ervoor dat er een container wordt gestart, de code wordt ingeladen en uitgevoerd en na afloop van de functie wordt de container weer gestopt (De containers kunnen ook worden ingesteld dat er steeds een minimumaantal blijft draaien). Functies worden vaak aangeroepen door HTTP API Gateway calls, in de voorbeelden die volgen wordt de cyclus van FaaS duidelijk weergegeven. Hoe dit nu serverless is? Wel, ontwikkelaars dienen zich alleen maar te focussen op het schrijven van code (functies) en deze plaatsen ze gewoon in het FaaS platform, zonder zorg over de achterliggende infrastructuur.\autocite{Roberts2017}
-\\\\
-Er zijn al heel wat cloud providers die Function-as-a-Service platforms aanbieden, de populairste op moment van schrijven zijn ongetwijfeld: Amazon Web Services met hun AWS Lambda, Google Cloud Platform met Google Cloud Functions en Microsoft Azure met Azure Functions. De opgesomde platformen zijn allen proprietary,  dit wilt zeggen dat ze gepatenteerd zijn en in bezit van een tech-gigant, en dus niet open source. De FaaS platformen die de grote spelers aanbieden zijn al ver ontwikkeld en bieden heel wat functionaliteit maar zullen niet verder behandeld worden in dit onderzoek. Als alternatief duiken er steeds meer open source frameworks op voor het opzetten van een FaaS platform. In verder onderzoek zal een overweging worden gemaakt welke open source frameworks het meest interessant zijn voor Nubera conform aan hun vooropgestelde vereisten.
+
+
+
+Er zijn al heel wat cloud providers die Function-as-a-Service platforms aanbieden, de populairste op moment van schrijven zijn ongetwijfeld: Amazon Web Services met hun AWS Lambda, Google Cloud Platform met Google Cloud Functions en Microsoft Azure met Azure Functions. De opgesomde platformen zijn allen proprietary,  dit wilt zeggen dat ze gepatenteerd zijn en in bezit van een tech-gigant, en dus niet open source. De FaaS platformen die de grote spelers aanbieden zijn al ver ontwikkeld en bieden heel wat functionaliteit maar zullen niet verder behandeld worden in dit onderzoek. Als alternatief duiken er steeds meer open source frameworks op voor het opzetten van een FaaS platform. In verder onderzoek zal een overweging worden gemaakt welke open source frameworks het meest interessant zijn voor Nubera conform de hun vooropgestelde vereisten.
 
 \subsection{Serverless concepten, begrippen en onderdelen}
 Het begrip serverless zou nu al een stuk duidelijker moeten zijn. Serverless brengt echter nog meer begrippen mee om het volledige plaatje te kunnen schetsen. In deze sectie worden de belangrijkste ''key concepts'' met bijhorende begrippen nader verklaard.
 
 \subsubsection{Next-Gen applicaties}
-Applicaties die in een serverless omgeving draaien worden vaak next-gen applicaties genoemd. Met next-generation applicaties bedoelen we de applicaties die in een Cloud gebaseerde omgeving draaien en een onderliggende architectuur hebben die bestaat uit enerzijds containers en anderzijds microservices. Applicatieontwikkeling is de afgelopen 10 jaar enorm veranderd. Nu is het hele development gebeuren gericht op continue integratie en continue delivery (CI/CD) en zijn de ontwikkelingscyclussen (tijd tussen applicatie releases) verkleind van een aantal weken of aantal maanden tot een aantal minuten, uren of weken in het slechtste geval. 
+Serverless applicaties worden vaak next-gen applicaties genoemd. Met next-generation applicaties bedoelen we de applicaties die in een Cloud gebaseerde omgeving draaien en een onderliggende architectuur hebben die bestaat uit enerzijds containers en anderzijds microservices. Applicatieontwikkeling is de afgelopen 10 jaar enorm veranderd. Nu is het hele development gebeuren gericht op continue integratie en continue delivery (CI/CD) en zijn de ontwikkelingscyclussen (tijd tussen releases) verkleind van een aantal weken of aantal maanden tot een aantal minuten, uren of weken in het slechtste geval. 
 
 \subsubsection{Microservices}
 Microservices zijn een alternatief voor klassieke monoliet applicaties, dit zijn applicaties die verschillende functionaliteiten omvatten en draaien als een enkel proces binnen een VM of container. Een monoliet applicatie kan worden gezien als één gehele applicatie die draait op één machine. In microservices daarentegen worden verschillende functionaliteiten en services gegroepeerd met elk hun eigen verantwoordelijkheden. Microservices zijn als het ware  een decompositie van een monoliet applicatie. Applicaties ontwikkeld volgens een microservices architectuur bestaan uit onafhankelijke componenten die naast elkaar bestaan en makkelijk vervangbaar of upgradebaar zijn. In een klassiek ontwerp van een applicatie is de applicatielogica van elkaar gescheiden door behulp van verschillende softwareklassen. De softwareklassen kunnen met elkaar communiceren. In een microservice architectuur kunnen de verschillende componenten ook met elkaar communiceren maar dit gebeurt aan de hand van REST API via het HTTP protocol. Daar waar monoliet applicaties gebruikmaken van eenzelfde datastore, zijn componenten van microservices verantwoordelijk voor hun eigen data en persistentie. Een microservice kan de data van een andere microservice niet rechtstreeks raadplegen. Verschillende microservices kunnen draaien in verschillende VMs of containers, daarom wordt deze architectuur ook wel loosely-coupled genoemd. \autocite{Fowler2014}
@@ -200,7 +199,7 @@ Wanneer functies worden aangeroepen, dan gebeurt dat binnen FaaS vaak via een AP
     \label{fig:api-gateway}  
 \end{figure}
 
-
+\newpage
 \subsection{Serverless architectuur}
 Hoe serverless infrastructuren eruitzien wordt in deze sectie uitgelegd aan de hand van voorbeelden gebaseerd op een zeer interessant artikel over serverless computing door \textcite{Roberts2018}. Er worden twee voorbeelden aangehaald die kunnen dienen als richtlijnen voor verschillende soorten applicaties.
 
@@ -208,15 +207,17 @@ Hoe serverless infrastructuren eruitzien wordt in deze sectie uitgelegd aan de h
 In dit voorbeeld bestaat de architectuur uit de klassieke drie-lagen benadering. Er is een client systeem, in dit geval een webbrowser, een server met serverlogica en applicatiecode en een achterliggende databank voor persistentie. De gehanteerde benadering zorgt ervoor dat de client van niets op de hoogte is en dat alle logica aanwezig is in het systeem. De applicatieserver is verantwoordelijk voor alle functionaliteiten zoals: authenticatie, navigatie, zoekmogelijkheden en transacties. In figuur \ref{fig:drielagen_architectuur} wordt de architectuur schematisch voorgesteld.
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{img/drielagen_architectuur.png}
+    \includegraphics[width=0.7\textwidth]{img/drielagen_architectuur.png}
     \caption{Schematische voorstelling van een applicatie opgebouwd volgens het drie-lagen model. De client fungeert enkel als grafische interface en bevat niets van achterliggende code. De applicatieserver bevat alle applicatielogica en maakt gebruik van een achterliggend databanksysteem. \autocite{Roberts2018}} 
     \label{fig:drielagen_architectuur}  
 \end{figure}
-\\\\
+
+
+
 Wanneer de klassieke benadering wordt omgevormd volgens een serverless architectuur, dan wordt de applicatie op een volledig andere manier ontwikkeld zodanig dat nu ook de client verantwoordelijkheden heeft en alles niet afhankelijk is van één enkele applicatieserver. Figuur \ref{fig:serverless_architectuur} geeft een overzicht van de opbouw van de applicatie in een serverless omgeving.
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{img/serverless_architectuur.png}
+    \includegraphics[width=0.8\textwidth]{img/serverless_architectuur.png}
     \caption{Schematische voorstelling van een applicatie die opgebouwd is volgens een serverless architectuur. De applicatielogica wordt opgesplitst in verschillende microservices met elk hun eigen functionaliteit. \autocite{Roberts2018}} 
     \label{fig:serverless_architectuur}  
 \end{figure}
@@ -235,7 +236,7 @@ De serverless benadering volgt dezelfde als deze van microservices zoals eerder 
 \subsubsection{Bericht-gedreven applicaties}
 Een veelvoorkomend voorbeeld dat ook werkt volgens een FaaS architectuur is een service voor backend dataprocessing. Neem bijvoorbeeld een online advertentie systeem, welbekende advertenties die overal terug te vinden zijn op websites. Als een gebruiker op een advertentie klikt moet hij naar de juiste website worden doorgestuurd en moet het click-event worden opgeslagen zodat de het advertentiesysteem de adverteerder kan aanrekenen.
 Klassiek zou zo'n architectuur eruitzien zoals in figuur \ref{fig:klassiek-message-driven}. De Ad Server luistert naar wanneer er een gebruiker op een advertentie klikt, in dat geval post de Ad Server een ''Click message'' in een bericht channel. Het geposte bericht wordt op zijn beurt door een click Processor verwerkt die instaat voor het bijwerken van de databank en het aanrekenen van de adverteerder.
-\begin{figure}
+\begin{figure}[!b]
     \centering
     \includegraphics[width=0.9\textwidth]{img/klassiek_message_driven.png}
     \caption{Schematische voorstelling van een bericht-gedreven applicatie van een advertentie systeem opgezet volgens klassieke benadering met alle code in één enkele applicatie. \autocite{Roberts2018}} 
@@ -243,13 +244,14 @@ Klassiek zou zo'n architectuur eruitzien zoals in figuur \ref{fig:klassiek-messa
 \end{figure}
 
 Wanneer de applicatie wordt omgevormd naar een serverless architectuur dan is in figuur \ref{fig:faas-message-driven} te zien dat een volledige click processor applicatie vervangen is door verschillende FaaS functies die elk hun eigen functionaliteit hebben. De functies zijn evenement-gedreven en worden uitgevoerd op het moment dat er een click message ontvangen wordt. De cloud provider (in geval van een on-premises of private cloud oplossing, het serverless framework)  voorziet zowel de FaaS omgeving als het systeem dat de berichten ontvangt.
-\begin{figure}
+\begin{figure}[!b]
     \centering
     \includegraphics[width=0.9\textwidth]{img/faas_message_driven.png}
     \caption{Schematische voorstelling van een bericht-gedreven applicatie van een advertentie systeem geschreven specifiek voor een FaaS omgeving. De applicatie is opgesplitst in verschillende functies met elk hun eigen functionaliteit. \autocite{Roberts2018}} 
     \label{fig:faas-message-driven}  
 \end{figure}
 
+\newpage
 \subsection{Serverless voor-en nadelen}
 Zoals reeds enkele keren werd aangehaald, biedt een serverless architectuur voor applicaties heel wat voordelen ten opzichte van de klassieke benadering voor applicatieontwikkeling. Echter zijn de nadelen ook niet over het hoofd te zien, deze dienen bestudeerd te worden door iedereen die overweegt om de transitie richting serverless applicaties te maken. \textcite{Stigler2017} beschrijft zowel voor- en nadelen die het meest terugkomen bij het lezen over serverless architecturen.
 
@@ -273,7 +275,6 @@ Zoals reeds enkele keren werd aangehaald, biedt een serverless architectuur voor
     
      \item [Verbeterde schaalbaarheid]
      Als de FaaS infrastructuur draait bij een grote cloud provider dan is er meestal automatische schaalbaarheid beschikbaar, een ontwikkelaar hoeft zich hierover dus geen zorgen te maken. Open source FaaS frameworks voorzien vaak ook al autoscaling van functies. Het is echter soms nodig dat de autoscaling moet worden geconfigureerd per functie maar dit is specifiek per framework.
-     \\
 \end{description}
 
 \subsubsection{Nadelen of beperkingen}

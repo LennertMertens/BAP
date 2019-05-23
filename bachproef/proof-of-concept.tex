@@ -1,7 +1,8 @@
 \chapter{Proof of Concept}
 \label{ch:proof-of-concept}
 De Proof of Concept bestaat uit een vergelijkend experiment tussen twee open source serverless (FaaS) frameworks, namelijk Fission en OpenFaaS. In dit onderdeel worden de twee frameworks opgezet op een Kubernetes cluster die bestaat uit één node. Beide frameworks worden opgezet op een MacBook Pro waarop Minikube draait. Minikube is een ''Out-of-the-box'' Kubernetes cluster. Er wordt gekozen om gebruik te maken van Minikube omdat op deze manier beide frameworks op identiek dezelfde hardware draaien. Daarnaast biedt Minikube dezelfde functionaliteiten als een volledige Kubernetes cluster die elders is opgezet. Dit hoofdstuk is opgedeeld in twee grote onderdelen waarbinnen telkens secties met dezelfde stappen voor elk framework terug te vinden zijn. Daarnaast is er ook een sectie in dit hoofdstuk terug te vinden waarin de demofunctie, die serverless gedraaid zal worden op de frameworks, wordt voorgesteld. De demo bestaat uit het deployen van een Python functie die de functionaliteit van beide frameworks demonstreert, ook wordt de uitvoeringstijd van de functie van request tot response gemeten. Later wordt er in dit onderzoek een vergelijking tussen Fission en OpenFaaS gemaakt waarbij onder meer gekeken zal worden naar het verschil in executietijd tussen de geschreven functie, de gebruiksvriendelijkheid en overige vooropgestelde requirements. Deze Proof of Concept moet meer inzicht geven in beide frameworks en geeft een duidelijk beeld van wat deze precies inhouden. Merk op dat de opstelling van deze PoC alleen een demo van beide frameworks geeft en dus niet geschikt is voor productie. Indien dit in productie wordt overgenomen dan dienen er enkele aanvullende veiligheidsmaatregelen getroffen te worden maar daar wordt in dit onderzoek niet verder op ingegaan.
-\\\\
+
+\newpage
 \section{Voorbereiding omgeving}
 \label{sec:voorbereiding-omgeving}
 \subsection{Onderliggende hardware}
@@ -16,7 +17,8 @@ Het experiment zal worden uitgevoerd op een MacBook Pro, model 2018 met volgende
 
 \subsection{Packet manager}
 In de opstelling is het zinvol gebruik te maken van Homebrew\footnote{https://brew.sh/}, dit is een packetmanager ontwikkeld voor macOS. Homebrew zorgt ervoor dat softwarepakketten kunnen worden gedownload uit bestaande repositories. In de verdere uitwerking van dit onderzoek wordt Homebrew eveneens gebruikt voor het installeren van software.
-\\\\
+
+
 Homebrew kan worden geïnstalleerd door volgend commando in de Terminal uit te voeren: 
 \begin{lstlisting}[language=bash]
 $ /usr/bin/ruby -e "$(curl -fsSL 
@@ -230,7 +232,7 @@ $ faas-cli login -g $OPENFAAS_URL -u admin -p $PASSWORD
 \subsubsection{User Interface}
 Na de installatie is het mogelijk naar de OpenFaaS UI te surfen via het IP adres van de Minikube cluster gevolgd door poortnummer 31112.
 De eerste keer dient er aangemeld te worden met gebruiker ''admin'' (Deze gebruiker wordt aangemaakt in het installatiescript) en het wachtwoord dat in de Terminal werd weergegeven door het installatiescript. Na het aanmelden is de interface zoals in figuur \ref{fig:openfaas-ui} te zien. De UI ziet er vrij sober maar heel intuïtief uit, er is eveneens een mogelijkheid om een nieuwe functie te deployen via de ''Deploy New Function'' knop. Wanneer gebruikers kiezen een nieuwe functie te deployen dan kunnen ze enerzijds kiezen voor een community functie, dit zijn reeds bestaande functies die op het OpenFaaS framework kunnen gedraaid worden. Anderzijds kunnen gebruikers ook zelfgeschreven functies deployen aan de hand van deze interface. In dit onderzoek worden functies gedeployed via de command line met het faas-cli commando. Deployments van functies via de command line bieden een betere reproduceerbaarheid en is vaak sneller en makkelijker te reproduceren. Er wordt ook bewust gekozen voor de command line tools omdat niet alle serverless frameworks over een UI beschikken. De interface is een leuke nice-to-have feature en is makkelijk in gebruik voor mensen die aan de slag willen met serverless. De UI wordt eveneens standaard meegeïnstalleerd met OpenFaaS.
-\begin{figure}
+\begin{figure}[!h]
     \centering
     \includegraphics[width=0.8\textwidth]{img/openfaas-ui.png}
     \caption{OpenFaaS User Interface.}
@@ -244,16 +246,17 @@ OpenFaaS voorziet standaard monitoring aan de hand van Prometheus, verschillende
 $ kubectl port-forward deployment/prometheus 9090:9090 -n openfaas
 \end{lstlisting}
 
-\begin{figure}
+\begin{figure}[!h]
     \centering
     \includegraphics[width=0.8\textwidth]{img/openfaas-prometheus}
     \caption{OpenFaaS Prometheus dashboard.}
     \label{fig:openfaas-prometheus}  
 \end{figure}
 
+\newpage
 \subsection{Schaalbaarheid OpenFaaS}
 Een van de requirements waaraan het framework moet voldoen is automatische schaalbaarheid. Wanneer het aantal pods van de functie wordt opgevraagd dan is er te zien dat er initieel maar één draait, zie figuur \ref{fig:openfaas-scalability-1}.
-\begin{figure}
+\begin{figure}[!h]
     \centering
     \includegraphics[width=0.8\textwidth]{img/openfaas-scalability-1.png}
     \caption{OpenFaaS standaard pods.}
