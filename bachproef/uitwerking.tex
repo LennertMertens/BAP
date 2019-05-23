@@ -72,7 +72,7 @@ De beschrijving waarmee \textcite{FnProject2019} zichzelf voorstelt luidt als vo
 Iron belooft met hun IronFunctions\footnote{https://open.iron.io/} serverless framework dat taken die veel CPU vragen onmerkbaar in de achtergrond draaien. Het laat ontwikkelaars toe functies te implementeren in applicaties en de focus te leggen op het schrijven van de software. Het voorziet ook snelle en eenvoudige configuratie van de onderliggende infrastructuur en job processing.
 
 \subsection{OpenLambda}
-OpenLambda\footnote{https://open-lambda.org/index.htm} is in tegenstelling tot de eerder besproken alternatieven minder ver ontwikkeld. OpenLambda is een framework dat interessant is voor iedereen die serverless wil testen leren kennen. OpenLambda is niet production ready, de eerder besproken tools zijn dit vaak wel al.
+OpenLambda\footnote{https://open-lambda.org/index.htm} is in tegenstelling tot de eerder besproken alternatieven minder ver ontwikkeld. OpenLambda is een framework dat interessant is voor iedereen die serverless wil testen en leren kennen. OpenLambda is niet production ready, de eerder besproken tools zijn dit vaak wel al.
 
 \subsection{Nuclio}
 Nuclio\footnote{https://nuclio.io} wordt vaak gebruikt als alternatief voor AWS Lambda. Het is een serverless framework voor real-time functies en data gedreven applicaties. Nuclio draait eveneens bovenop Kubernetes.
@@ -127,12 +127,13 @@ In tabel \ref{tab:frameworks-fr} worden de verschillende frameworks vergeleken o
 \end{table}
 
 \subsubsection{Resultatenverwerking}
+
 Op basis van tabel \ref{tab:frameworks-fr} worden eerst de functionele requirements vergeleken. Onmiddellijk is zichtbaar dat enkele frameworks minder interessant zijn dan anderen, zo voldoen IronFunctions en OpenLambda beiden niet aan de must-have requirements, daarom worden deze ook niet verder behandeld. Wanneer de should-have requirements in overweging worden genomen is duidelijk dat Fn geen deployment via Manifest voorziet en dus ook geen kanshebber meer is om vergeleken te worden met Fission. Alle frameworks behalve OpenWhisk voldoen aan de nice-to-have requirements. Er wordt besloten om enkel de frameworks te behandelen die voldoen aan alle voorgaande requirements. Momenteel bestaat de lijst van frameworks die in aanmerking komen nog uit: Kubeless, OpenFaaS, Knative en Fission. De niet-functionele requirements zullen doorslaggevend zijn in de keuze voor een alternatief FaaS framework.
-\\\\
+
 Tabel \ref{tab:frameworks-nfr} weergeeft dat alle frameworks voldoen aan de requirements open source en gratis. Wanneer er wordt gekeken naar het aantal contributors en het aantal ''stars'' op GitHub dan representeert dit de populariteit en de interesse voor het project binnen de community. Een hoger aantal contributors wijst vaak op meer kennis, meer review van code en enige zekerheid in vergelijking met een laag aantal contributors. De GitHub stars worden als factor gekozen om te meten hoe populair een framework is. De metingen werden gedaan op 13 april 2019 en kunnen tegen de tijd van lezen reeds gewijzigd zijn. Als norm werd vooropgesteld dat een project minstens veertig contributors moet hebben alsook een minimum van drieduizend stars. Van de overgebleven frameworks voldoet Knative niet aan het minimum aantal Github stars. Overige frameworks voldoen alleen aan de should-have requirements eveneens als de nice-to-have requirements. behalve Iron. Alle frameworks die resten zijn mede ontwikkeld door erkende organisaties, de bedrijven die werden opgelijst worden ook wel de ''backers'' van het project genoemd. De datum van de laatste commit is ook een belangrijk gegeven om te beslissen of het project overlevingskans heeft en up-to-date blijft. Alle overige projecten beschikken op het eerste zicht over duidelijke documentatie, al wordt dit pas duidelijk tijdens het uitwerken van de Proof of Concept. 
 
 Tabel \ref{tab:frameworks-samenvattingl} weergeeft een samenvatting van de frameworks en het aantal requirements waaraan ze voldoen, de frameworks worden gerangschikt volgens de graad dat ze in aanmerking komen (van boven naar onder). In de tabel wordt telkens voor de verschillende categorieën van requirements een optelling gemaakt waaraan een framework voldoet. Uit de tabel is af te leiden dat OpenFaaS, Kubeless en Fission een maximumscore behalen. Na verder onderzoek werd besloten om verder te gaan met OpenFaaS als alternatief framework voor Fission. In sectie \ref{sec:short-list} worden Fission en OpenFaaS verder in detail besproken.Fission werd aangereikt door Nubera, als alternatief wordt OpenFaaS opgezet als vergelijking omdat dit uit het onderzoek naar de long list het meest veelbelovend blijkt. 
-\\
+
 \begin{table}[]
     \centering
     \resizebox{\textwidth}{!}{%
