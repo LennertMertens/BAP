@@ -36,7 +36,7 @@ figuur ~\ref{fig:klassiek-vs-virtualisatie} wordt het verschil tussen een klassi
 \begin{figure}
     \centering
     \includegraphics[width=0.9\textwidth]{img/klassiek_virtualisatie}
-    \caption{Traditionele server architectuur vs. gevirtualiseerde server architectuur.} 
+    \caption{Traditionele server architectuur vs. gevirtualiseerde serverarchitectuur.} 
     \label{fig:klassiek-vs-virtualisatie}  
 \end{figure}
 
@@ -163,7 +163,7 @@ In het deployment van klassieke applicaties wordt een applicatie traditioneel ge
 \end{figure}
 
 
-De FaaS benadering verandert het klassieke model van applicatie deployment. Ontwikkelaars schrijven volgens het FaaS model individuele functies die losstaan van elkaar en elk een specifieke taak hebben. Een applicatie draait nu niet meer voortdurend in een VM of container maar de functionaliteit werkt event-driven. De functies die de ontwikkelaar schrijft, worden opgeladen naar een FaaS platform. Omdat de applicatie niet meer voortdurend draait is het FaaS platform zo geconfigureerd dat het luistert naar events die gekoppeld zijn aan een specifieke functie. Wanneer er een event optreedt dat een functie aanroept dan zorgt het FaaS platform ervoor dat er een container wordt gestart, de code wordt ingeladen en uitgevoerd en na afloop van de functie wordt de container weer gestopt (De containers kunnen ook worden ingesteld dat er steeds een minimumaantal blijft draaien). Functies worden vaak aangeroepen door HTTP API Gateway calls, in de voorbeelden die volgen wordt de cyclus van FaaS duidelijk weergegeven. Hoe dit nu serverless is? Wel, ontwikkelaars dienen zich alleen maar te focussen op het schrijven van code (functies) en deze plaatsen ze gewoon in het FaaS platform, zonder zorg over de achterliggende infrastructuur.\autocite{Roberts2017}
+De FaaS benadering verandert het klassieke model van applicatie deployment. Ontwikkelaars schrijven volgens het FaaS model individuele functies die losstaan van elkaar en elk een specifieke taak hebben. Een applicatie draait nu niet meer voortdurend in een VM of container maar de functionaliteit werkt event-driven. De functies die de ontwikkelaar schrijft, worden opgeladen naar een FaaS platform. Omdat de applicatie niet meer voortdurend draait is het FaaS platform zo geconfigureerd dat het luistert naar events die gekoppeld zijn aan een specifieke functie. Wanneer er een event optreedt dat een functie aanroept dan zorgt het FaaS platform ervoor dat er een container wordt gestart, de code wordt ingeladen en uitgevoerd en na afloop van de functie wordt de container weer gestopt (De containers kunnen ook worden ingesteld dat er steeds een minimumaantal blijft draaien). Functies worden vaak aangeroepen door HTTP API Gateway calls, in de voorbeelden die volgen wordt de cyclus van FaaS duidelijk weergegeven. Hoe dit nu serverless is? Wel, ontwikkelaars dienen zich alleen maar te focussen op het schrijven van code (functies) en deze plaatsen ze gewoon in het FaaS platform, zonder zorg over de achterliggende infrastructuur. \autocite{Roberts2017}
 
 
 
