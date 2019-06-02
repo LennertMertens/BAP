@@ -76,27 +76,17 @@
 \color{HoGentAccent1} % Navy color for the abstract
 
 \begin{abstract}
-    
-
-Serverless computing is een ''hot topic'' en kent een grote opmars binnen de IT wereld. Verschillende bedrijven hebben deze technologie reeds geadopteerd en in de toekomst zullen er nog heel veel volgen. Omdat de strijd binnen de serverless wereld nog niet gestreden is en er nog geen standaard is gezet, is een onderzoek naar veelbelovende open source serverless oplossingen zinvol. Nubera is op zoek naar een open source serverless framework, dat aanleunt bij hun requirements, om aan te bieden bij klanten die serverless willen gaan werken. Nubera gaf aan interesse te hebben in Fission en zocht hiervoor een veelbelovend alternatief. Vertrekkend vanuit een gedetailleerde literatuurstudie die de theorie omtrent serverless computing en alle bijkomstigheden behandelt, werden in samenspraak met Nubera requirements gecapteerd. Op basis van de requirements wordt in de uitwerking, aan de hand van een oplijsting, een interessant open source framework gekozen en vergeleken met Fission. OpenFaaS blijkt het beste alternatief te zijn voor Fission conform de opgestelde requirements. Beide frameworks worden aan de hand van een Proof of Concept met elkaar vergeleken om hieruit een aanbeveling voor Nubera te kunnen vormen. Er worden experimenten opgezet die inzicht geven in de mogelijkheden en beperkingen van beide frameworks. Vanuit de Proof of Concept en vergelijkende studie blijkt OpenFaaS het meest veelbelovend open source serverless framework, dat aanleunt bij de requirements van Nubera, te zijn. Aangezien serverless computing nog in de kinderschoenen staat en er heel wat open source frameworks in ontwikkeling zijn, is het zinvol onderzoek te doen naar andere alternatieven en deze te vergelijken met de frameworks die in dit onderzoek werden behandeld. Deze bachelorproef vormt een aanzet voor een vergelijkende studie tussen meerdere open source serverless frameworks.
+Serverless computing is een ''hot topic'' en kent een grote opmars binnen de IT wereld. Verschillende bedrijven hebben deze technologie reeds geadopteerd en in de toekomst zullen er nog heel veel volgen. Omdat de strijd binnen de serverless wereld nog niet gestreden is en er nog geen standaard is gezet, is een onderzoek naar veelbelovende open source serverless oplossingen zinvol. Nubera is op zoek naar een open source serverless framework, dat aanleunt bij hun requirements, om aan te bieden bij klanten die serverless willen gaan werken. Nubera gaf aan interesse te hebben in Fission en zocht hiervoor een veelbelovend alternatief. Dit onderzoek vergelijkt Fission, een open source framework aangereikt door Nubera, met OpenFaaS, een zelfgekozen framework conform vooropgestelde requirements.
 \end{abstract}
 %----------------------------------------------------------------------------------------
 %	INTRODUCTION
 %----------------------------------------------------------------------------------------
-
 \color{HoGentAccent1} 
 \section*{Introductie}
 \color{black}
 \color{black}
-Be quiet! Found them? In Mercia?! The coconut's tropical! But you are dressed as one… Well, what do you want? Knights of Ni, we are but simple travelers who seek the enchanter who lives beyond these woods.
-
-Well, what do you want? It's only a model. Camelot! We found them. We shall say 'Ni' again to you, if you do not appease us.
-
-The nose? Shut up! Burn her! I am your king. You don't vote for kings.
-
-You can't expect to wield supreme power just 'cause some watery tart threw a sword at you! Well, we did do the nose. I don't want to talk to you no more, you empty-headed animal food trough water! I fart in your general direction! Your mother was a hamster and your father smelt of elderberries! Now leave before I am forced to taunt you a second time!
-
-Why do you think that she is a witch? We want a shrubbery!! I don't want to talk to you no more, you empty-headed animal food trough water! I fart in your general direction! Your mother was a hamster and your father smelt of elderberries! Now leave before I am forced to taunt you a second time!
+De jongste jaren is er een nieuwe trend in Cloud computing geëvolueerd, namelijk serverless of vaak gerefereerd als Function-as-a-Service. Serverless technologie biedt heel wat voordelen op basis van verschillende aspecten. Het voornaamste voordeel van serverless computing is dat het overhead, omtrent beheer van infrastructuur, wegneemt bij softwareontwikkelaars en hun instaat stelt enkel te focussen op wat er voor hen het meest toe doet, namelijk de softwareontwikkeling zelf.
+Deze studie behandelt een uiteenzetting van de cloud computing basisprincipes. Er wordt ook onderzoek gedaan naar wat serverless concreet inhoudt, wat de voor- en nadelen zijn en welke componenten serverless mogelijk maken. De theoretische omschrijving van dit concept wordt geïllustreerd met voorbeelden om zo de architectuur op een eenvoudige manier over te brengen. Daarnaast wordt op basis van verschillende requirements een overweging gemaakt voor het kiezen van een open source framework dat de mogelijkheden aanbiedt om serverless te draaien in house (in een eigen datacenter of private cloudomgeving). Het onderzoek wordt gestaafd met een Proof of Concept die twee frameworks vergelijkt, enerzijds Fission, dat werd aangereikt door Nubera en anderzijds een alternatief dat op basis van requirements wordt gekozen, namelijk OpenFaaS. 
 %----------------------------------------------------------------------------------------
 %	GEOLOGY
 %----------------------------------------------------------------------------------------
@@ -105,26 +95,43 @@ Why do you think that she is a witch? We want a shrubbery!! I don't want to talk
 \color{HoGentAccent1} 
 \section*{Experimenten}
 \color{black}
-A newt? Camelot! Why? No, no, no! Yes, yes. A bit. But she's got a wart.
-
-Shut up! I dunno. Must be a king. Who's that then? Look, my liege! On second thoughts, let's not go there. It is a silly place.
-
-Shut up! Will you shut up?! No, no, no! Yes, yes. A bit. But she's got a wart. He hasn't got shit all over him. It's only a model. It's only a model.
-
-Bring her forward! I don't want to talk to you no more, you empty-headed animal food trough water! I fart in your general direction! Your mother was a hamster and your father smelt of elderberries! Now leave 
-
-
-
+In overleg met Nubera werden verschillende requirements gecapteerd waaraan de gekozen frameworks moeten voldoen. Fission en OpenFaaS worden tegenover elkaar afgewogen op basis van de requirements. Sommige vereisten kunnen worden vergeleken op basis van literair onderzoek, voor anderen is een uitwerking nodig met behulp van een Proof of Concept. 
+\\\\
+De PoC behandelt verschillende aspecten waaraan de frameworks moeten voldoen conform de vooropgestelde vereisten. Sommige zaken die worden behandelt in het onderzoek, worden beoordeelt op basis van persoonlijke voorkeur zoals het meest gebruiksvriendelijk en dergelijke, doch worden deze meningen sterk onderbouwt zodat deze aanneembaar zijn. De Proof of Concept vergelijkt beide frameworks op analoge manier, alle stappen die bij het ene framework worden behandelt zijn ook terug te vinden bij het andere. Alvorens de frameworks worden getest werd er een Python demofunctie geschreven die dient ter illustratie en inzicht geeft in hoe de frameworks precies werken, wat het snelst is, hetwelk het meest gebruiksvriendelijk enzovoort.
+\\\\
+Fission en OpenFaaS worden tegenover elkaar afgewogen op basis van verschillende vereisten. Er wordt een vergelijking gemaakt op basis van:
+\begin{itemize}
+    \item Eenvoud van installatie.
+    \item Deployment en uitvoeringstijd van functies.
+    \item Gebruik van command line tools en User Interface.
+    \item Monitoring.
+\end{itemize} 
 \color{HoGentAccent1} 
-\section*{Sectie met figuur}
+\section*{Verschillen tussen frameworks}
 \color{black}
+Installatie van beide frameworks gebeurt analoog, over OpenFaaS is er echter meer en duidelijkere literatuur terug te vinden die het installatieproces beschrijven. De deployment van functies is eveneens gelijkaardig bij de frameworks. OpenFaaS neemt de voorkeur bij het deployen van functies omdat dit YAML templates voorziet voor het definiëren van functies.
+\\
 
+Om inzicht te krijgen in de snelheid van de frameworks werden beide getest aan de hand van, enerzijds de zelfgeschreven Python functie, anderzijds een simpele ''Hello World'' Python functie. De uitvoeringstijd van de functie bij Fission ligt een stukje lager in vergelijking met OpenFaaS. 
 
 \begin{center}\vspace{1cm}
-\includegraphics[width=1.0\linewidth]{grail}
-\captionof{figure}{\color{HoGentAccent5} He hasn't got shit all over him. The nose? Where'd you get the coconuts? What do you mean? We shall say 'Ni' again to you, if you do not appease us}
+\includegraphics[width=0.5\linewidth]{boxplot-uitvoeringstijd-demofunctie}
+\captionof{figure}{\color{HoGentAccent5} Uitvoeringstijd zelfgeschreven Python demofunctie.}
 \end{center}\vspace{1cm}
 
+ Wanneer er een extra vergelijking wordt gemaakt met een heel simpele ''Hello World'' functie, dan blijkt hier ook Fission heel wat sneller te zijn. Het is duidelijk dat wanneer uitvoeringssnelheid primeert, Fission het meest interessante framework zal zijn.
+ 
+\begin{center}\vspace{1cm}
+    \includegraphics[width=0.5\linewidth]{boxplot-uitvoeringstijd-hellofunctie}
+    \captionof{figure}{\color{HoGentAccent5} Uitvoeringstijd ''Hello World'' Python functie.}
+\end{center}\vspace{1cm}
+
+
+Beide frameworks voorzien CLI tools die kunnen worden geïnstalleerd voor het volledige beheer van het serverless platform. De CLI tools bevatten alle functionaliteiten voor het deployen van functies en dergelijke. Het voordeel aan de OpenFaaS CLI is dat hiervan een ''brew'' package bestaat voor installatie op een macOS systeem.
+\\\\
+In het onderzoek werden beide frameworks ook vergeleken op basis van de User Interface. OpenFaaS levert standaard, een erg gebruiksvriendelijke, UI aan die gebruikers in staat stelt functies te deployen en te beheren. In de OpenFaaS kunnen gebruikers ook kiezen om ''Community'' functies te deployen, dit zijn functies die leven op GitHub en ontwikkeld werden door bijdragers aan open source. Fission voorziet standaard geen UI, deze moet later worden geïnstalleerd en wanneer deze wordt getest blijkt ook dat deze op het moment van schrijven niet meer compatibel is met de versie van Fission uit dit onderzoek. 
+\\\\
+Zowel Fission als OpenFaaS verzamelen metrieken aan de hand van Prometheus. De verzamelde gegevens geven inzicht in de functies die werden gedeployed, hoe vaak deze werden aangeroepen, wat de uitvoeringstijd, cold-start en dergelijke is. Op de metrieken kunnen bewerkingen worden uitgevoerd die inzicht geven in de gezondheid van het framework. Bovenop Prometheus kunnen additionele dashboards zoals Grafana worden geïnstalleerd, deze kunnen de verzamelde gegevens visueel voorstellen.
 %------------------------------------------------
 
 
@@ -132,20 +139,15 @@ Bring her forward! I don't want to talk to you no more, you empty-headed animal 
 \color{HoGentAccent1} 
 \section*{Conclusies}
 \color{black}
-on't underestimate the Force. Oh God, my uncle. How am I ever gonna explain this? I suggest you try it again, Luke. This time, let go your conscious self and act on instinct. Don't be too proud of this technological terror you've constructed. The ability to destroy a planet is insignificant next to the power of the Force.
+Uit de experimenten blijkt het ene framework beter te scoren dan het andere op basis van enkele vergelijkingen die gevoerd werden. Uit de experimenten blijkt dat Fission beter presteert op basis van executietijd, de demofuncties die op het Fission framework werden gedeployed en aangeroepen hebben een kortere uitvoeringstijd dan de functies op OpenFaaS. OpenFaaS daarentegen biedt de aangenaamste gebruikerservaring voor gebruikers die nieuw zijn in serverless computing. De UI die OpenFaaS standaard meelevert in de installatie is eveneens gebruiksvriendelijk en eenvoudig in gebruik. De interface is intuïtief en vereist geen ervaring met OpenFaaS. OpenFaaS voorziet in tegenstelling tot Fission wel YAML templating voor het definiëren van functies. Bij het uitwerken van de Proof of Concept verliep alles vlotter en sneller bij OpenFaaS, dit is te danken aan de verschillende bronnen die hierover terug te vinden zijn. In het onderzoek werd getracht het meest interessante open source serverless framework in overeenstemming met de vereisten van Nubera te vinden. Op basis van literair onderzoek, uitgevoerde experimenten en resultatenverwerking werd er tot een besluit gekomen. Het meest veelbelovende framework voor Nubera is OpenFaaS. Zoals reeds werd aangehaald, ligt de uitvoeringstijd van functies hoger bij OpenFaaS dan bij Fission maar het verschil legt echter geen belemmeringen op. Nubera is op zoek naar een serverless framework dat enige maturiteit heeft en goed onderhouden wordt. OpenFaaS is op moment van schrijven het meest veelbelovend open source serverless framework.
+
 %----------------------------------------------------------------------------------------
 %	FORTHCOMING RESEARCH
 %----------------------------------------------------------------------------------------
 \color{HoGentAccent1} 
 \section*{Toekomstig onderzoek}
 \color{black}
-
-I care. So, what do you think of her, Han? No! Alderaan is peaceful. We have no weapons. You can't possibly… I have traced the Rebel spies to her. Now she is my only link to finding their secret base.
-
-Kid, I've flown from one side of this galaxy to the other. I've seen a lot of strange stuff, but I've never seen anything to make me believe there's one all-powerful Force controlling everything. There's no mystical energy field that controls my destiny. It's all a lot of simple tricks and nonsense. You are a part of the Rebel Alliance and a traitor! Take her away! 
-
-
+Er werden twee veelbelovende open source Kubernetes native serverless platformen behandeld, maar er bestaan nog alternatieven die verder onderzoek meer dan waard zijn. Hopelijk kan deze bachelorproef een aanzet geven voor verder onderzoek naar andere, misschien minder bekende maar veelbelovende, open source serverless frameworks. Het zou interessant zijn dat dit document wordt uitgebreid met extra frameworks.
 %----------------------------------------------------------------------------------------
-
 \end{multicols}
 \end{document}
