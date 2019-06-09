@@ -100,10 +100,10 @@ Deze studie behandelt een uiteenzetting van de cloud computing basisprincipes zo
 \color{HoGentAccent1} 
 \section*{Experimenten}
 \color{black}
-In overleg met Nubera werden verschillende requirements gecapteerd waaraan de gekozen frameworks moeten voldoen. Fission en OpenFaaS worden tegenover elkaar afgewogen op basis van de requirements. Sommige vereisten kunnen worden vergeleken op basis van literair onderzoek, voor anderen is een uitwerking nodig met behulp van een Proof of Concept. 
-De PoC behandelt verschillende aspecten waaraan de frameworks moeten voldoen conform de vooropgestelde vereisten. Sommige zaken die worden behandelt in het onderzoek, worden beoordeelt op basis van persoonlijke voorkeur zoals het meest gebruiksvriendelijk en dergelijke, doch worden deze meningen sterk onderbouwt zodat deze aanneembaar zijn. De Proof of Concept vergelijkt beide frameworks op analoge manier, alle stappen die bij het ene framework aan bod komen, zijn ook terug te vinden bij het andere. Alvorens de frameworks worden getest werd er een Python demofunctie geschreven die dient ter illustratie en inzicht geeft in hoe de frameworks precies werken, wat het snelst is, hetwelk het meest gebruiksvriendelijk is enzovoort.
+In overleg met Nubera werden requirements gecapteerd waaraan de frameworks moeten voldoen. Fission en OpenFaaS worden tegenover elkaar afgewogen op basis van deze requirements. Sommige vereisten kunnen worden vergeleken op basis van literair onderzoek, voor anderen is een uitwerking nodig met behulp van een Proof of Concept. 
+Sommige zaken, die worden behandeld in het onderzoek, worden beoordeeld op basis van persoonlijke voorkeur zoals het meest gebruiksvriendelijk en dergelijke, doch worden deze meningen sterk onderbouwt, zodat deze aanneembaar zijn. De Proof of Concept vergelijkt beide frameworks op analoge manier, alle stappen die bij het ene framework aan bod komen, zijn ook terug te vinden bij het andere. Alvorens de frameworks worden getest werd er een Python demofunctie geschreven die dient ter illustratie en inzicht geeft in hoe de frameworks functioneren.
 \\\\
-Fission en OpenFaaS worden tegenover elkaar afgewogen op basis van verschillende vereisten. Er wordt een vergelijking gemaakt op basis van:
+Fission en OpenFaaS worden tegenover elkaar afgewogen op basis van verschillende vereisten:
 \begin{itemize}
     \item Eenvoud van installatie.
     \item Deployment en uitvoeringstijd van functies.
@@ -111,9 +111,8 @@ Fission en OpenFaaS worden tegenover elkaar afgewogen op basis van verschillende
     \item Monitoring.\\
 \end{itemize}
 
-Een gedetailleerd overzicht in de verschillen tussen de frameworks is terug te vinden in de Proof of Concept van dit onderzoek. De resultaten worden echter wel reeds kort en bondig besproken in de conclusie. De manier waarop deze resultaten werden bekomen staan eveneens beschreven in het onderzoek.
-\\\\\\
-
+Een gedetailleerd overzicht in de verschillen tussen de frameworks is terug te vinden in de Proof of Concept van dit onderzoek. De resultaten worden echter wel reeds kort en bondig besproken in de conclusie.
+\\\\\\\\\\\\\\
 \color{HoGentAccent1} 
 \section*{Metingen}
 \color{black}
@@ -140,7 +139,7 @@ Om inzicht te krijgen in de snelheid van de frameworks werden beide getest aan d
 \color{HoGentAccent1} 
 \section*{Conclusies}
 \color{black}
-Uit de experimenten blijkt het ene framework beter te scoren dan het andere op basis van enkele vergelijkingen die gevoerd werden. Fission blijkt beter te presteren op basis van executietijd. De demofuncties die op het Fission framework werden gedeployed en aangeroepen hebben een kortere uitvoeringstijd dan de functies op OpenFaaS. OpenFaaS daarentegen biedt de aangenaamste gebruikerservaring voor gebruikers die nieuw zijn in serverless computing. De UI die OpenFaaS standaard meelevert in de installatie is eveneens gebruiksvriendelijk en eenvoudig in gebruik. De interface is intuïtief en vereist geen ervaring met OpenFaaS. OpenFaaS voorziet in tegenstelling tot Fission wel YAML templating voor het definiëren van functies. Bij het uitwerken van de Proof of Concept verliep alles vlotter en sneller bij OpenFaaS, dit is te danken aan de verschillende bronnen die hierover terug te vinden zijn. In het onderzoek werd getracht het meest interessante open source serverless framework in overeenstemming met de vereisten van Nubera te vinden. Op basis van literair onderzoek, uitgevoerde experimenten en resultatenverwerking werd er tot een besluit gekomen. Het meest veelbelovende framework voor Nubera, op moment van schrijven, is OpenFaaS.
+Uit de experimenten blijkt het ene framework beter te scoren dan het andere. Fission blijkt beter te presteren op basis van executietijd. De demofuncties die op het Fission framework werden gedeployed en aangeroepen hebben een kortere uitvoeringstijd dan de functies op OpenFaaS. OpenFaaS daarentegen biedt de aangenaamste gebruikerservaring voor gebruikers die nieuw zijn in serverless computing. De UI die OpenFaaS standaard meelevert in de installatie is eveneens gebruiksvriendelijk en eenvoudig in gebruik. De interface is intuïtief en vereist geen ervaring met OpenFaaS. OpenFaaS voorziet in tegenstelling tot Fission wel YAML templating voor het definiëren van functies. Bij het uitwerken van de Proof of Concept verliep alles vlotter en sneller bij OpenFaaS, dit is te danken aan de verschillende bronnen die hierover terug te vinden zijn en de duidelijke documentatie die beschikbaar is. In het onderzoek werd getracht het meest interessante open source serverless framework in overeenstemming met de vereisten van Nubera te vinden. Op basis van literair onderzoek, uitgevoerde experimenten en resultatenverwerking werd er tot een besluit gekomen. Het meest veelbelovende framework voor Nubera, op moment van schrijven, is OpenFaaS.
 
 %----------------------------------------------------------------------------------------
 %	FORTHCOMING RESEARCH
@@ -148,7 +147,7 @@ Uit de experimenten blijkt het ene framework beter te scoren dan het andere op b
 \color{HoGentAccent1} 
 \section*{Toekomstig onderzoek}
 \color{black}
-Er werden twee veelbelovende open source Kubernetes native serverless platformen behandeld, maar er bestaan nog alternatieven die verder onderzoek meer dan waard zijn. Hopelijk kan deze bachelorproef een aanzet geven voor verder onderzoek naar andere, misschien minder bekende maar veelbelovende, open source serverless frameworks. Het zou interessant zijn dat dit document wordt uitgebreid met extra frameworks, zo kan dit onderzoek inzicht geven in alle mogelijke Kubernetes native serverless frameworks en deze tegenover elkaar afwegen.
+Er werden twee veelbelovende open source Kubernetes native serverless frameworks behandeld, maar er bestaan nog alternatieven die verder onderzoek meer dan waard zijn. Hopelijk kan deze bachelorproef een aanzet geven voor verder onderzoek naar andere, misschien minder bekende maar veelbelovende, open source serverless frameworks. Het zou interessant zijn dat dit document wordt uitgebreid met extra frameworks, zo kan dit onderzoek inzicht geven in alle mogelijke Kubernetes native serverless frameworks en deze tegenover elkaar afwegen.
 %----------------------------------------------------------------------------------------
 \end{multicols}
 \end{document}
