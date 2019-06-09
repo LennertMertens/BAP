@@ -76,7 +76,7 @@
 \color{HoGentAccent1} % Navy color for the abstract
 
 \begin{abstract}
-Serverless computing is een ''hot topic'' en kent een grote opmars binnen de IT wereld. Verschillende bedrijven hebben deze technologie reeds geadopteerd en in de toekomst zullen er nog heel veel volgen. Omdat de strijd binnen de serverless wereld nog niet gestreden is en er nog geen standaard is gezet, is een onderzoek naar veelbelovende open source serverless oplossingen zinvol. Nubera is op zoek naar een open source serverless framework, dat aanleunt bij hun requirements, om aan te bieden bij klanten die serverless willen gaan werken. Nubera gaf aan interesse te hebben in Fission en zocht hiervoor een veelbelovend alternatief. Dit onderzoek vergelijkt Fission, een open source framework aangereikt door Nubera, met OpenFaaS, een zelfgekozen framework conform vooropgestelde requirements.
+Serverless computing is een ''hot topic'' en kent een grote opmars binnen de IT wereld. Verschillende bedrijven hebben deze technologie reeds geadopteerd en in de toekomst zullen er nog heel veel volgen. Omdat de strijd binnen de serverless wereld nog niet gestreden is en er nog geen standaard is gezet, is een onderzoek naar veelbelovende open source serverless oplossingen zinvol. Nubera is op zoek naar een open source serverless framework, dat aanleunt bij hun requirements, om aan te bieden bij klanten die serverless willen gaan werken. Nubera gaf aan interesse te hebben in Fission en zocht hiervoor een veelbelovend alternatief. Dit onderzoek vergelijkt Fission met OpenFaaS, een zelfgekozen framework conform vooropgestelde requirements.
 \end{abstract}
 %----------------------------------------------------------------------------------------
 %	INTRODUCTION
@@ -87,6 +87,7 @@ Serverless computing is een ''hot topic'' en kent een grote opmars binnen de IT 
 \color{black}
 De jongste jaren is er een nieuwe trend in Cloud computing geëvolueerd, namelijk serverless of vaak gerefereerd als Function-as-a-Service. Serverless technologie biedt heel wat voordelen op basis van verschillende aspecten. Het voornaamste voordeel van serverless computing is dat het overhead, omtrent beheer van infrastructuur, wegneemt bij softwareontwikkelaars en hun instaat stelt enkel te focussen op wat er voor hen het meest toe doet, namelijk de softwareontwikkeling zelf.
 Deze studie behandelt een uiteenzetting van de cloud computing basisprincipes zoals de verschillen tussen verschillende service niveaus in figuur 1. Er wordt ook onderzoek gedaan naar wat serverless concreet inhoudt, wat de voor- en nadelen zijn en welke componenten serverless mogelijk maken. Daarnaast wordt op basis van verschillende requirements een overweging gemaakt voor het kiezen van een open source Kubernetes native framework dat de mogelijkheden aanbiedt om serverless te draaien in house (in een eigen datacenter of private cloudomgeving). Het onderzoek wordt gestaafd met een Proof of Concept die twee frameworks vergelijkt, enerzijds Fission, dat werd aangereikt door Nubera en anderzijds een alternatief dat op basis van requirements wordt gekozen, namelijk OpenFaaS.
+\\
 \begin{center}\vspace{1cm}
     \includegraphics[width=0.8\linewidth]{service-niveaus}
     \label{fig:service-niveaus}
@@ -100,8 +101,8 @@ Deze studie behandelt een uiteenzetting van de cloud computing basisprincipes zo
 \color{HoGentAccent1} 
 \section*{Experimenten}
 \color{black}
-In overleg met Nubera werden requirements gecapteerd waaraan de frameworks moeten voldoen. Fission en OpenFaaS worden tegenover elkaar afgewogen op basis van deze requirements. Sommige vereisten kunnen worden vergeleken op basis van literair onderzoek, voor anderen is een uitwerking nodig met behulp van een Proof of Concept. 
-Sommige zaken, die worden behandeld in het onderzoek, worden beoordeeld op basis van persoonlijke voorkeur zoals het meest gebruiksvriendelijk en dergelijke, doch worden deze meningen sterk onderbouwt, zodat deze aanneembaar zijn. De Proof of Concept vergelijkt beide frameworks op analoge manier, alle stappen die bij het ene framework aan bod komen, zijn ook terug te vinden bij het andere. Alvorens de frameworks worden getest werd er een Python demofunctie geschreven die dient ter illustratie en inzicht geeft in hoe de frameworks functioneren.
+In overleg met Nubera werden requirements gecapteerd waaraan de frameworks moeten voldoen. Fission en OpenFaaS worden tegenover elkaar afgewogen op basis van deze requirements. Sommige vereisten kunnen worden vergeleken aan de hand van literair onderzoek, voor anderen is een uitwerking nodig met behulp van een Proof of Concept. 
+Sommige zaken, die worden behandeld in het onderzoek, worden beoordeeld op basis van persoonlijke voorkeur zoals het meest gebruiksvriendelijk en dergelijke, doch worden deze meningen sterk onderbouwt, zodat lezers kunnen aannemen waarom dit zo is. De Proof of Concept vergelijkt beide frameworks op analoge manier, alle stappen die bij het ene framework aan bod komen, zijn ook terug te vinden bij het andere. Alvorens de frameworks worden getest werd er een Python demofunctie geschreven die dient ter illustratie en inzicht geeft in hoe de frameworks functioneren.
 \\\\
 Fission en OpenFaaS worden tegenover elkaar afgewogen op basis van verschillende vereisten:
 \begin{itemize}
